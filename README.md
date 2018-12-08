@@ -2,7 +2,7 @@
 
 <hr>
 
-Wenn ihr Bock habt ein Modell grafisch zu erstellen, aber keine Lust habt, das mit Paint oder PS zu machen könnt ihr das nutzen:
+Wenn ihr Bock habt ein Modell grafisch zu erstellen, aber keine Lust habt, das mit Paint oder PS zu machen könnt ihr dieses primitive Tool nutzen:
 https://codepen.io/lxender/full/gQZYqw
 
 <hr>
