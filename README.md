@@ -2,6 +2,11 @@
 
 <hr>
 
+Wenn ihr Bock habt ein Modell grafisch zu erstellen, aber keine Lust habt, das mit Paint oder PS zu machen könnt ihr das nutzen:
+https://codepen.io/lxender/full/gQZYqw
+
+<hr>
+
 ## TODOS:
 - Schwerkraft
 - Kollision
