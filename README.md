@@ -8,6 +8,9 @@ https://codepen.io/lxender/full/gQZYqw
 <hr>
 
 ## TODOS:
+- State für easy Management der UI
+- Main einfügen, damit State eingebaut werden kann
+
 - Schwerkraft
 - Kollision
 
