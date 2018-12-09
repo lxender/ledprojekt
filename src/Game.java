@@ -8,9 +8,9 @@ import java.util.Arrays;
 public class Game {
 
     public static void drawBorder(BoardController controller) {
-        for (int i = 0; i < controller.getWidth(); i++) {
-            for (int j = 0; j < controller.getHeight(); j++) {
-                if((i == 0 || i == controller.getWidth()-1) || (j == 0 || j == controller.getHeight()-1)) {
+        for (int i = 0; i < controller.getHeight(); i++) {
+            for (int j = 0; j < controller.getWidth(); j++) {
+                if((i == 0 || i == controller.getHeight()-1) || (j == 0 || j == controller.getWidth()-1)) {
                     controller.setColor(i, j, 127, 127, 127);
                 }
             }
@@ -24,10 +24,10 @@ public class Game {
 
         Character player = new Character(0, 0, controller);
         Model weapon = new Model(new int[][][]{
-                {{0, 127, 0, 1}},
-                {{0, 127, 0, 1}},
-                {{0, 127, 0, 1}},
-                {{0, 127, 0, 1}}
+                {{0,127,24,1}},
+                {{0,127,24,1}},
+                {{0,127,24,1}},
+                {{0,127,24,1}}
         });
         player.addWeapon(weapon);
 
