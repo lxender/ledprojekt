@@ -34,7 +34,7 @@ public class Character {
 
     public void update(KeyEvent event) {
         if(event != null) {
-            if(event.getID() == java.awt.event.KeyEvent.KEY_PRESSED) {
+            if(event.getID() == java.awt.event.KeyEvent.KEY_RELEASED) {
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_UP:
                         this.yPos -= 1;
