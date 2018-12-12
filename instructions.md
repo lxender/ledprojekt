@@ -1,6 +1,8 @@
 ## Wie man das Repo verwendet
 Am einfachsten geht das direkt über IntelliJ IDEA:
 
+Note: bei Problemen mit IntelliJ (zB. Game wird nicht als Einstiegspunkt erkannt) einfach redownloaden.
+
 0. mach dir einen GitHub Account
 1. öffne IntelliJ und wähl "Check out from Version Control"
 2. wähl GitHub
