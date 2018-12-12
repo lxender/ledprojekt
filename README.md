@@ -5,7 +5,7 @@
 Wenn ihr Bock habt ein Modell grafisch zu erstellen, aber kein Bock auf Paint oder PS habt, könnt ihr dieses Tool nutzen:
 https://codepen.io/lxender/full/gQZYqw
 
-Alex ist doof
+Alex ist doof!
 
 <hr>
 
