@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Character extends Entity {
+public class Player extends Entity {
     public int x;
     public int y;
 
@@ -25,7 +25,7 @@ public class Character extends Entity {
 
     List<Trait> traits = new ArrayList<>();
 
-    Character(int x, int y) {
+    Player(int x, int y) {
         this.x = x;
         this.y = y;
     }
