@@ -1,3 +1,5 @@
+package app.ledprojekt;
+
 import ledControl.BoardController;
 
 import java.awt.event.KeyEvent;
@@ -18,10 +20,9 @@ public class Character extends Entity {
             {{0, 0, 0, 0}, {127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}, {0, 0, 0, 0}},
             {{0, 0, 0, 0}, {127, 0, 0, 1}, {0, 0, 0, 0}, {127, 0 ,0, 1}, {0, 0, 0, 0}},
     });
-
     private Model attachment;
 
-    List<Trait> traits = new ArrayList<Trait>();
+    List<Trait> traits = new ArrayList<>();
 
     Character(int x, int y) {
         this.x = x;

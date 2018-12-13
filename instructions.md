@@ -1,7 +1,7 @@
 ## Wie man das Repo verwendet
 Am einfachsten geht das direkt über IntelliJ IDEA:
 
-Note: bei Problemen mit IntelliJ (zB. Game wird nicht als Einstiegspunkt erkannt) einfach redownloaden.
+Note: bei Problemen mit IntelliJ (zB. app.ledprojekt.Game wird nicht als Einstiegspunkt erkannt) einfach redownloaden.
 
 0. mach dir einen GitHub Account
 1. öffne IntelliJ und wähl "Check out from Version Control"
@@ -25,4 +25,4 @@ Note: bei Problemen mit IntelliJ (zB. Game wird nicht als Einstiegspunkt erkannt
 17. klick auf das Plus unten links und wähl "JARs or directories"
 18. navigier zu deinem Speicherort von "LEDBoard – Bibliothek und Anleitung" und wähl "LEDControl....jar"
 19. klick "Apply"
-20. teste, ob du's richtig eingebunden hast, indem du auf "Game.java" bzw. "Game" gehst und auf den grünen Pfeil klickst, der irgendwo auftauchen wird
+20. teste, ob du's richtig eingebunden hast, indem du auf "app.ledprojekt.Game.java" bzw. "app.ledprojekt.Game" gehst und auf den grünen Pfeil klickst, der irgendwo auftauchen wird

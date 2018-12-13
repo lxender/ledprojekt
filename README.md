@@ -9,7 +9,7 @@ https://codepen.io/lxender/full/gQZYqw
 
 ## TODOS:
 - State für easy Management der UI
-- Main einfügen, damit State eingebaut werden kann
+- app.ledprojekt.Main einfügen, damit State eingebaut werden kann
 
 - Schwerkraft
 - Kollision
@@ -28,7 +28,7 @@ https://codepen.io/lxender/full/gQZYqw
     - für Böden, Wände, etc.
     - undurchdringlich und durchdringlich
 
-- Model.java:
+- app.ledprojekt.Model.java:
     - Rotation
     - vertikale Spiegelung
 

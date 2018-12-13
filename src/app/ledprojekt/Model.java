@@ -1,3 +1,5 @@
+package app.ledprojekt;
+
 import ledControl.BoardController;
 
 import javax.imageio.ImageIO;

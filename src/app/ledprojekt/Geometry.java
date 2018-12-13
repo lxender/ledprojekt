@@ -1,3 +1,5 @@
+package app.ledprojekt;
+
 import ledControl.BoardController;
 
 public class Geometry {
