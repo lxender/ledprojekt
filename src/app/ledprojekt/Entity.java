@@ -1,5 +1,6 @@
 package app.ledprojekt;
 
+import app.ledprojekt.traits.Trait;
 import ledControl.BoardController;
 
 import java.awt.event.KeyEvent;

@@ -1,4 +1,6 @@
-package app.ledprojekt;
+package app.ledprojekt.traits;
+
+import app.ledprojekt.Entity;
 
 import java.awt.event.KeyEvent;
 

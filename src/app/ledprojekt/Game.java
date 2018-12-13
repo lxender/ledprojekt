@@ -1,5 +1,6 @@
 package app.ledprojekt;
 
+import app.ledprojekt.traits.Go;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
