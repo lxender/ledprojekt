@@ -1,10 +1,13 @@
 import ledControl.BoardController;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class Character {
-    int xPos;
-    int yPos;
+public class Character extends Entity {
+    public int x;
+    public int y;
 
     Model characterModel = new Model(new int[][][]{
             {{0, 0, 0, 0}, {127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}, {0, 0, 0, 0}},
@@ -19,10 +22,17 @@ public class Character {
 
     private Model attachment;
 
+    List<Trait> traits = new ArrayList<Trait>();
+
     Character(int x, int y) {
-        this.xPos = x;
-        this.yPos = y;
+        this.x = x;
+        this.y = y;
     }
+
+    public void setX(int x) { this.x = x; }
+    public int getX() { return this.x; }
+    public void setY(int y) { this.y = y; }
+    public int getY() { return this.y; }
 
     public void addWeapon(Model weapon, int x, int y) {
         this.characterModel.appendAttachment(weapon, x, y);
@@ -33,34 +43,24 @@ public class Character {
         return (this.attachment != null);
     }
 
-    public void update(KeyEvent event) {
-        if(event != null) {
-            if(event.getID() == KeyEvent.KEY_RELEASED) {
-                switch (event.getKeyCode()) {
-                    case KeyEvent.VK_UP:
-                        this.yPos -= 1;
-                        break;
+    public void addTrait(Trait trait) {
+        this.traits.add(trait);
+    }
 
-                    case KeyEvent.VK_DOWN:
-                        this.yPos += 1;
-                        break;
-
-                    case KeyEvent.VK_LEFT:
-                        this.xPos -= 1;
-                        break;
-
-                    case KeyEvent.VK_RIGHT:
-                        this.xPos += 1;
-                        break;
-
-                    default:
-                        break;
-                }
+    private Trait getTrait(String name) {
+        for (int i = 0; i < this.traits.size(); i++) {
+            if(this.traits.get(i).getName().equals(name)) {
+                return this.traits.get(i);
             }
         }
+        return null;
+    }
+
+    public void update(KeyEvent event) {
+        this.getTrait("Go").update(this, event);
     }
 
     public void draw(BoardController controller) {
-        this.characterModel.draw(controller, xPos, yPos);
+        this.characterModel.draw(controller, this.x, this.y);
     }
 }

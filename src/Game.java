@@ -22,6 +22,7 @@ public class Game {
         KeyBuffer buffer = controller.getKeyBuffer();
 
         Character player = new Character(0, 0);
+        player.addTrait(new Go());
         Model weapon = new Model(new int[][][]{
                 {{0,127,24,1}},
                 {{0,127,24,1}},
