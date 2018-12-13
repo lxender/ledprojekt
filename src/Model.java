@@ -1,3 +1,5 @@
+import ledControl.BoardController;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,25 +9,18 @@ import java.util.Arrays;
 
 public class Model {
     private int[][][] model;
-    private int[] attachmentLocation;
 
     public Model(int[][][] array) {
         this.model = array;
     }
 
-    public Model(int[][][] array, int[] attachmentLocation) {
-        this.model = array;
-        this.attachmentLocation = attachmentLocation;
-    }
-
-    public Model(int[][] array, int width, int height, int[] attachmentLocation) {
+    public Model(int[][] array, int width, int height) {
         this.model = new int[width][height][4];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 this.model[i][j] = array[i];
             }
         }
-        this.attachmentLocation = attachmentLocation;
     }
 
     public Model(String path, int[] attachmentLocation) {
@@ -55,22 +50,18 @@ public class Model {
 //                System.out.print("\n");
             }
             this.model = result;
-            this.attachmentLocation = attachmentLocation;
         } catch(IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void appendAttachment(Model attachment) {
-        if(this.attachmentLocation != null) {
-            int[][][] array = attachment.get2DArray();
-            for (int row = array.length - 1; row >= 0; row--) {
-                for (int col = 0; col < array[row].length; col++) {
-                    this.model[this.attachmentLocation[1] - row][this.attachmentLocation[0]] = array[row][col];
-                }
+    public void appendAttachment(Model attachment, int x, int y) {
+        int[] attachmentLocation = {x, y};
+        int[][][] array = attachment.get2DArray();
+        for (int row = array.length - 1; row >= 0; row--) {
+            for (int col = 0; col < array[row].length; col++) {
+                this.model[attachmentLocation[1] - row][attachmentLocation[0]] = array[row][col];
             }
-        } else {
-            throw new Error("Cannot append attachment to this model, because no attachmentLocation was given");
         }
     }
 
@@ -87,5 +78,26 @@ public class Model {
             }
         }
         return temp;
+    }
+
+    public void draw(BoardController controller, int xPos, int yPos) {
+        for (int y = 0; y < this.model.length; y++) {
+            for (int x = 0; x < this.model[y].length; x++) {
+                int[] rgba = this.model[y][x];
+                int[] rgb = new int[]{rgba[0], rgba[1], rgba[2]};
+
+                if(rgba[3] != 1) {
+                    int[] color;
+                    try {
+                        color = controller.getColorAt(x + xPos, y + yPos);
+                    } catch(ArrayIndexOutOfBoundsException e) {
+                        color = rgb;
+                    }
+                    controller.setColor(x + xPos, y + yPos, color);
+                } else {
+                    controller.setColor(x + xPos, y + yPos, rgb);
+                }
+            }
+        }
     }
 }

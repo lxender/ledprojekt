@@ -15,21 +15,22 @@ public class Character {
             {{0, 0, 0, 0}, {0, 0, 0, 0}, {127, 0, 0, 1}, {0, 0 , 0, 0}, {0, 0, 0, 0}},
             {{0, 0, 0, 0}, {127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}, {0, 0, 0, 0}},
             {{0, 0, 0, 0}, {127, 0, 0, 1}, {0, 0, 0, 0}, {127, 0 ,0, 1}, {0, 0, 0, 0}},
-    }, new int[]{4, 4});
+    });
 
     private Model attachment;
 
-    BoardController controller;
-
-    Character(int x, int y, BoardController controller) {
+    Character(int x, int y) {
         this.xPos = x;
         this.yPos = y;
-        this.controller = controller;
     }
 
-    public void addWeapon(Model weapon) {
-        this.characterModel.appendAttachment(weapon);
+    public void addWeapon(Model weapon, int x, int y) {
+        this.characterModel.appendAttachment(weapon, x, y);
         this.attachment = weapon;
+    }
+
+    public boolean hasWeapon() {
+        return (this.attachment != null);
     }
 
     public void update(KeyEvent event) {
@@ -59,25 +60,7 @@ public class Character {
         }
     }
 
-    public void draw() {
-        int[][][] array = characterModel.get2DArray();
-        for (int y = 0; y < array.length; y++) {
-            for (int x = 0; x < array[y].length; x++) {
-                int[] rgba = array[y][x];
-                int[] rgb = new int[]{rgba[0], rgba[1], rgba[2]};
-
-                if(rgba[3] != 1) {
-                    int[] color;
-                    try {
-                        color = controller.getColorAt(x + xPos, y + yPos);
-                    } catch(ArrayIndexOutOfBoundsException e) {
-                        color = rgb;
-                    }
-                    controller.setColor(x + xPos, y + yPos, color);
-                } else {
-                    controller.setColor(x + xPos, y + yPos, rgb);
-                }
-            }
-        }
+    public void draw(BoardController controller) {
+        this.characterModel.draw(controller, xPos, yPos);
     }
 }

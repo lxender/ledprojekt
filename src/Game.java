@@ -17,27 +17,40 @@ public class Game {
         }
     }
 
-    public static void main(String[] args) {
-
+    public static void run() {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
         KeyBuffer buffer = controller.getKeyBuffer();
 
-        Character player = new Character(0, 0, controller);
+        Character player = new Character(0, 0);
         Model weapon = new Model(new int[][][]{
                 {{0,127,24,1}},
                 {{0,127,24,1}},
                 {{0,127,24,1}},
                 {{0,127,24,1}}
         });
-        player.addWeapon(weapon);
+        player.addWeapon(weapon, 4, 4);
+
+        Model groundModel = new Model(new int[][][]{
+                {{0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}}
+        });
+        Geometry groundGeo = new Geometry(groundModel, 0, controller.getHeight() - 1);
 
         while(true) {
             KeyEvent event = buffer.pop();
             player.update(event);
 
+
             controller.resetColors();
+
+            //Aus Debug-Gründen: Rahmen um das Feld
             Game.drawBorder(controller);
-            player.draw();
+
+            //Hintergrund
+            groundGeo.draw(controller);
+
+            //Vorderground
+            player.draw(controller);
+
             controller.updateBoard();
         }
     }
