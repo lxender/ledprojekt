@@ -3,6 +3,7 @@ package app.ledprojekt.traits;
 import app.ledprojekt.Entity;
 
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
 
 public class Go implements Trait {
 
@@ -12,7 +13,8 @@ public class Go implements Trait {
         return this.name;
     }
 
-    public void update(Entity entity, KeyEvent event) {
+    public void update(Entity entity, Object... options) {
+        KeyEvent event = (KeyEvent) options[0];
         if(event != null) {
             if(event.getID() == KeyEvent.KEY_RELEASED) {
                 switch (event.getKeyCode()) {

@@ -55,14 +55,13 @@ public class Game {
             // Die Layer werden sich in der Kollisionsabfrage unterscheiden, also Hintergrund kann nicht mit Vorderung kollidieren
             // Hintergrund
             // Hier wird ein Hintergrund-Layer platziert
-
-            //TODO: Scrollen wenn der Text nicht auf den Bildschirm passt
+            // TODO: Scrollen wenn der Text nicht auf den Bildschirm passt
             message.draw(controller, 1, 1);
 
             // Vorderground
             // Hier wird ein Vordergrund-Layer platziert
             groundGeo.draw(controller);
-            //player.draw(controller);
+            // player.draw(controller);
 
             controller.updateBoard();
         }

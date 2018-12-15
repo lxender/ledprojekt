@@ -6,5 +6,5 @@ import java.awt.event.KeyEvent;
 
 public interface Trait {
     String getName();
-    void update(Entity entity, KeyEvent event);
+    void update(Entity entity, Object... options);
 }
