@@ -4,7 +4,7 @@ import app.ledprojekt.Entity;
 
 import java.awt.event.KeyEvent;
 
-public abstract class Trait {
-    public abstract String getName();
-    public abstract void update(Entity entity, KeyEvent event);
+public interface Trait {
+    String getName();
+    void update(Entity entity, KeyEvent event);
 }

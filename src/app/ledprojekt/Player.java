@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Entity {
+public class Player implements Entity {
     public int x;
     public int y;
 

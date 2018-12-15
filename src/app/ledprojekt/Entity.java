@@ -5,12 +5,12 @@ import ledControl.BoardController;
 
 import java.awt.event.KeyEvent;
 
-public abstract class Entity {
-    public abstract void setX(int x);
-    public abstract int getX();
-    public abstract void setY(int x);
-    public abstract int getY();
-    public abstract void addTrait(Trait trait);
-    public abstract void update(KeyEvent event);
-    public abstract void draw(BoardController controller);
+public interface Entity {
+    void setX(int x);
+    int getX();
+    void setY(int x);
+    int getY();
+    void addTrait(Trait trait);
+    void update(KeyEvent event);
+    void draw(BoardController controller);
 }

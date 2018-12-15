@@ -4,7 +4,7 @@ import app.ledprojekt.Entity;
 
 import java.awt.event.KeyEvent;
 
-public class Go extends Trait {
+public class Go implements Trait {
 
     private String name = "Go";
 

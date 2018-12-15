@@ -57,14 +57,12 @@ public class Model {
         }
     }
 
-    public void appendAttachment(Model attachment, int x, int y) {
-        int[] attachmentLocation = {x, y};
-        int[][][] array = attachment.get2DArray();
-        for (int row = array.length - 1; row >= 0; row--) {
-            for (int col = 0; col < array[row].length; col++) {
-                this.model[attachmentLocation[1] - row][attachmentLocation[0]] = array[row][col];
-            }
-        }
+    public int getWidth() {
+        return this.model[0].length;
+    }
+
+    public int getHeight() {
+        return this.model.length;
     }
 
     public void flip() {
@@ -74,6 +72,16 @@ public class Model {
                 flipped[j] = this.model[i][j];
             }
             this.model[i] = flipped;
+        }
+    }
+
+    public void appendAttachment(Model attachment, int x, int y) {
+        int[] attachmentLocation = {x, y};
+        int[][][] array = attachment.get2DArray();
+        for (int row = array.length - 1; row >= 0; row--) {
+            for (int col = 0; col < array[row].length; col++) {
+                this.model[attachmentLocation[1] - row][attachmentLocation[0]] = array[row][col];
+            }
         }
     }
 

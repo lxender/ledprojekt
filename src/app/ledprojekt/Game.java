@@ -1,6 +1,7 @@
 package app.ledprojekt;
 
 import app.ledprojekt.traits.Go;
+import app.ledprojekt.typography.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
@@ -39,6 +40,8 @@ public class Game {
         });
         Geometry groundGeo = new Geometry(groundModel, 0, controller.getHeight() - 1);
 
+        Word message = new Word("abcdefghijklmnopqrstuvwxyz", new int[]{0, 0, 127, 1});
+
         while(true) {
             KeyEvent event = buffer.pop();
             player.update(event);
@@ -49,11 +52,17 @@ public class Game {
             //Aus Debug-Gründen: Rahmen um das Feld
             Game.drawBorder(controller);
 
-            //Hintergrund
-            groundGeo.draw(controller);
+            // Die Layer werden sich in der Kollisionsabfrage unterscheiden, also Hintergrund kann nicht mit Vorderung kollidieren
+            // Hintergrund
+            // Hier wird ein Hintergrund-Layer platziert
 
-            //Vorderground
-            player.draw(controller);
+            //TODO: Scrollen wenn der Text nicht auf den Bildschirm passt
+            message.draw(controller, 1, 1);
+
+            // Vorderground
+            // Hier wird ein Vordergrund-Layer platziert
+            groundGeo.draw(controller);
+            //player.draw(controller);
 
             controller.updateBoard();
         }
