@@ -9,28 +9,29 @@ https://codepen.io/lxender/full/gQZYqw
 
 ## TODOS:
 - State für easy Management der UI
-- ~~Main einfügen, damit State eingebaut werden kann~~
+- Main einfügen, damit State eingebaut werden kann ✅
 
 - Schwerkraft
 - Kollision
 
-- Bounding Boxes um Charaktere?
+- Bounding Boxes um Charaktere im Debugging?
 
 - Lebensanzeige
-    - als eigene Klasse, die Charakteren im Konstruktor hinzugefügt wird
+    - ~~als eigene Klasse, die Charakteren im Konstruktor hinzugefügt wird~~
+    - als Rückgabe eines Charakters mit Leben
 
-- Schrift
-    - Buchstaben (Letter.java) wrapped in Worten (Word.java)
-    - basieren auf Modelle
-        - *keine* Bilder, Arrays sind einfacher und schneller
+- Schrift ✅
+    - Buchstaben (Letter.java) wrapped in Worten (Word.java) ✅
+    - basieren auf Modellen ✅
+        - *keine* Bilder, Arrays sind einfacher und schneller ✅
 
 - Hindernisse (bzw. Blocks oder so):
-    - für Böden, Wände, etc.
+    - für Böden, Wände, etc. ✅
     - undurchdringlich und durchdringlich
 
 - Model.java:
-    - Rotation
-    - vertikale Spiegelung
+    - Rotation (ist das überhaupt wichtig?)
+    - vertikale Spiegelung ✅
 
 - "Facing Directions"
 
@@ -39,8 +40,8 @@ https://codepen.io/lxender/full/gQZYqw
     - als Klasse, die man Modellen hinzufügen kann
     - besteht selbst aus Modellen
 
-- modulare Abilities (wie Springen, Schlagen, Laufen, Ducken, etc.)
-    - modular, um sie ein- und ausschalten zu können
+- modulare Abilities (wie Springen, Schlagen, Laufen, Ducken, etc.) ✅
+    - modular, um sie ein- und ausschalten zu können ✅
 
 - Menü?
     - Charakter-Auswahl
