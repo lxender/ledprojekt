@@ -1,5 +1,6 @@
 package app.ledprojekt.typography;
 
+import app.ledprojekt.Drawable;
 import app.ledprojekt.Model;
 import ledControl.BoardController;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Word {
+public class Word implements Drawable {
     List<Model> sentenceModels = new ArrayList<>();
 
     int x;

@@ -2,7 +2,7 @@ package app.ledprojekt;
 
 import ledControl.BoardController;
 
-public class Geometry {
+public class Geometry implements Drawable {
     Model model;
     int x;
     int y;

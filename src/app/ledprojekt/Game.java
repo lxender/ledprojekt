@@ -24,6 +24,8 @@ public class Game {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
         KeyBuffer buffer = controller.getKeyBuffer();
 
+        final int GRAVITY = 3;
+
         Player player = new Player(0, 0);
         player.characterModel.flip();
         player.addTrait(new Go());
@@ -40,7 +42,8 @@ public class Game {
         });
         Geometry groundGeo = new Geometry(groundModel, 0, controller.getHeight() - 1);
 
-        Word message = new Word("jk", 1, 1, new int[]{0, 0, 127, 1});
+        Layer backgroundLayer = new Layer(new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
+        Layer foregroundLayer = new Layer(groundGeo, player);
 
         while(true) {
             KeyEvent event = buffer.pop();
@@ -54,12 +57,10 @@ public class Game {
 
             // Die Layer werden sich in der Kollisionsabfrage unterscheiden, also Hintergrund kann nicht mit Vorderung kollidieren
             // Hintergrund
-            // Hier wird ein Hintergrund-Layer platziert
+            backgroundLayer.draw(controller);
 
             // Vorderground
-            // Hier wird ein Vordergrund-Layer platziert
-            groundGeo.draw(controller);
-            player.draw(controller);
+            foregroundLayer.draw(controller);
 
             controller.updateBoard();
         }
