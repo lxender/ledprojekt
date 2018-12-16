@@ -5,20 +5,19 @@ import app.ledprojekt.Model;
 import ledControl.BoardController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Word implements Drawable {
-    List<Model> sentenceModels = new ArrayList<>();
+    private List<Model> sentenceModels = new ArrayList<>();
 
-    int x;
-    int y;
+    private int x;
+    private int y;
 
-    int width = -1;
-    int sumLetterWidth = 0;
+    private int width = -1;
+    private int sumLetterWidth = 0;
 
-    double counter;
-    double velocity = 0.5;
+    private double counter;
+    private double velocity = 0.5;
 
     public Word(String sentence, int x, int y, int[] color) {
         if(color.length != 4) throw new Error("Color array must be of length 4");
@@ -27,8 +26,8 @@ public class Word implements Drawable {
         this.y = y;
 
         String[] splitSentence = sentence.split("");
-        for (int i = 0; i < splitSentence.length; i++) {
-            this.sentenceModels.add(new Letter(splitSentence[i], color, true).getModel());
+        for (String s : splitSentence) {
+            this.sentenceModels.add(new Letter(s, color, true).getModel());
         }
     }
 
@@ -62,8 +61,8 @@ public class Word implements Drawable {
 
     private int getWidth() {
         int w = 0;
-        for (int i = 0; i < this.sentenceModels.size(); i++) {
-            w += this.sentenceModels.get(i).getWidth() + 1;
+        for (Model sentenceModel : this.sentenceModels) {
+            w += sentenceModel.getWidth() + 1;
         }
         return w;
     }

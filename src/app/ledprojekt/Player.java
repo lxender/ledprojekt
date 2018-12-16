@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Entity, Drawable {
-    public int x;
-    public int y;
+    private int x;
+    private int y;
 
     Model characterModel = new Model(new int[][][]{
             {{0, 0, 0, 0}, {127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}, {0, 0, 0, 0}},
@@ -23,7 +23,7 @@ public class Player implements Entity, Drawable {
     });
     private Model attachment;
 
-    List<Trait> traits = new ArrayList<>();
+    private List<Trait> traits = new ArrayList<>();
 
     Player(int x, int y) {
         this.x = x;
@@ -35,30 +35,19 @@ public class Player implements Entity, Drawable {
     public void setY(int y) { this.y = y; }
     public int getY() { return this.y; }
 
-    public void addWeapon(Model weapon, int x, int y) {
+    void addWeapon(Model weapon, int x, int y) {
         this.characterModel.appendAttachment(weapon, x, y);
         this.attachment = weapon;
-    }
-
-    public boolean hasWeapon() {
-        return (this.attachment != null);
     }
 
     public void addTrait(Trait trait) {
         this.traits.add(trait);
     }
 
-    private Trait getTrait(String name) {
-        for (int i = 0; i < this.traits.size(); i++) {
-            if(this.traits.get(i).getName().equals(name)) {
-                return this.traits.get(i);
-            }
-        }
-        return null;
-    }
-
     public void update(KeyEvent event) {
-        this.getTrait("Go").update(this, event);
+        for (Trait trait : this.traits) {
+            trait.update(this, event);
+        }
     }
 
     public void draw(BoardController controller) {

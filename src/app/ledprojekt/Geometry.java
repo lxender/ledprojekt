@@ -3,11 +3,11 @@ package app.ledprojekt;
 import ledControl.BoardController;
 
 public class Geometry implements Drawable {
-    Model model;
-    int x;
-    int y;
+    private Model model;
+    private int x;
+    private int y;
 
-    public Geometry(Model model, int x, int y) {
+    Geometry(Model model, int x, int y) {
         this.model = model;
         this.x = x;
         this.y = y;
