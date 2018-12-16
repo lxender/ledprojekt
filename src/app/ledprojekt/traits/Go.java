@@ -5,7 +5,7 @@ import app.ledprojekt.Entity;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
-public class Go implements Trait {
+public class Go extends Trait {
 
     private String name = "Go";
 
@@ -14,7 +14,8 @@ public class Go implements Trait {
     }
 
     public void update(Entity entity, Object... options) {
-        KeyEvent event = (KeyEvent) options[0];
+        // System.out.println(event);
+        KeyEvent event = (KeyEvent) this.getClassFromArray("KeyEvent", options);
         if(event != null) {
             if(event.getID() == KeyEvent.KEY_RELEASED) {
                 switch (event.getKeyCode()) {

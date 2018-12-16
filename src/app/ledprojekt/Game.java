@@ -44,7 +44,7 @@ public class Game {
 
         while(true) {
             KeyEvent event = buffer.pop();
-            player.update(event);
+            // player.update(event);
 
 
             controller.resetColors();
