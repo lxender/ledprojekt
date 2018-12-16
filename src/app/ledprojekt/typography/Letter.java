@@ -109,7 +109,7 @@ public class Letter {
                         {this.transparent, this.createPixel(color, 0), this.createPixel(color, 1)},
                         {this.transparent, this.createPixel(color, 0), this.createPixel(color, 1)},
                         {this.transparent, this.createPixel(color, 0), this.createPixel(color, 1)},
-                        {this.createPixel(color, 1), this.transparent, this.transparent},
+                        {this.createPixel(color, 1), this.transparent, this.createPixel(color, 1)},
                         {this.transparent, this.createPixel(color, 1), this.transparent},
                 });
                 break;
