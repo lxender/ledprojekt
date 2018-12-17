@@ -12,8 +12,8 @@ https://codepen.io/lxender/full/gQZYqw
 - Main einfügen, damit State eingebaut werden kann ✅
 
 ‼️‼️‼️‼️‼️‼️‼️️‼️‼️<br>
-‼️‼️- Schwerkraft <br>
-‼️‼️- Kollision <br>
+‼️‼️- Schwerkraft ‼️‼️‼️<br>
+‼️‼️- Kollision ‼️‼️‼️<br>
 ‼️‼️‼️‼️‼️‼️‼️‼️️‼️<br>
 
 - Bounding Boxes um Charaktere im Debugging?
