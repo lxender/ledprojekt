@@ -13,7 +13,7 @@ https://codepen.io/lxender/full/gQZYqw
 
 ‼️‼️‼️‼️‼️‼️‼️️‼️‼️<br>
 ‼️‼️- Schwerkraft ‼️‼️‼️<br>
-‼️‼️- Kollision ‼️‼️‼️<br>
+‼️‼️- Kollision ‼️‼️‼️‼️<br>
 ‼️‼️‼️‼️‼️‼️‼️‼️️‼️<br>
 
 - Bounding Boxes um Charaktere im Debugging?
