@@ -9,11 +9,11 @@ import java.util.List;
 public class Layer {
     List<Drawable> objects = new ArrayList<>();
 
-    public Layer(Drawable... objects) {
+    Layer(Drawable... objects) {
         this.objects.addAll(Arrays.asList(objects));
     }
 
-    public void draw(BoardController controller) {
+    void draw(BoardController controller) {
         for(Drawable obj : this.objects) {
             obj.draw(controller);
         }

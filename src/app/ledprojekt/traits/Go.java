@@ -3,15 +3,8 @@ package app.ledprojekt.traits;
 import app.ledprojekt.Entity;
 
 import java.awt.event.KeyEvent;
-import java.util.Arrays;
 
 public class Go extends Trait {
-
-    private String name = "Go";
-
-    public String getName() {
-        return this.name;
-    }
 
     public void update(Entity entity, Object... options) {
         // System.out.println(event);

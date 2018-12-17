@@ -12,6 +12,5 @@ public abstract class Trait {
         return null;
     }
 
-    public abstract String getName();
     public abstract void update(Entity entity, Object... options);
 }
