@@ -43,8 +43,8 @@ public class Game {
         Geometry groundGeo = new Geometry(groundModel, 0, controller.getHeight() - 1);
 
 
-        Layer backgroundLayer = new Layer(new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
-        Layer foregroundLayer = new Layer(groundGeo, player);
+        Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
+        Layer foregroundLayer = new Layer(controller, groundGeo, player);
 
         while(true) {
             KeyEvent event = buffer.pop();

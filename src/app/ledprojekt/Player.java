@@ -23,21 +23,41 @@ public class Player implements Entity, Drawable {
     });
     private Model attachment;
 
+    BoundingBox bounds;
+
     private List<Trait> traits = new ArrayList<>();
 
     Player(int x, int y) {
         this.x = x;
         this.y = y;
+
+        this.updateBoundingBox();
     }
 
-    public void setX(int x) { this.x = x; }
+    public void setX(int x) {
+        this.x = x;
+        this.updateBoundingBox();
+    }
     public int getX() { return this.x; }
-    public void setY(int y) { this.y = y; }
+    public void setY(int y) {
+        this.y = y;
+        this.updateBoundingBox();
+    }
     public int getY() { return this.y; }
+
+    private void updateBoundingBox() {
+        this.bounds = new BoundingBox(this.x, this.y, this.characterModel.getWidth(), this.characterModel.getHeight());
+    }
+
+    public BoundingBox getBoundingBox() {
+        return this.bounds;
+    }
 
     void addWeapon(Model weapon, int x, int y) {
         this.characterModel.appendAttachment(weapon, x, y);
         this.attachment = weapon;
+
+        this.updateBoundingBox();
     }
 
     public void addTrait(Trait trait) {
