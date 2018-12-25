@@ -25,8 +25,6 @@ public class Game {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
         KeyBuffer buffer = controller.getKeyBuffer();
 
-        final int GRAVITY = 3;
-
         Player player = new Player(0, 0);
         player.characterModel.flip();
         player.addTrait(new Go());
