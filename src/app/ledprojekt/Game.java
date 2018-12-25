@@ -1,6 +1,7 @@
 package app.ledprojekt;
 
 import app.ledprojekt.traits.Go;
+import app.ledprojekt.traits.Gravity;
 import app.ledprojekt.typography.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
@@ -29,6 +30,7 @@ public class Game {
         Player player = new Player(0, 0);
         player.characterModel.flip();
         player.addTrait(new Go());
+        player.addTrait(new Gravity());
         Model weapon = new Model(new int[][][]{
                 {{0,127,24,1}},
                 {{0,127,24,1}},
@@ -44,12 +46,11 @@ public class Game {
 
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
-        Layer foregroundLayer = new Layer(controller, groundGeo, player);
+        CollisionLayer foregroundLayer = new CollisionLayer(controller, groundGeo, player);
 
         while(true) {
             KeyEvent event = buffer.pop();
-            player.update(event);
-
+            player.updateKeyEventRef(event);
 
             controller.resetColors();
 
@@ -58,10 +59,11 @@ public class Game {
 
             // Die Layer werden sich in der Kollisionsabfrage unterscheiden, also Hintergrund kann nicht mit Vorderung kollidieren
             // Hintergrund
-            backgroundLayer.draw(controller);
+            backgroundLayer.draw();
 
             // Vorderground
-            foregroundLayer.draw(controller);
+            foregroundLayer.update();
+            foregroundLayer.draw();
 
             controller.updateBoard();
         }

@@ -11,10 +11,8 @@ https://codepen.io/lxender/full/gQZYqw
 - State für easy Management der UI
 - Main einfügen, damit State eingebaut werden kann ✅
 
-‼️‼️‼️‼️‼️‼️‼️️‼️‼️<br>
-‼️‼️- Schwerkraft ‼️‼️‼️<br>
-‼️‼️- Kollision ‼️‼️‼️‼️<br>
-‼️‼️‼️‼️‼️‼️‼️‼️️‼️<br>
+- Schwerkraft ✅
+- Kollision ✅
 
 - Bounding Boxes um Charaktere im Debugging?
 

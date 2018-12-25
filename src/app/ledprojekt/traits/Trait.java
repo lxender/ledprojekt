@@ -12,5 +12,5 @@ public abstract class Trait {
         return null;
     }
 
-    public abstract void update(Entity entity, Object... options);
+    public abstract void update(Entity entity);
 }

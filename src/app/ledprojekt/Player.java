@@ -7,9 +7,9 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements Entity, Drawable {
-    private int x;
-    private int y;
+public class Player implements Entity, Drawable, Collidable {
+    private double x;
+    private double y;
 
     Model characterModel = new Model(new int[][][]{
             {{0, 0, 0, 0}, {127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}, {0, 0, 0, 0}},
@@ -26,6 +26,8 @@ public class Player implements Entity, Drawable {
     BoundingBox bounds;
 
     private List<Trait> traits = new ArrayList<>();
+    private KeyEvent keyEvent;
+    private CollisionLayer layer;
 
     Player(int x, int y) {
         this.x = x;
@@ -38,15 +40,27 @@ public class Player implements Entity, Drawable {
         this.x = x;
         this.updateBoundingBox();
     }
-    public int getX() { return this.x; }
+    public int getX() { return (int) this.x; }
+    public void setXAsDouble(double x) {
+        this.x = x;
+        this.updateBoundingBox();
+    }
+    public double getXAsDouble() { return this.x; }
+
     public void setY(int y) {
         this.y = y;
         this.updateBoundingBox();
     }
-    public int getY() { return this.y; }
+    public int getY() { return (int) this.y; }
+    public void setYAsDouble(double y) {
+        this.y = y;
+        this.updateBoundingBox();
+    }
+    public double getYAsDouble() { return this.y; }
 
     private void updateBoundingBox() {
-        this.bounds = new BoundingBox(this.x, this.y, this.characterModel.getWidth(), this.characterModel.getHeight());
+        // System.out.println(String.format("Updating bounds, x: %d, y: %d", this.x, this.y));
+        this.bounds = new BoundingBox((int) this.x, (int) this.y, this.characterModel.getWidth(), this.characterModel.getHeight());
     }
 
     public BoundingBox getBoundingBox() {
@@ -64,13 +78,27 @@ public class Player implements Entity, Drawable {
         this.traits.add(trait);
     }
 
-    public void update(KeyEvent event) {
+    public void updateKeyEventRef(KeyEvent event) {
+        this.keyEvent = event;
+    }
+    public KeyEvent getKeyEventRef() {
+        return this.keyEvent;
+    }
+
+    public void updateCollisionLayerRef(CollisionLayer layer) {
+        this.layer = layer;
+    }
+    public CollisionLayer getCollisionLayerRef() {
+        return this.layer;
+    }
+
+    public void update() {
         for (Trait trait : this.traits) {
-            trait.update(this, event);
+            trait.update(this);
         }
     }
 
     public void draw(BoardController controller) {
-        this.characterModel.draw(controller, this.x, this.y);
+        this.characterModel.draw(controller, (int) this.x, (int) this.y);
     }
 }
