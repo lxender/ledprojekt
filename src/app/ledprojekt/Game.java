@@ -55,7 +55,7 @@ public class Game {
             //Aus Debug-Gründen: Rahmen um das Feld
             Game.drawBorder(controller);
 
-            // Die Layer werden sich in der Kollisionsabfrage unterscheiden, also Hintergrund kann nicht mit Vorderung kollidieren
+            // Die Layer unterscheiden sich in der Kollisionsabfrage, also Hintergrund kann nicht mit Vorderung kollidieren
             // Hintergrund
             backgroundLayer.draw();
 
