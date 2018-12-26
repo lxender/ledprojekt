@@ -16,8 +16,10 @@ public interface Entity extends Collidable {
     void setYAsDouble(double x);
     double getYAsDouble();
 
-    void addTrait(Trait trait);
+    void addTraits(Trait... traits);
+
     void updateKeyEventRef(KeyEvent event);
     KeyEvent getKeyEventRef();
+
     void draw(BoardController controller);
 }

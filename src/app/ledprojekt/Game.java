@@ -2,6 +2,7 @@ package app.ledprojekt;
 
 import app.ledprojekt.traits.Go;
 import app.ledprojekt.traits.Gravity;
+import app.ledprojekt.traits.Jump;
 import app.ledprojekt.typography.Word;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
@@ -26,25 +27,29 @@ public class Game {
         KeyBuffer buffer = controller.getKeyBuffer();
 
         Player player = new Player(0, 0);
-        player.characterModel.flip();
-        player.addTrait(new Go());
-        player.addTrait(new Gravity());
+        player.addTraits(new Go(), new Jump(), new Gravity());
         Model weapon = new Model(new int[][][]{
                 {{0,127,24,1}},
                 {{0,127,24,1}},
                 {{0,127,24,1}},
                 {{0,127,24,1}}
         });
-        player.addWeapon(weapon, 0, 4);
+        player.addWeapon(weapon, 4, 4);
+//        player.characterModel.flip();
 
         Model groundModel = new Model(new int[][][]{
                 {{0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}}
         });
-        Geometry groundGeo = new Geometry(groundModel, 0, controller.getHeight() - 1);
+        Geometry ground = new Geometry(groundModel, 0, controller.getHeight() - 1);
 
+        Model blockModel = new Model(new int[][][]{
+                {{80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}},
+                {{80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}},
+        });
+        Geometry block = new Geometry(blockModel, 7, controller.getHeight() - 3);
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
-        CollisionLayer foregroundLayer = new CollisionLayer(controller, groundGeo, player);
+        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, block, player);
 
         while(true) {
             KeyEvent event = buffer.pop();

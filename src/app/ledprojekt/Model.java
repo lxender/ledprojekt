@@ -25,7 +25,7 @@ public class Model {
         }
     }
 
-    public Model(String path, int[] attachmentLocation) {
+    public Model(String path) {
         File file;
         BufferedImage img;
         try {
@@ -60,7 +60,6 @@ public class Model {
     public int getWidth() {
         return this.model[0].length;
     }
-
     public int getHeight() {
         return this.model.length;
     }
@@ -76,13 +75,45 @@ public class Model {
     }
 
     public void appendAttachment(Model attachment, int x, int y) {
-        int[] attachmentLocation = {x, y};
         int[][][] array = attachment.get2DArray();
+
+        this.model = this.extendArray(this.model, x + 1, y + 1, new int[]{0, 0, 0, 0});
+
         for (int row = array.length - 1; row >= 0; row--) {
             for (int col = 0; col < array[row].length; col++) {
-                this.model[attachmentLocation[1] - row][attachmentLocation[0]] = array[row][col];
+                this.model[y - row][x] = array[row][col];
             }
         }
+    }
+
+    private int[][][] extendArray(int[][][] array, int newLengthX, int newLengthY, int[] newValue) {
+        int[][][] copy = Arrays.copyOf(array, array.length);
+
+        if (newLengthY > array.length) {
+            int[][][] largerCopy = Arrays.copyOf(copy, newLengthY);
+            for (int i = copy.length; i < newLengthY; i++) {
+                largerCopy[i] = new int[largerCopy[0].length][];
+
+                for(int j = 0; j < largerCopy[i].length; j++) {
+                    largerCopy[i][j] = newValue;
+                }
+
+            }
+            copy = largerCopy;
+        }
+
+        if (newLengthX > array[0].length) {
+            System.out.println("x is larger");
+            for (int i = 0; i < copy.length; i++) {
+                int[][] largerRowCopy = Arrays.copyOf(copy[i], newLengthX);
+                for (int j = copy[i].length; j < largerRowCopy.length; j++) {
+                    largerRowCopy[j] = newValue;
+                }
+                copy[i] = largerRowCopy;
+            }
+        }
+
+        return copy;
     }
 
     public int[][][] get2DArray() {

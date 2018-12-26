@@ -4,13 +4,15 @@ import app.ledprojekt.CollisionLayer;
 import app.ledprojekt.Entity;
 
 public class Gravity extends Trait {
-    public void update(Entity entity) {
-        // System.out.println(this.entityY);
 
+    private double strength = 0.4;
+
+    @Override
+    public void update(Entity entity) {
         CollisionLayer layer = entity.getCollisionLayerRef();
 
-        if (!layer.isObstructedY(entity, (int) Math.floor(entity.getYAsDouble() + 0.2))) {
-            entity.setYAsDouble(entity.getYAsDouble() + 0.2);
+        if (!layer.isObstructed(entity, entity.getX(), (int) Math.floor(entity.getYAsDouble() + this.strength))) {
+            entity.setYAsDouble(entity.getYAsDouble() + this.strength);
         }
     }
 }

@@ -1,10 +1,10 @@
 package app.ledprojekt;
 
 public class BoundingBox {
-    int x;
-    int y;
-    int width;
-    int height;
+    public int x;
+    public int y;
+    public int width;
+    public int height;
 
     BoundingBox(int x, int y, int width, int height) {
         this.x = x;
