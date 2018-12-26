@@ -59,13 +59,12 @@ public class Player implements Entity, Drawable {
     }
     public double getYAsDouble() { return this.y; }
 
+    public BoundingBox getBoundingBox() {
+        return this.bounds;
+    }
     private void updateBoundingBox() {
         // System.out.println(String.format("Updating bounds, x: %d, y: %d", this.x, this.y));
         this.bounds = new BoundingBox((int) this.x, (int) this.y, this.characterModel.getWidth(), this.characterModel.getHeight());
-    }
-
-    public BoundingBox getBoundingBox() {
-        return this.bounds;
     }
 
     void addWeapon(Model weapon, int x, int y) {
