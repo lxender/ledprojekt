@@ -34,19 +34,11 @@ public class Game {
                 {{0,127,24,1}},
                 {{0,127,24,1}}
         });
-        player.addWeapon(weapon, 4, 4);
-//        player.characterModel.flip();
+        player.addWeapon(weapon, 3, 4);
+        player.characterModel.flip();
 
-        Model groundModel = new Model(new int[][][]{
-                {{0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}, {0, 80, 0, 1}}
-        });
-        Geometry ground = new Geometry(groundModel, 0, controller.getHeight() - 1);
-
-        Model blockModel = new Model(new int[][][]{
-                {{80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}},
-                {{80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}, {80, 90, 0, 1}},
-        });
-        Geometry block = new Geometry(blockModel, 7, controller.getHeight() - 3);
+        Geometry ground = Geometry.generate(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
+        Geometry block = Geometry.generate(7, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
         CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, block, player);

@@ -7,7 +7,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Model {
     private int[][][] model;
@@ -65,12 +68,10 @@ public class Model {
     }
 
     public void flip() {
-        for(int i = 0; i < this.model.length; i++) {
-            int[][] flipped = new int[this.model[i].length][4];
-            for (int j = this.model[i].length - 1; j > 0; j--) {
-                flipped[j] = this.model[i][j];
-            }
-            this.model[i] = flipped;
+        for (int i = 0; i < this.model.length; i++) {
+            List<int[]> flipped = Arrays.asList(this.model[i]);
+            Collections.reverse(flipped);
+            this.model[i] = flipped.toArray(new int[][]{});
         }
     }
 
@@ -103,7 +104,6 @@ public class Model {
         }
 
         if (newLengthX > array[0].length) {
-            System.out.println("x is larger");
             for (int i = 0; i < copy.length; i++) {
                 int[][] largerRowCopy = Arrays.copyOf(copy[i], newLengthX);
                 for (int j = copy[i].length; j < largerRowCopy.length; j++) {
