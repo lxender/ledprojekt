@@ -99,7 +99,6 @@ public class Model {
             }
         }
     }
-
     private int[][][] extendArray(int[][][] array, int newLengthX, int newLengthY, int[] newValue) {
         int[][][] copy = Arrays.copyOf(array, array.length);
 

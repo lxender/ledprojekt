@@ -21,5 +21,8 @@ public interface Entity extends Collidable {
     void updateKeyEventRef(KeyEvent event);
     KeyEvent getKeyEventRef();
 
+    void updateDelta(float dt);
+    float getDelta();
+
     void draw(BoardController controller);
 }

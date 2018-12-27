@@ -30,6 +30,8 @@ public class Player implements Entity, Drawable {
     private KeyEvent keyEvent;
     private CollisionLayer layer;
 
+    private float dt;
+
     Player(int x, int y) {
         this.x = x;
         this.y = y;
@@ -92,12 +94,18 @@ public class Player implements Entity, Drawable {
         return this.layer;
     }
 
+    public void updateDelta(float dt) {
+        this.dt = dt;
+    }
+    public float getDelta() {
+        return this.dt;
+    }
+
     public void update() {
         for (Trait trait : this.traits) {
             trait.update(this);
         }
     }
-
     public void draw(BoardController controller) {
         this.characterModel.draw(controller, (int) this.x, (int) this.y);
     }
