@@ -13,6 +13,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class Model {
+    public static void print2DArray(int[][][] array) {
+        System.out.println("[");
+        for (int i = 0; i < array.length; i++) {
+            System.out.print("  [");
+            int[][] row = array[i];
+            for (int j = 0; j < row.length; j++) {
+                System.out.print(Arrays.toString(row[j]) + ((j == row.length - 1) ? "" : ", "));
+            }
+            System.out.println("],");
+        }
+        System.out.println("]");
+    }
+
     private int[][][] model;
 
     public Model(int[][][] array) {
