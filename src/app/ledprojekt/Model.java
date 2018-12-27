@@ -98,9 +98,23 @@ public class Model {
                 for(int j = 0; j < largerCopy[i].length; j++) {
                     largerCopy[i][j] = newValue;
                 }
-
             }
             copy = largerCopy;
+        }
+
+        if (newLengthY < 0) {
+            int[][][] temp = new int[copy.length + Math.abs(newLengthY)][array[0].length][];
+
+            for (int i = 0; i < copy.length + Math.abs(newLengthY); i++) {
+                for (int j = 0; j < temp[i].length; j++) {
+                    if(i < Math.abs(newLengthY)) {
+                        temp[i][j] = newValue;
+                    } else {
+                        temp[i][j] = copy[i - Math.abs(newLengthY)][j];
+                    }
+                }
+            }
+            copy = temp;
         }
 
         if (newLengthX > array[0].length) {
@@ -110,6 +124,20 @@ public class Model {
                     largerRowCopy[j] = newValue;
                 }
                 copy[i] = largerRowCopy;
+            }
+        }
+
+        if (newLengthX < 0) {
+            for(int i = 0; i < copy.length; i++) {
+                int[][] row = new int[Math.abs(newLengthX) + copy[i].length][];
+                for (int j = 0; j < row.length; j++) {
+                    if (j < Math.abs(newLengthX)) {
+                        row[j] = newValue;
+                    } else {
+                        row[j] = copy[i][j - Math.abs(newLengthX)];
+                    }
+                }
+                copy[i] = row;
             }
         }
 
