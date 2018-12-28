@@ -2,6 +2,7 @@ package app.ledprojekt;
 
 public class Main {
     public static void main(String[] args) {
-        Game.run();
+        Game game = new Game();
+        game.run();
     }
 }

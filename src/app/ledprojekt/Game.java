@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 
 public class Game {
 
-    private static void drawBorder(BoardController controller) {
+    private void drawBorder(BoardController controller) {
         for (int i = 0; i < controller.getHeight(); i++) {
             for (int j = 0; j < controller.getWidth(); j++) {
                 if((i == 0 || i == controller.getHeight()-1) || (j == 0 || j == controller.getWidth()-1)) {
@@ -22,7 +22,7 @@ public class Game {
         }
     }
 
-    static void run() {
+    void run() {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
         KeyBuffer buffer = controller.getKeyBuffer();
 
@@ -50,7 +50,7 @@ public class Game {
             controller.resetColors();
 
             //Aus Debug-Gründen: Rahmen um das Feld
-            Game.drawBorder(controller);
+            this.drawBorder(controller);
 
             // Die Layer unterscheiden sich in der Kollisionsabfrage, also Hintergrund kann nicht mit Vorderung kollidieren
             // Hintergrund
