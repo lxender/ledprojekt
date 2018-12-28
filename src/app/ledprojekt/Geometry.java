@@ -10,18 +10,15 @@ public class Geometry implements Drawable, Collidable {
     private BoundingBox bounds;
     private CollisionLayer layer;
 
-    public static Geometry generate(int x, int y, int width, int height, int[] color) {
+    Geometry(int x, int y, int width, int height, int[] color) {
         int[][][] planeModelArray = new int[height][width][4];
         for (int i = 0; i < planeModelArray.length; i++) {
             for (int j = 0; j < planeModelArray[i].length; j++) {
                 planeModelArray[i][j] = color;
             }
         }
-        return new Geometry(new Model(planeModelArray), x, y);
-    }
 
-    Geometry(Model model, int x, int y) {
-        this.model = model;
+        this.model = new Model(planeModelArray);
         this.x = x;
         this.y = y;
 

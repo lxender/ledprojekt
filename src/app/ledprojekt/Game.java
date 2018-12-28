@@ -37,8 +37,8 @@ public class Game {
         player.addWeapon(weapon, 3, 4);
         player.characterModel.flip();
 
-        Geometry ground = Geometry.generate(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
-        Geometry block = Geometry.generate(7, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
+        Geometry ground = new Geometry(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
+        Geometry block = new Geometry(7, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
         CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, block, player);
