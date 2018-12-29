@@ -101,26 +101,14 @@ public class Model {
 
         array = squareArray(array, new int[]{0, 0, 0, 0});
         modelCopy = this.extendArray(modelCopy, x + array[0].length, y + array.length, new int[]{0, 0, 0, 0});
-        Model.print2DArray(array);
-        //Model.print2DArray(modelCopy);
+        //Model.print2DArray(array);
 
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                System.out.println(String.format("Model i: %d, model j: %d", array.length - i, x + j));
-                // modelCopy[y - i][x + j] = array[i][j];
+                // System.out.println(String.format("Model i: %d, model j: %d", modelCopy.length - y - (array.length - 1 - i), x + j));
+                modelCopy[modelCopy.length - y - (array.length - 1 - i)][x + j] = array[i][j];
             }
         }
-
-        // x: 3, y: 4
-//        for (int i = y; i >= 0; i--) {
-//            for (int j = x; j < modelCopy[i].length; j++) {
-////                System.out.println(array.length + ", " + array[0].length);
-//                // System.out.println(String.format("i: %d, j: %d", i, j));
-//                // System.out.println(String.format("inverse i: %d, inverse j: %d", modelCopy.length - 1 - i, modelCopy[i].length - 1 - j));
-//                // System.out.println(String.format("array i: %d, array j: %d", Math.abs(i - array.length), j - array[0].length - 1));
-//                // modelCopy[i][j] = array[Math.abs(i - array.length) - 1][j - array[0].length - 1];
-//            }
-//        }
 
 //        for (int row = array.length - 1; row >= 0; row--) {
 //            for (int col = 0; col < array[row].length; col++) {
@@ -128,8 +116,7 @@ public class Model {
 //            }
 //        }
 
-        Model.print2DArray(modelCopy);
-
+        //Model.print2DArray(modelCopy);
         return modelCopy;
     }
     private int getLongestRow(int[][][] array) {

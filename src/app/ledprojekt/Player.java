@@ -24,7 +24,6 @@ public class Player implements Entity, Drawable {
             {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}},
             {{127, 0, 0, 1}, {0, 0, 0, 0}, {127, 0 ,0, 1}},
     });
-    int[][][] characterArrayCopy = Arrays.copyOf(characterModel.get2DArray(), characterModel.get2DArray().length);
     private Model attachment;
 
     BoundingBox bounds;
