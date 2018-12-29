@@ -5,7 +5,7 @@ import app.ledprojekt.Entity;
 
 public class Gravity extends Trait {
 
-    private double strength = 0.4;
+    private double strength = 0.15;
 
     @Override
     public void update(Entity entity) {

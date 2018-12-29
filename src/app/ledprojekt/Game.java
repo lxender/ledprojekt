@@ -21,7 +21,7 @@ public class Game {
     }
 
     void run() {
-        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR);
+        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
         KeyBuffer buffer = controller.getKeyBuffer();
 
         Player player = new Player(0, 0);
