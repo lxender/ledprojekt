@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Model {
     public static void print2DArray(int[][][] array) {
@@ -89,15 +90,52 @@ public class Model {
     }
 
     public void appendAttachment(Model attachment, int x, int y) {
+        this.model = this.calculateArrayWithAttachment(attachment, x, y);
+    }
+    public Model calculateModelWithAttachment(Model attachment, int x, int y) {
+        return new Model(this.calculateArrayWithAttachment(attachment, x, y));
+    }
+    private int[][][] calculateArrayWithAttachment(Model attachment, int x, int y) {
         int[][][] array = attachment.get2DArray();
+        int[][][] modelCopy = Arrays.copyOf(this.model, this.model.length);
 
-        this.model = this.extendArray(this.model, x + 1, y + 1, new int[]{0, 0, 0, 0});
+        array = squareArray(array, new int[]{0, 0, 0, 0});
+        modelCopy = this.extendArray(modelCopy, x + array[0].length, y + array.length, new int[]{0, 0, 0, 0});
+        Model.print2DArray(array);
+        //Model.print2DArray(modelCopy);
 
-        for (int row = array.length - 1; row >= 0; row--) {
-            for (int col = 0; col < array[row].length; col++) {
-                this.model[y - row][x] = array[row][col];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                System.out.println(String.format("Model i: %d, model j: %d", array.length - i, x + j));
+                // modelCopy[y - i][x + j] = array[i][j];
             }
         }
+
+        // x: 3, y: 4
+//        for (int i = y; i >= 0; i--) {
+//            for (int j = x; j < modelCopy[i].length; j++) {
+////                System.out.println(array.length + ", " + array[0].length);
+//                // System.out.println(String.format("i: %d, j: %d", i, j));
+//                // System.out.println(String.format("inverse i: %d, inverse j: %d", modelCopy.length - 1 - i, modelCopy[i].length - 1 - j));
+//                // System.out.println(String.format("array i: %d, array j: %d", Math.abs(i - array.length), j - array[0].length - 1));
+//                // modelCopy[i][j] = array[Math.abs(i - array.length) - 1][j - array[0].length - 1];
+//            }
+//        }
+
+//        for (int row = array.length - 1; row >= 0; row--) {
+//            for (int col = 0; col < array[row].length; col++) {
+//                modelCopy[y - row][x + col] = array[row][col];
+//            }
+//        }
+
+        Model.print2DArray(modelCopy);
+
+        return modelCopy;
+    }
+    private int getLongestRow(int[][][] array) {
+        int[] lengths = Arrays.stream(array).mapToInt(row -> row.length).toArray();
+        Arrays.sort(lengths);
+        return lengths[lengths.length - 1];
     }
     private int[][][] extendArray(int[][][] array, int newLengthX, int newLengthY, int[] newValue) {
         int[][][] copy = Arrays.copyOf(array, array.length);
@@ -154,6 +192,23 @@ public class Model {
         }
 
         return copy;
+    }
+    private int[][][] squareArray(int[][][] array, int[] newValue) {
+        int longestRowLength = this.getLongestRow(array);
+
+        int[][][] temp = new int[array.length][longestRowLength][];
+
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[i].length; j++) {
+                try {
+                    temp[i][j] = array[i][j];
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    temp[i][j] = newValue;
+                }
+            }
+        }
+
+        return temp;
     }
 
     public int[][][] get2DArray() {

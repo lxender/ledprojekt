@@ -17,6 +17,7 @@ public interface Entity extends Collidable {
     double getYAsDouble();
 
     void addTraits(Trait... traits);
+    void setAnimationPlayState(String name, boolean value);
 
     void updateKeyEventRef(KeyEvent event);
     KeyEvent getKeyEventRef();

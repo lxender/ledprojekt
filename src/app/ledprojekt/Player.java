@@ -6,7 +6,9 @@ import ledControl.BoardController;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class Player implements Entity, Drawable {
     private double x;
@@ -31,6 +33,10 @@ public class Player implements Entity, Drawable {
     private CollisionLayer layer;
 
     private float dt;
+
+    private HashMap<String, ArrayList<Model>> animations = new HashMap<>();
+    private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
+    private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
 
     Player(int x, int y) {
         this.x = x;
@@ -75,9 +81,43 @@ public class Player implements Entity, Drawable {
 
         this.updateBoundingBox();
     }
-
     public void addTraits(Trait... traits) {
         this.traits.addAll(Arrays.asList(traits));
+    }
+    void addAnimation(String name, Model... models) {
+        System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
+        ArrayList<Model> list = new ArrayList<>(Arrays.asList(models));
+        this.animations.put(name.toLowerCase(), list);
+    }
+    void addToAnimation(String name, Model model) {
+        ArrayList<Model> newList = this.animations.get(name);
+        newList.add(model);
+        this.animations.replace(name, newList);
+    }
+    public void setAnimationPlayState(String name, boolean value) {
+        this.animationPlayStates.put(name.toLowerCase(), value);
+    }
+    private void findAnimation() {
+        System.out.println();
+        if (this.animationPlayStates.containsValue(true)) {
+            BiConsumer<String, Boolean> findAnimConsumer = (key, value) -> {
+                if(value) {
+                    this.currentlyPlayingAnimation = this.animations.get(key.toLowerCase());
+                }
+            };
+            this.animationPlayStates.forEach(findAnimConsumer);
+        }
+    }
+    private void playAnimation() {
+        if (!this.animationPlayStates.isEmpty()) {
+            this.findAnimation();
+            if (!currentlyPlayingAnimation.isEmpty()) {
+                this.characterModel = this.currentlyPlayingAnimation.remove(0);
+                Model.print2DArray(this.characterModel.get2DArray());
+            } else {
+                this.animationPlayStates.clear();
+            }
+        }
     }
 
     public void updateKeyEventRef(KeyEvent event) {
@@ -107,6 +147,7 @@ public class Player implements Entity, Drawable {
         }
     }
     public void draw(BoardController controller) {
+        this.playAnimation();
         this.characterModel.draw(controller, (int) this.x, (int) this.y);
     }
 }
