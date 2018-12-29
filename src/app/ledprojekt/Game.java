@@ -56,7 +56,14 @@ public class Game {
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
         CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, block, player);
 
+//        long lastTime = System.nanoTime();
+//        double ns = 1000000.0 / 60.0;
+
         while(true) {
+//            long now = System.nanoTime();
+//            System.out.println((now - lastTime) / ns);
+//            System.exit(0);
+
             KeyEvent event = buffer.pop();
             player.updateKeyEventRef(event);
 
