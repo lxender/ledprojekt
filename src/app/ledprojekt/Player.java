@@ -98,7 +98,6 @@ public class Player implements Entity, Drawable {
         this.animationPlayStates.put(name.toLowerCase(), value);
     }
     private void findAnimation() {
-        System.out.println();
         if (this.animationPlayStates.containsValue(true)) {
             BiConsumer<String, Boolean> findAnimConsumer = (key, value) -> {
                 if(value) {
@@ -111,6 +110,7 @@ public class Player implements Entity, Drawable {
     private void playAnimation() {
         if (!this.animationPlayStates.isEmpty()) {
             this.findAnimation();
+
             if (!currentlyPlayingAnimation.isEmpty()) {
                 this.characterModel = this.currentlyPlayingAnimation.remove(0);
                 Model.print2DArray(this.characterModel.get2DArray());
