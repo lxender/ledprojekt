@@ -85,7 +85,7 @@ public class Player implements Entity, Drawable {
         this.traits.addAll(Arrays.asList(traits));
     }
     void addAnimation(String name, Model... models) {
-        System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
+        //System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
         ArrayList<Model> list = new ArrayList<>(Arrays.asList(models));
         this.animations.put(name.toLowerCase(), list);
     }
@@ -97,26 +97,34 @@ public class Player implements Entity, Drawable {
     public void setAnimationPlayState(String name, boolean value) {
         this.animationPlayStates.put(name.toLowerCase(), value);
     }
-    private void findAnimation() {
+    private String findAnimation() {
         if (this.animationPlayStates.containsValue(true)) {
-            BiConsumer<String, Boolean> findAnimConsumer = (key, value) -> {
-                if(value) {
-                    this.currentlyPlayingAnimation = this.animations.get(key.toLowerCase());
+            for(String k : this.animationPlayStates.keySet()) {
+                if(this.animationPlayStates.get(k.toLowerCase())) {
+                    return k;
                 }
-            };
-            this.animationPlayStates.forEach(findAnimConsumer);
+            }
         }
+        return null;
     }
     private void playAnimation() {
         if (!this.animationPlayStates.isEmpty()) {
-            this.findAnimation();
+            String playingAnimationName = this.findAnimation();
 
-            if (!currentlyPlayingAnimation.isEmpty()) {
+            if (playingAnimationName != null) {
+                if (this.currentlyPlayingAnimation.isEmpty()) {
+                    this.currentlyPlayingAnimation.addAll(this.animations.get(playingAnimationName));
+                }
+
                 this.characterModel = this.currentlyPlayingAnimation.remove(0);
                 Model.print2DArray(this.characterModel.get2DArray());
-            } else {
-                this.animationPlayStates.clear();
+
+                if(this.currentlyPlayingAnimation.size() == 0) {
+                    this.currentlyPlayingAnimation.clear();
+                    this.animationPlayStates.replace(playingAnimationName, false);
+                }
             }
+
         }
     }
 
