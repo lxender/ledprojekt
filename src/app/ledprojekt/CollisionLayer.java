@@ -22,6 +22,22 @@ public class CollisionLayer {
             BoundingBox entityRefBound = entityRef.getBoundingBox();
             BoundingBox bound = obj.getBoundingBox();
 
+//            if (obj instanceof Geometry && ((Geometry) obj).getName() == "block") {
+//                if (x + entityRefBound.width < bound.x + bound.width) {
+//                    System.out.println("left");
+//                }
+//                if (x > bound.x + bound.width - 1) {
+//                    System.out.println("right");
+//                }
+//
+//                if (y + entityRefBound.height < bound.y + bound.height) {
+//                    System.out.println("above");
+//                }
+//                if (y > bound.y + bound.height) {
+//                    System.out.println("below");
+//                }
+//            }
+
             if(x < bound.x + bound.width &&
                     x + entityRefBound.width > bound.x &&
                     y < bound.y + bound.height &&

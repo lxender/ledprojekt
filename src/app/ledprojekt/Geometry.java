@@ -10,6 +10,8 @@ public class Geometry implements Drawable, Collidable {
     private BoundingBox bounds;
     private CollisionLayer layer;
 
+    private String name;
+
     Geometry(int x, int y, int width, int height, int[] color) {
         int[][][] planeModelArray = new int[height][width][4];
         for (int i = 0; i < planeModelArray.length; i++) {
@@ -25,10 +27,16 @@ public class Geometry implements Drawable, Collidable {
         this.updateBoundingBox();
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    public String getName() {
+        return this.name;
+    }
+
     private void updateBoundingBox() {
         this.bounds = new BoundingBox(this.x, this.y, this.model.getWidth(), this.model.getHeight());
     }
-
     public BoundingBox getBoundingBox() {
         return this.bounds;
     }
@@ -43,7 +51,6 @@ public class Geometry implements Drawable, Collidable {
     public void update() {
 
     }
-
     public void draw(BoardController controller) {
         this.model.draw(controller, x, y);
     }

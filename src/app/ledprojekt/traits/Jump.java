@@ -17,12 +17,14 @@ public class Jump extends Trait {
             if(event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == KeyEvent.VK_SPACE) {
 
                 CollisionLayer layer = entity.getCollisionLayerRef();
+                boolean isOnGround = layer.isObstructed(entity, entity.getX(), entity.getY() + 1);
 
                 // Ist 2 drüber nicht beleget? && Ist 1 drunter belegt?
-                if(!layer.isObstructed(entity, entity.getX(), entity.getY() - this.height) &&
-                    layer.isObstructed(entity, entity.getX(), entity.getY() + 1)
-                ) {
-                    entity.setY(entity.getY() - this.height);
+                for (int i = this.height; i >= 0; i--) {
+                    if(!layer.isObstructed(entity, entity.getX(), entity.getY() - i) && isOnGround) {
+                        entity.setY(entity.getY() - i);
+                        break;
+                    }
                 }
             }
         }

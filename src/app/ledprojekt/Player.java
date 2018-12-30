@@ -14,7 +14,7 @@ public class Player implements Entity, Drawable {
     private double x;
     private double y;
 
-    Model characterModel = new Model(new int[][][]{
+    public Model characterModel = new Model(new int[][][]{
             {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}},
             {{127, 0, 0, 1}, {0, 0, 0, 1}, {127, 0 ,0, 1}},
             {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}},
@@ -24,9 +24,11 @@ public class Player implements Entity, Drawable {
             {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}},
             {{127, 0, 0, 1}, {0, 0, 0, 0}, {127, 0 ,0, 1}},
     });
+    private int baseModelWidth = this.characterModel.getWidth();
+    private int baseModelHeight = this.characterModel.getHeight();
     private Model attachment;
 
-    BoundingBox bounds;
+    public BoundingBox bounds;
 
     private List<Trait> traits = new ArrayList<>();
     private KeyEvent keyEvent;
@@ -72,10 +74,10 @@ public class Player implements Entity, Drawable {
     }
     private void updateBoundingBox() {
         // System.out.println(String.format("Updating bounds, x: %d, y: %d", this.x, this.y));
-        this.bounds = new BoundingBox((int) this.x, (int) this.y, this.characterModel.getWidth(), this.characterModel.getHeight());
+        this.bounds = new BoundingBox((int) this.x, (int) this.y, this.baseModelWidth, this.baseModelHeight);
     }
 
-    void addWeapon(Model weapon, int x, int y) {
+    public void addWeapon(Model weapon, int x, int y) {
         this.characterModel.appendAttachment(weapon, x, y);
         this.attachment = weapon;
 
@@ -84,12 +86,13 @@ public class Player implements Entity, Drawable {
     public void addTraits(Trait... traits) {
         this.traits.addAll(Arrays.asList(traits));
     }
-    void addAnimation(String name, Model... models) {
+
+    public void addAnimation(String name, Model... models) {
         //System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
         ArrayList<Model> list = new ArrayList<>(Arrays.asList(models));
         this.animations.put(name.toLowerCase(), list);
     }
-    void addToAnimation(String name, Model model) {
+    public void addToAnimation(String name, Model model) {
         ArrayList<Model> newList = this.animations.get(name);
         newList.add(model);
         this.animations.replace(name, newList);

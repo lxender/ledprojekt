@@ -110,13 +110,6 @@ public class Model {
             }
         }
 
-//        for (int row = array.length - 1; row >= 0; row--) {
-//            for (int col = 0; col < array[row].length; col++) {
-//                modelCopy[y - row][x + col] = array[row][col];
-//            }
-//        }
-
-        //Model.print2DArray(modelCopy);
         return modelCopy;
     }
     private int getLongestRow(int[][][] array) {
