@@ -36,17 +36,28 @@ public class Game {
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
         CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, block, wall, player);
 
-//        long lastTime = System.nanoTime();
-//        double ns = 1000000.0 / 60.0;
+        long lastTime = System.nanoTime();
+        double ns = 1000000000.0 / 60.0;
+        double delta = 0;
 
         while(true) {
-//            long now = System.nanoTime();
-//            System.out.println((now - lastTime) / ns);
-//            System.exit(0);
+            long now = System.nanoTime();
+            delta += (now - lastTime) / ns;
+            lastTime = now;
 
-            KeyEvent event = buffer.pop();
-            player.updateKeyEventRef(event);
+            // System.out.println(delta);
 
+            // ### ### ### UPDATING ### ### ###
+            while(delta >= 1) {
+                KeyEvent event = buffer.pop();
+                player.updateKeyEventRef(event);
+
+                foregroundLayer.update();
+
+                delta--;
+            }
+
+            // ### ### ### RENDERING ### ### ###
             controller.resetColors();
 
             //Aus Debug-Gründen: Rahmen um das Feld
@@ -57,7 +68,6 @@ public class Game {
             backgroundLayer.draw();
 
             // Vorderground
-            foregroundLayer.update();
             foregroundLayer.draw();
 
             controller.updateBoard();
