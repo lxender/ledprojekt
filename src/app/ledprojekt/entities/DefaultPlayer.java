@@ -45,11 +45,6 @@ public class DefaultPlayer extends Player {
                 {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
                 {{0,65,24,1}, {0,45,24,1}, {0,34,24,1}, {0,23,24,1}},
         }), 3, 4);
-        this.addAnimation("attack", frame1, frame2, frame3);
-    }
-
-    @Override
-    public void update() {
-        super.update();
+        this.addAnimation("attack", 200, frame1, frame2, frame3, frame2, frame1);
     }
 }

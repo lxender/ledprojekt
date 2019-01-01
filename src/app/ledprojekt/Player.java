@@ -14,9 +14,13 @@ public class Player implements Entity, Drawable {
     private double x;
     private double y;
 
+    private int velocityX;
+    private int velocityY;
+
     public Model characterModel;
     private int baseModelWidth;
     private int baseModelHeight;
+    private boolean modelIsFlipped = false;
     private Model attachment;
 
     public BoundingBox bounds;
@@ -25,9 +29,10 @@ public class Player implements Entity, Drawable {
     private KeyEvent keyEvent;
     private CollisionLayer layer;
 
-    private float dt;
+    private double dt;
 
-    private HashMap<String, ArrayList<Model>> animations = new HashMap<>();
+    private long timer = 0;
+    private HashMap<String, AnimationWrapper> animations = new HashMap<>();
     private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
     private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
 
@@ -72,28 +77,26 @@ public class Player implements Entity, Drawable {
         this.bounds = new BoundingBox((int) this.x, (int) this.y, this.baseModelWidth, this.baseModelHeight);
     }
 
+    public void addTraits(Trait... traits) {
+        this.traits.addAll(Arrays.asList(traits));
+    }
+
     public void addWeapon(Model weapon, int x, int y) {
         this.characterModel.appendAttachment(weapon, x, y);
         this.attachment = weapon;
 
         this.updateBoundingBox();
     }
-    public void addTraits(Trait... traits) {
-        this.traits.addAll(Arrays.asList(traits));
-    }
 
-    public void addAnimation(String name, Model... models) {
+    public void addAnimation(String name, int durationInMillis, Model... models) {
         //System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
         ArrayList<Model> list = new ArrayList<>(Arrays.asList(models));
-        this.animations.put(name.toLowerCase(), list);
-    }
-    public void addToAnimation(String name, Model model) {
-        ArrayList<Model> newList = this.animations.get(name);
-        newList.add(model);
-        this.animations.replace(name, newList);
+        AnimationWrapper wrapper = new AnimationWrapper(durationInMillis, list);
+        this.animations.put(name.toLowerCase(), wrapper);
     }
     public void setAnimationPlayState(String name, boolean value) {
         this.animationPlayStates.put(name.toLowerCase(), value);
+        this.timer = System.currentTimeMillis();
     }
     private String findAnimation() {
         if (this.animationPlayStates.containsValue(true)) {
@@ -111,11 +114,14 @@ public class Player implements Entity, Drawable {
 
             if (playingAnimationName != null) {
                 if (this.currentlyPlayingAnimation.isEmpty()) {
-                    this.currentlyPlayingAnimation.addAll(this.animations.get(playingAnimationName));
+                    this.currentlyPlayingAnimation.addAll(this.animations.get(playingAnimationName).list);
                 }
 
-                this.characterModel = this.currentlyPlayingAnimation.remove(0);
-                Model.print2DArray(this.characterModel.get2DArray());
+                if (System.currentTimeMillis() - this.timer > this.animations.get(playingAnimationName).msPerFrame) {
+                    this.characterModel = this.currentlyPlayingAnimation.remove(0);
+                    // Model.print2DArray(this.characterModel.get2DArray());
+                    this.timer += this.animations.get(playingAnimationName).msPerFrame;
+                }
 
                 if(this.currentlyPlayingAnimation.size() == 0) {
                     this.currentlyPlayingAnimation.clear();
@@ -140,10 +146,10 @@ public class Player implements Entity, Drawable {
         return this.layer;
     }
 
-    public void updateDelta(float dt) {
+    public void updateDelta(double dt) {
         this.dt = dt;
     }
-    public float getDelta() {
+    public double getDelta() {
         return this.dt;
     }
 
