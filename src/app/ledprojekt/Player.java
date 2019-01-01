@@ -14,18 +14,9 @@ public class Player implements Entity, Drawable {
     private double x;
     private double y;
 
-    public Model characterModel = new Model(new int[][][]{
-            {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}},
-            {{127, 0, 0, 1}, {0, 0, 0, 1}, {127, 0 ,0, 1}},
-            {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}},
-            {{0, 0, 0, 0}, {127, 0, 0, 1}, {0, 0 , 0, 0}},
-            {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 , 0, 1}},
-            {{0, 0, 0, 0}, {127, 0, 0, 1}, {0, 0 , 0, 0}},
-            {{127, 0, 0, 1}, {127, 0, 0, 1}, {127, 0 ,0, 1}},
-            {{127, 0, 0, 1}, {0, 0, 0, 0}, {127, 0 ,0, 1}},
-    });
-    private int baseModelWidth = this.characterModel.getWidth();
-    private int baseModelHeight = this.characterModel.getHeight();
+    public Model characterModel;
+    private int baseModelWidth;
+    private int baseModelHeight;
     private Model attachment;
 
     public BoundingBox bounds;
@@ -40,9 +31,13 @@ public class Player implements Entity, Drawable {
     private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
     private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
 
-    Player(int x, int y) {
+    public Player(int x, int y, Model model) {
         this.x = x;
         this.y = y;
+
+        this.characterModel = model;
+        this.baseModelWidth = this.characterModel.getWidth();
+        this.baseModelHeight = this.characterModel.getHeight();
 
         this.updateBoundingBox();
     }

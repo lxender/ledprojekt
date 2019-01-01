@@ -1,5 +1,6 @@
 package app.ledprojekt;
 
+import app.ledprojekt.entities.DefaultPlayer;
 import app.ledprojekt.traits.*;
 import app.ledprojekt.typography.Word;
 import ledControl.BoardController;
@@ -24,14 +25,12 @@ public class Game {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
         KeyBuffer buffer = controller.getKeyBuffer();
 
-        Player player = new Player(0, 0);
-        player.addTraits(new Go(), new Jump(), new Gravity(), new Attack(player));
-        //player.characterModel.flip();
-
         Geometry ground = new Geometry(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
         Geometry block = new Geometry(7, controller.getHeight() - 12, 4, 2, new int[]{80, 90, 0, 1});
         block.setName("block");
         Geometry wall = new Geometry(13, controller.getHeight() - 1 - 5, 1, 5, new int[]{80, 90, 0, 1});
+
+        Player player = new DefaultPlayer(0, 0);
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
         CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, block, wall, player);
