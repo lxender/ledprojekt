@@ -7,17 +7,32 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CollisionLayer {
-    BoardController controller;
-    List<Collidable> objectsInLayer = new ArrayList<>();
+    private BoardController controller;
+    private List<Collidable> objectsInLayer = new ArrayList<>();
 
     CollisionLayer(BoardController controller, Collidable... objects) {
         this.controller = controller;
         this.objectsInLayer.addAll(Arrays.asList(objects));
     }
 
+    public Collidable getObjectAt(int x, int y, int width, int height) {
+        for (Collidable obj : this.objectsInLayer) {
+            BoundingBox bound = obj.getBoundingBox();
+
+            if (x < bound.x + bound.width &&
+                    x + width > bound.x &&
+                    y < bound.y + bound.height &&
+                    height + y > bound.y) {
+                return obj;
+            }
+        }
+        return null;
+    }
+
     public boolean isObstructed(Collidable entityRef, int x, int y) {
         for(Collidable obj : this.objectsInLayer) {
-            if(obj == entityRef) continue;
+            if (obj == entityRef) continue;
+            if (!obj.isSolid()) continue;
 
             BoundingBox entityRefBound = entityRef.getBoundingBox();
             BoundingBox bound = obj.getBoundingBox();

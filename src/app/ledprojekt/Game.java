@@ -30,7 +30,7 @@ public class Game {
         Geometry blockGround = new Geometry(7, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
         Geometry block = new Geometry(7, controller.getHeight() - 14, 4, 2, new int[]{80, 90, 0, 1});
         block.setName("block");
-        Geometry wall = new Geometry(13, controller.getHeight() - 1 - 5, 1, 5, new int[]{80, 90, 0, 1});
+        Geometry wall = new Geometry(13, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
         Player player = new DefaultPlayer(0, 0);
 

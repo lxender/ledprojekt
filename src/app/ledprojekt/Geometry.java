@@ -9,6 +9,7 @@ public class Geometry implements Drawable, Collidable {
 
     private BoundingBox bounds;
     private CollisionLayer layer;
+    private boolean isSolid = true;
 
     private String name;
 
@@ -32,6 +33,13 @@ public class Geometry implements Drawable, Collidable {
     }
     public String getName() {
         return this.name;
+    }
+
+    public void setSolid(boolean setting) {
+        this.isSolid = setting;
+    }
+    public boolean isSolid() {
+        return this.isSolid;
     }
 
     private void updateBoundingBox() {

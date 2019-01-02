@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 public class Player implements Entity, Drawable {
     private double x;
@@ -75,6 +74,10 @@ public class Player implements Entity, Drawable {
     private void updateBoundingBox() {
         // System.out.println(String.format("Updating bounds, x: %d, y: %d", this.x, this.y));
         this.bounds = new BoundingBox((int) this.x, (int) this.y, this.baseModelWidth, this.baseModelHeight);
+    }
+
+    public boolean isSolid() {
+        return true;
     }
 
     public void addTraits(Trait... traits) {

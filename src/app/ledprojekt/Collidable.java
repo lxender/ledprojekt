@@ -7,5 +7,6 @@ public interface Collidable {
     CollisionLayer getCollisionLayerRef();
     void draw(BoardController controller);
     void update();
+    boolean isSolid();
     BoundingBox getBoundingBox();
 }
