@@ -92,23 +92,25 @@ public class Weapon implements Collidable {
 
     public void updatePlayerRef(Player player) {
         this.player = player;
-        if (this.player.isFlipped() && !this.model.isFlipped()) {
+        if (this.player.isFlipped() && !(this.model.isFlipped() == this.player.isFlipped())) {
             this.model.flip();
         }
     }
 
     public void update() {
         if (this.player != null) {
+            if (this.player.isFlipped() && !(this.model.isFlipped() == this.player.isFlipped())) {
+                this.model.flip();
+            }
+
             if(!this.player.isFlipped()) {
                 this.x = this.player.getX() + this.offsetX;
                 this.y = this.player.getY() + this.offsetY;
             } else {
-                if (!this.model.isFlipped()) {
-                    this.model.flip();
-                }
                 this.x = player.getX() - (player.getBoundingBox().width - this.offsetX);
                 this.y = player.getY() + this.offsetY;
             }
+
             this.updateBoundingBox();
         }
 
@@ -116,7 +118,6 @@ public class Weapon implements Collidable {
             Collidable intersectionObject = null;
 
             if (this.player.isFlipped()) {
-                BoundingBox pBound = player.getBoundingBox();
                 intersectionObject = layer.getObjectAt(this.x - this.model.getWidth(), this.y, this.model.getWidth(), this.model.getHeight());
             } else {
                 intersectionObject = layer.getObjectAt(this.x, this.y, this.model.getWidth(), this.model.getHeight());
@@ -128,8 +129,9 @@ public class Weapon implements Collidable {
                 }
                 int damageCooldown = 1000;
                 if (System.currentTimeMillis() - this.collisionTimer > damageCooldown) {
-                    this.collisionTimer += damageCooldown;
                     System.out.println("Collided with: " + intersectionObject);
+
+                    this.collisionTimer += damageCooldown;
                 }
             }
         }
