@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 public class Jump extends Trait {
 
-    private int height = 2;
+    private int height = 3;
 
     @Override
     public void update(Entity entity) {
