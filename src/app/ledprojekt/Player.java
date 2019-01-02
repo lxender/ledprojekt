@@ -20,7 +20,7 @@ public class Player implements Entity, Drawable {
     private int baseModelWidth;
     private int baseModelHeight;
     private boolean modelIsFlipped = false;
-    private Model attachment;
+    private Weapon weapon;
 
     public BoundingBox bounds;
 
@@ -84,11 +84,11 @@ public class Player implements Entity, Drawable {
         this.traits.addAll(Arrays.asList(traits));
     }
 
-    public void addWeapon(Model weapon, int x, int y) {
-        this.characterModel.appendAttachment(weapon, x, y);
-        this.attachment = weapon;
-
-        this.updateBoundingBox();
+    public void addWeapon(Weapon weapon) {
+        this.weapon = weapon;
+    }
+    public Weapon getWeapon() {
+        return this.weapon;
     }
 
     public void addAnimation(String name, int durationInMillis, Model... models) {
@@ -101,37 +101,17 @@ public class Player implements Entity, Drawable {
         this.animationPlayStates.put(name.toLowerCase(), value);
         this.timer = System.currentTimeMillis();
     }
-    private String findAnimation() {
-        if (this.animationPlayStates.containsValue(true)) {
-            for(String k : this.animationPlayStates.keySet()) {
-                if(this.animationPlayStates.get(k.toLowerCase())) {
-                    return k;
-                }
-            }
-        }
-        return null;
-    }
     private void playAnimation() {
         if (!this.animationPlayStates.isEmpty()) {
-            String playingAnimationName = this.findAnimation();
+            String playingAnimationName = Animation.findAnimation(this.animationPlayStates);
 
             if (playingAnimationName != null) {
-                if (this.currentlyPlayingAnimation.isEmpty()) {
-                    this.currentlyPlayingAnimation.addAll(this.animations.get(playingAnimationName).list);
-                }
-
-                if (System.currentTimeMillis() - this.timer > this.animations.get(playingAnimationName).msPerFrame) {
-                    this.characterModel = this.currentlyPlayingAnimation.remove(0);
-                    // Model.print2DArray(this.characterModel.get2DArray());
-                    this.timer += this.animations.get(playingAnimationName).msPerFrame;
-                }
-
-                if(this.currentlyPlayingAnimation.size() == 0) {
-                    this.currentlyPlayingAnimation.clear();
-                    this.animationPlayStates.replace(playingAnimationName, false);
+                AnimationWrapper anim = this.animations.get(playingAnimationName);
+                if (System.currentTimeMillis() - this.timer > anim.msPerFrame) {
+                    this.characterModel = Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, animationPlayStates);
+                    this.timer += anim.msPerFrame;
                 }
             }
-
         }
     }
 
@@ -157,12 +137,24 @@ public class Player implements Entity, Drawable {
     }
 
     public void update() {
+        if (this.weapon != null) {
+            this.weapon.updatePlayerRef(this);
+            this.weapon.updateCollisionLayerRef(this.layer);
+            this.weapon.update();
+        }
+
         for (Trait trait : this.traits) {
             trait.update(this);
         }
     }
+
     public void draw(BoardController controller) {
         this.playAnimation();
+
+        if (this.weapon != null) {
+            this.weapon.draw(controller);
+        }
+
         this.characterModel.draw(controller, (int) this.x, (int) this.y);
     }
 }

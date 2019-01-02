@@ -7,10 +7,10 @@ import app.ledprojekt.Player;
 
 import java.awt.event.KeyEvent;
 
-public class Attack extends Trait {
-    private String animationName = "";
+public class AttackWithWeapon extends Trait {
+    private String animationName;
 
-    public Attack(String name) {
+    public AttackWithWeapon(String name) {
         this.animationName = name;
     }
 
@@ -20,7 +20,9 @@ public class Attack extends Trait {
 
         if (event != null) {
             if (event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == KeyEvent.VK_E) {
-                entity.setAnimationPlayState(animationName, true);
+                if (entity instanceof Player && ((Player) entity).getWeapon() != null) {
+                    ((Player) entity).getWeapon().setAnimationPlayState(animationName, true);
+                }
             }
         }
     }
