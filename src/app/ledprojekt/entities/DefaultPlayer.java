@@ -2,11 +2,8 @@ package app.ledprojekt.entities;
 
 import app.ledprojekt.Model;
 import app.ledprojekt.Player;
-import app.ledprojekt.Sword;
-import app.ledprojekt.traits.Go;
-import app.ledprojekt.traits.Gravity;
-import app.ledprojekt.traits.Jump;
-import app.ledprojekt.traits.AttackWithWeapon;
+import app.ledprojekt.weapons.Sword;
+import app.ledprojekt.traits.*;
 
 public class DefaultPlayer extends Player {
     static Model model = new Model(new int[][][]{

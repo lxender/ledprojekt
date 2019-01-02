@@ -1,5 +1,6 @@
-package app.ledprojekt;
+package app.ledprojekt.weapons;
 
+import app.ledprojekt.*;
 import ledControl.BoardController;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ public class Weapon implements Collidable {
 
     private Player player;
 
+    private long collisionTimer = 0;
     private long timer = 0;
+
     private HashMap<String, AnimationWrapper> animations = new HashMap<>();
     private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
     private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
@@ -78,7 +81,8 @@ public class Weapon implements Collidable {
     }
 
     public boolean isSolid() {
-        return true;
+        // true würde (momentan?) nichts machen
+        return false;
     }
 
     public BoundingBox getBoundingBox() {
@@ -97,7 +101,17 @@ public class Weapon implements Collidable {
         this.y = this.player.getY() + this.offsetY;
 
         if (layer.isObstructed(this, this.x, this.y)) {
-            System.out.println("Weapon intersected!");
+            Collidable intersectionObject = layer.getObjectAt(this.x, this.y, this.model.getWidth(), this.model.getHeight());
+            if (intersectionObject != null) {
+                if (this.collisionTimer == 0) {
+                    this.collisionTimer = System.currentTimeMillis();
+                }
+                int damageCooldown = 1000;
+                if (System.currentTimeMillis() - this.collisionTimer > damageCooldown) {
+                    this.collisionTimer += damageCooldown;
+                    System.out.println("Collided with: " + intersectionObject);
+                }
+            }
         }
     }
     public void draw(BoardController controller) {

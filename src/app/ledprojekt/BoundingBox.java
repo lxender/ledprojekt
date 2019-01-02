@@ -6,7 +6,7 @@ public class BoundingBox {
     public int width;
     public int height;
 
-    BoundingBox(int x, int y, int width, int height) {
+    public BoundingBox(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;

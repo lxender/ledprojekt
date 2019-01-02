@@ -1,4 +1,7 @@
-package app.ledprojekt;
+package app.ledprojekt.weapons;
+
+import app.ledprojekt.Model;
+import app.ledprojekt.weapons.Weapon;
 
 public class Sword extends Weapon {
     private static Model model = new Model(new int[][][]{

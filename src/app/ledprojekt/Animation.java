@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Animation {
-    static String findAnimation(HashMap<String, Boolean> animationPlayStates) {
+    public static String findAnimation(HashMap<String, Boolean> animationPlayStates) {
         if (animationPlayStates.containsValue(true)) {
             for(String k : animationPlayStates.keySet()) {
                 if(animationPlayStates.get(k.toLowerCase())) {
@@ -15,7 +15,7 @@ public class Animation {
         return null;
     }
 
-    static Model getFrame(String name, ArrayList<Model> currentlyPlayingAnimation, AnimationWrapper anim, HashMap<String, Boolean> animationPlayStates) {
+    public static Model getFrame(String name, ArrayList<Model> currentlyPlayingAnimation, AnimationWrapper anim, HashMap<String, Boolean> animationPlayStates) {
         if (currentlyPlayingAnimation.isEmpty()) {
             currentlyPlayingAnimation.addAll(anim.list);
         }

@@ -1,6 +1,7 @@
 package app.ledprojekt;
 
 import app.ledprojekt.traits.Trait;
+import app.ledprojekt.weapons.Weapon;
 import ledControl.BoardController;
 
 import java.awt.event.KeyEvent;
