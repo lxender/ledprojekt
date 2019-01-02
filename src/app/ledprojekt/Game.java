@@ -10,7 +10,7 @@ import ledControl.gui.KeyBuffer;
 import java.awt.event.KeyEvent;
 
 public class Game {
-    static boolean PRINT_FPS = false;
+    static boolean PRINT_FPS = true;
 
     private void drawBorder(BoardController controller) {
         for (int i = 0; i < controller.getHeight(); i++) {
@@ -37,27 +37,28 @@ public class Game {
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
         CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround, block, wall, player);
 
-        long lastTime = System.nanoTime();
         long timer = System.currentTimeMillis();
-        double ns = 1000000000.0 / 60.0;
-        double delta = 0;
+        long lastTime = System.currentTimeMillis();
+        double step = 1/60.0;
+        //double ns = 1000000000.0 / 60.0;
+        double accumulator = 0;
 
         int frames = 0;
         int updates = 0;
 
         while(true) {
-            long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
+            long now = System.currentTimeMillis();
+            accumulator += (now - lastTime) / 1000.0;
             lastTime = now;
 
             // System.out.println(delta);
 
             // ### ### ### UPDATING ### ### ###
-            while(delta >= 1) {
+            while(accumulator > step) {
                 KeyEvent event = buffer.pop();
                 player.updateKeyEventRef(event);
 
-                player.updateDelta(delta);
+                player.updateDelta(step);
 
                 foregroundLayer.update();
 
@@ -65,7 +66,7 @@ public class Game {
                     updates++;
                 }
 
-                delta--;
+                accumulator -= step;
             }
 
             // ### ### ### RENDERING ### ### ###
