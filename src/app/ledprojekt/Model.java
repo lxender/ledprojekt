@@ -28,6 +28,7 @@ public class Model {
     }
 
     private int[][][] model;
+    private boolean isFlipped = false;
 
     public Model(int[][][] array) {
         this.model = array;
@@ -87,109 +88,112 @@ public class Model {
             Collections.reverse(flipped);
             this.model[i] = flipped.toArray(new int[][]{});
         }
+        this.isFlipped = !this.isFlipped;
     }
-
-    public void appendAttachment(Model attachment, int x, int y) {
-        this.model = this.calculateArrayWithAttachment(attachment, x, y);
+    public boolean isFlipped() {
+        return this.isFlipped;
     }
-    public Model calculateModelWithAttachment(Model attachment, int x, int y) {
-        return new Model(this.calculateArrayWithAttachment(attachment, x, y));
-    }
-    private int[][][] calculateArrayWithAttachment(Model attachment, int x, int y) {
-        int[][][] array = attachment.get2DArray();
-        int[][][] modelCopy = Arrays.copyOf(this.model, this.model.length);
-
-        array = squareArray(array, new int[]{0, 0, 0, 0});
-        modelCopy = this.extendArray(modelCopy, x + array[0].length, y + array.length, new int[]{0, 0, 0, 0});
-        //Model.print2DArray(array);
-
-        for (int i = 0; i < array.length; i++) {
-            for (int j = 0; j < array[i].length; j++) {
-                // System.out.println(String.format("Model i: %d, model j: %d", modelCopy.length - y - (array.length - 1 - i), x + j));
-                modelCopy[modelCopy.length - y - (array.length - 1 - i)][x + j] = array[i][j];
-            }
-        }
-
-        return modelCopy;
-    }
-    private int getLongestRow(int[][][] array) {
-        int[] lengths = Arrays.stream(array).mapToInt(row -> row.length).toArray();
-        Arrays.sort(lengths);
-        return lengths[lengths.length - 1];
-    }
-    private int[][][] extendArray(int[][][] array, int newLengthX, int newLengthY, int[] newValue) {
-        int[][][] copy = Arrays.copyOf(array, array.length);
-
-        if (newLengthY > array.length) {
-            int[][][] largerCopy = Arrays.copyOf(copy, newLengthY);
-            for (int i = copy.length; i < newLengthY; i++) {
-                largerCopy[i] = new int[largerCopy[0].length][];
-
-                for(int j = 0; j < largerCopy[i].length; j++) {
-                    largerCopy[i][j] = newValue;
-                }
-            }
-            copy = largerCopy;
-        }
-
-        if (newLengthY < 0) {
-            int[][][] temp = new int[copy.length + Math.abs(newLengthY)][array[0].length][];
-
-            for (int i = 0; i < copy.length + Math.abs(newLengthY); i++) {
-                for (int j = 0; j < temp[i].length; j++) {
-                    if(i < Math.abs(newLengthY)) {
-                        temp[i][j] = newValue;
-                    } else {
-                        temp[i][j] = copy[i - Math.abs(newLengthY)][j];
-                    }
-                }
-            }
-            copy = temp;
-        }
-
-        if (newLengthX > array[0].length) {
-            for (int i = 0; i < copy.length; i++) {
-                int[][] largerRowCopy = Arrays.copyOf(copy[i], newLengthX);
-                for (int j = copy[i].length; j < largerRowCopy.length; j++) {
-                    largerRowCopy[j] = newValue;
-                }
-                copy[i] = largerRowCopy;
-            }
-        }
-
-        if (newLengthX < 0) {
-            for(int i = 0; i < copy.length; i++) {
-                int[][] row = new int[Math.abs(newLengthX) + copy[i].length][];
-                for (int j = 0; j < row.length; j++) {
-                    if (j < Math.abs(newLengthX)) {
-                        row[j] = newValue;
-                    } else {
-                        row[j] = copy[i][j - Math.abs(newLengthX)];
-                    }
-                }
-                copy[i] = row;
-            }
-        }
-
-        return copy;
-    }
-    private int[][][] squareArray(int[][][] array, int[] newValue) {
-        int longestRowLength = this.getLongestRow(array);
-
-        int[][][] temp = new int[array.length][longestRowLength][];
-
-        for (int i = 0; i < temp.length; i++) {
-            for (int j = 0; j < temp[i].length; j++) {
-                try {
-                    temp[i][j] = array[i][j];
-                } catch(ArrayIndexOutOfBoundsException e) {
-                    temp[i][j] = newValue;
-                }
-            }
-        }
-
-        return temp;
-    }
+    //    public void appendAttachment(Model attachment, int x, int y) {
+//        this.model = this.calculateArrayWithAttachment(attachment, x, y);
+//    }
+//    public Model calculateModelWithAttachment(Model attachment, int x, int y) {
+//        return new Model(this.calculateArrayWithAttachment(attachment, x, y));
+//    }
+//    private int[][][] calculateArrayWithAttachment(Model attachment, int x, int y) {
+//        int[][][] array = attachment.get2DArray();
+//        int[][][] modelCopy = Arrays.copyOf(this.model, this.model.length);
+//
+//        array = squareArray(array, new int[]{0, 0, 0, 0});
+//        modelCopy = this.extendArray(modelCopy, x + array[0].length, y + array.length, new int[]{0, 0, 0, 0});
+//        //Model.print2DArray(array);
+//
+//        for (int i = 0; i < array.length; i++) {
+//            for (int j = 0; j < array[i].length; j++) {
+//                // System.out.println(String.format("Model i: %d, model j: %d", modelCopy.length - y - (array.length - 1 - i), x + j));
+//                modelCopy[modelCopy.length - y - (array.length - 1 - i)][x + j] = array[i][j];
+//            }
+//        }
+//
+//        return modelCopy;
+//    }
+//    private int getLongestRow(int[][][] array) {
+//        int[] lengths = Arrays.stream(array).mapToInt(row -> row.length).toArray();
+//        Arrays.sort(lengths);
+//        return lengths[lengths.length - 1];
+//    }
+//    private int[][][] extendArray(int[][][] array, int newLengthX, int newLengthY, int[] newValue) {
+//        int[][][] copy = Arrays.copyOf(array, array.length);
+//
+//        if (newLengthY > array.length) {
+//            int[][][] largerCopy = Arrays.copyOf(copy, newLengthY);
+//            for (int i = copy.length; i < newLengthY; i++) {
+//                largerCopy[i] = new int[largerCopy[0].length][];
+//
+//                for(int j = 0; j < largerCopy[i].length; j++) {
+//                    largerCopy[i][j] = newValue;
+//                }
+//            }
+//            copy = largerCopy;
+//        }
+//
+//        if (newLengthY < 0) {
+//            int[][][] temp = new int[copy.length + Math.abs(newLengthY)][array[0].length][];
+//
+//            for (int i = 0; i < copy.length + Math.abs(newLengthY); i++) {
+//                for (int j = 0; j < temp[i].length; j++) {
+//                    if(i < Math.abs(newLengthY)) {
+//                        temp[i][j] = newValue;
+//                    } else {
+//                        temp[i][j] = copy[i - Math.abs(newLengthY)][j];
+//                    }
+//                }
+//            }
+//            copy = temp;
+//        }
+//
+//        if (newLengthX > array[0].length) {
+//            for (int i = 0; i < copy.length; i++) {
+//                int[][] largerRowCopy = Arrays.copyOf(copy[i], newLengthX);
+//                for (int j = copy[i].length; j < largerRowCopy.length; j++) {
+//                    largerRowCopy[j] = newValue;
+//                }
+//                copy[i] = largerRowCopy;
+//            }
+//        }
+//
+//        if (newLengthX < 0) {
+//            for(int i = 0; i < copy.length; i++) {
+//                int[][] row = new int[Math.abs(newLengthX) + copy[i].length][];
+//                for (int j = 0; j < row.length; j++) {
+//                    if (j < Math.abs(newLengthX)) {
+//                        row[j] = newValue;
+//                    } else {
+//                        row[j] = copy[i][j - Math.abs(newLengthX)];
+//                    }
+//                }
+//                copy[i] = row;
+//            }
+//        }
+//
+//        return copy;
+//    }
+//    private int[][][] squareArray(int[][][] array, int[] newValue) {
+//        int longestRowLength = this.getLongestRow(array);
+//
+//        int[][][] temp = new int[array.length][longestRowLength][];
+//
+//        for (int i = 0; i < temp.length; i++) {
+//            for (int j = 0; j < temp[i].length; j++) {
+//                try {
+//                    temp[i][j] = array[i][j];
+//                } catch(ArrayIndexOutOfBoundsException e) {
+//                    temp[i][j] = newValue;
+//                }
+//            }
+//        }
+//
+//        return temp;
+//    }
 
     public int[][][] get2DArray() {
         return this.model;

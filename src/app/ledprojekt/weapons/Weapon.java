@@ -35,14 +35,12 @@ public class Weapon implements Collidable {
         this.updateBoundingBox();
     }
 
-    public int getX() {
-        return this.x;
+    public int getOffsetX() {
+        return this.offsetX;
     }
-    public void setX(int x) { this.x = x; }
-    public int getY() {
-        return this.y;
+    public int getOffsetY() {
+        return this.offsetY;
     }
-    public void setY(int y) { this.y = y; }
 
     public Model getModel() {
         return this.model;
@@ -65,7 +63,7 @@ public class Weapon implements Collidable {
             if (playingAnimationName != null) {
                 AnimationWrapper anim = this.animations.get(playingAnimationName);
                 if (System.currentTimeMillis() - this.timer > anim.msPerFrame) {
-                    this.model = Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, animationPlayStates);
+                    this.model = Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, this.animationPlayStates);
                     this.updateBoundingBox();
                     this.timer += anim.msPerFrame;
                 }
@@ -94,14 +92,36 @@ public class Weapon implements Collidable {
 
     public void updatePlayerRef(Player player) {
         this.player = player;
+        if (this.player.isFlipped() && !this.model.isFlipped()) {
+            this.model.flip();
+        }
     }
 
     public void update() {
-        this.x = this.player.getX() + this.offsetX;
-        this.y = this.player.getY() + this.offsetY;
+        if (this.player != null) {
+            if(!this.player.isFlipped()) {
+                this.x = this.player.getX() + this.offsetX;
+                this.y = this.player.getY() + this.offsetY;
+            } else {
+                if (!this.model.isFlipped()) {
+                    this.model.flip();
+                }
+                this.x = player.getX() - (player.getBoundingBox().width - this.offsetX);
+                this.y = player.getY() + this.offsetY;
+            }
+            this.updateBoundingBox();
+        }
 
         if (layer.isObstructed(this, this.x, this.y)) {
-            Collidable intersectionObject = layer.getObjectAt(this.x, this.y, this.model.getWidth(), this.model.getHeight());
+            Collidable intersectionObject = null;
+
+            if (this.player.isFlipped()) {
+                BoundingBox pBound = player.getBoundingBox();
+                intersectionObject = layer.getObjectAt(this.x - this.model.getWidth(), this.y, this.model.getWidth(), this.model.getHeight());
+            } else {
+                intersectionObject = layer.getObjectAt(this.x, this.y, this.model.getWidth(), this.model.getHeight());
+            }
+
             if (intersectionObject != null) {
                 if (this.collisionTimer == 0) {
                     this.collisionTimer = System.currentTimeMillis();
@@ -116,6 +136,10 @@ public class Weapon implements Collidable {
     }
     public void draw(BoardController controller) {
         this.playAnimation();
-        this.model.draw(controller, this.x, this.y);
+        if (this.model.isFlipped()) {
+            this.model.draw(controller, this.x - this.model.getWidth(), this.y);
+        } else {
+            this.model.draw(controller, this.x, this.y);
+        }
     }
 }

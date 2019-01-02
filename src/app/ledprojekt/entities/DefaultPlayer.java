@@ -23,5 +23,7 @@ public class DefaultPlayer extends Player {
         this.addTraits(new Go(), new Jump(), new Gravity(), new AttackWithWeapon("attack"));
 
         this.addWeapon(new Sword(3, 1));
+
+        this.flip();
     }
 }

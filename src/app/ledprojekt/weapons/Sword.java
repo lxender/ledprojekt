@@ -26,6 +26,6 @@ public class Sword extends Weapon {
                 {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
                 {{0,65,24,1}, {0,45,24,1}, {0,34,24,1}, {0,23,24,1}},
         });
-        this.addAnimation("attack", 200, model, frame2, frame3, frame2, model);
+        this.addAnimation("attack", 2000, model, frame2, frame3, frame2, model);
     }
 }

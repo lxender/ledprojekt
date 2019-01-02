@@ -85,6 +85,14 @@ public class Player implements Entity, Drawable {
         this.traits.addAll(Arrays.asList(traits));
     }
 
+    public void flip() {
+        this.modelIsFlipped = !this.modelIsFlipped;
+        characterModel.flip();
+    }
+    public boolean isFlipped() {
+        return this.modelIsFlipped;
+    }
+
     public void addWeapon(Weapon weapon) {
         this.weapon = weapon;
     }
