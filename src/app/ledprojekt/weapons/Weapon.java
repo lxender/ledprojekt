@@ -20,7 +20,7 @@ public class Weapon implements Collidable {
 
     private Player player;
 
-    private long collisionTimer = 0;
+    private long collisionTimer = -1;
 
     private AnimationManager animManager = new AnimationManager();
 
@@ -115,14 +115,15 @@ public class Weapon implements Collidable {
             if (intersectionObject != null) {
                 if (this.player != null && this.player == intersectionObject) return;
 
-                if (this.collisionTimer == 0) {
+                if (this.collisionTimer == -1) {
                     this.collisionTimer = System.currentTimeMillis();
                 }
+
                 int damageCooldown = 1000;
                 if (System.currentTimeMillis() - this.collisionTimer > damageCooldown) {
                     System.out.println("Collided with: " + intersectionObject);
 
-                    this.collisionTimer += damageCooldown;
+                    this.collisionTimer = -1;
                 }
             }
         }
