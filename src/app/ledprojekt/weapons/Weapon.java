@@ -20,6 +20,7 @@ public class Weapon implements Collidable {
 
     private Player player;
 
+    private int damage = 5;
     private long collisionTimer = -1;
 
     private AnimationManager animManager = new AnimationManager();
@@ -122,9 +123,18 @@ public class Weapon implements Collidable {
                 int damageCooldown = 1000;
                 if (System.currentTimeMillis() - this.collisionTimer > damageCooldown) {
                     System.out.println("Collided with: " + intersectionObject);
+                    this.doDamageOn(intersectionObject);
 
                     this.collisionTimer = -1;
                 }
+            }
+        }
+    }
+    public void doDamageOn(Collidable obj) {
+        if (obj instanceof Player) {
+            if(((Player) obj).isKillable()) {
+                ((Player) obj).decreaseHealth(this.damage);
+                System.out.println(((Player) obj).getHealth());
             }
         }
     }

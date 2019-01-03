@@ -30,12 +30,15 @@ public class Game {
         Geometry blockGround = new Geometry(7, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
         Geometry block = new Geometry(7, controller.getHeight() - 14, 4, 2, new int[]{80, 90, 0, 1});
         block.setName("block");
-        Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
+        //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
         Player player = new DefaultPlayer(13, 0);
+        Player dummy = new DefaultPlayer(1, 0);
+        dummy.removeTrait("Go");
+        dummy.removeWeapon();
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
-        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround, block, wall, player);
+        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround, block, dummy, player);
 
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
@@ -59,6 +62,7 @@ public class Game {
                 player.updateKeyEventRef(event);
 
                 player.updateDelta(step);
+                dummy.updateDelta(step);
 
                 foregroundLayer.update();
 

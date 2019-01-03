@@ -6,13 +6,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CollisionLayer {
+public class CollisionLayer{
     private BoardController controller;
     private List<Collidable> objectsInLayer = new ArrayList<>();
 
     CollisionLayer(BoardController controller, Collidable... objects) {
         this.controller = controller;
         this.objectsInLayer.addAll(Arrays.asList(objects));
+    }
+
+    public void removeObjectInLayer(Collidable obj) {
+        this.objectsInLayer.remove(obj);
     }
 
     public Collidable getObjectAt(int x, int y, int width, int height) {
