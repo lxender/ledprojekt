@@ -1,6 +1,7 @@
 package app.ledprojekt.weapons;
 
 import app.ledprojekt.Model;
+import app.ledprojekt.Player;
 import app.ledprojekt.weapons.Weapon;
 
 public class Sword extends Weapon {
@@ -11,8 +12,8 @@ public class Sword extends Weapon {
             {{0,23,97,1}}
     });
 
-    public Sword(int x, int y) {
-        super(model, x, y);
+    public Sword(int x, int y, Player player) {
+        super(model, x, y, player);
 
         Model frame2 = new Model(new int[][][]{
                 {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0,23,24,1}},
@@ -26,6 +27,6 @@ public class Sword extends Weapon {
                 {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}},
                 {{0,65,24,1}, {0,45,24,1}, {0,34,24,1}, {0,23,24,1}},
         });
-        this.addAnimation("attack", 2000, model, frame2, frame3, frame2, model);
+        this.addAnimation("attack", 500, model, frame2, frame3, frame2, model);
     }
 }

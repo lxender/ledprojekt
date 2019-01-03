@@ -27,8 +27,9 @@ public class Weapon implements Collidable {
     private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
     private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
 
-    public Weapon(Model model, int x, int y) {
-        this.model = model;
+    public Weapon(Model model, int x, int y, Player player) {
+        this.player = player;
+        this.setModel(model);
         this.offsetX = x;
         this.offsetY = y;
 
@@ -44,6 +45,18 @@ public class Weapon implements Collidable {
 
     public Model getModel() {
         return this.model;
+    }
+    private void setModel(Model model) {
+        if (this.player != null) {
+            if (this.player.isFlipped()) {
+                this.model = model;
+                if (!this.model.isFlipped()) this.model.flip();
+
+                return;
+            }
+        }
+
+        this.model = model;
     }
 
     public void addAnimation(String name, int durationInMillis, Model... models) {
@@ -63,7 +76,7 @@ public class Weapon implements Collidable {
             if (playingAnimationName != null) {
                 AnimationWrapper anim = this.animations.get(playingAnimationName);
                 if (System.currentTimeMillis() - this.timer > anim.msPerFrame) {
-                    this.model = Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, this.animationPlayStates);
+                    this.setModel(Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, this.animationPlayStates));
                     this.updateBoundingBox();
                     this.timer += anim.msPerFrame;
                 }
@@ -92,17 +105,10 @@ public class Weapon implements Collidable {
 
     public void updatePlayerRef(Player player) {
         this.player = player;
-        if (this.player.isFlipped() && !(this.model.isFlipped() == this.player.isFlipped())) {
-            this.model.flip();
-        }
     }
 
     public void update() {
         if (this.player != null) {
-            if (this.player.isFlipped() && !(this.model.isFlipped() == this.player.isFlipped())) {
-                this.model.flip();
-            }
-
             if(!this.player.isFlipped()) {
                 this.x = this.player.getX() + this.offsetX;
                 this.y = this.player.getY() + this.offsetY;
@@ -124,6 +130,8 @@ public class Weapon implements Collidable {
             }
 
             if (intersectionObject != null) {
+                if (this.player != null && this.player == intersectionObject) return;
+
                 if (this.collisionTimer == 0) {
                     this.collisionTimer = System.currentTimeMillis();
                 }
