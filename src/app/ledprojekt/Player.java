@@ -25,6 +25,7 @@ public class Player implements Entity, Drawable {
 
     private BoundingBox bounds;
 
+    private boolean drawHealthbar = true;
     private int health = 20;
     private boolean killable = true;
 
@@ -100,6 +101,22 @@ public class Player implements Entity, Drawable {
         }
 
         return false;
+    }
+
+    public void disableHealthbar() {
+        this.drawHealthbar = false;
+    }
+    private void drawHealthbar(BoardController controller, int x, int y) {
+        int[] oneToTenColor = new int[]{127, 25, 3};
+        int[] tenToTwentyColor = new int[]{127, 96, 3};
+
+        int maxX = 10;
+        for (int i = 0; i < this.health; i++) {
+            int[] color = (i < maxX) ? oneToTenColor : tenToTwentyColor;
+            int xCord = x + (i % maxX);
+            controller.setColor(xCord, y, color);
+
+        }
     }
 
     public boolean isSolid() {
