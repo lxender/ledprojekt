@@ -21,7 +21,6 @@ public class DefaultPlayer extends Player {
         super(x, y, model);
 
         this.addTraits(new Go(), new Jump(), new Gravity(), new AttackWithWeapon("attack"));
-        this.flip();
         this.addWeapon(new Sword(3, 1, this));
     }
 }

@@ -21,11 +21,8 @@ public class Weapon implements Collidable {
     private Player player;
 
     private long collisionTimer = 0;
-    private long timer = 0;
 
-    private HashMap<String, AnimationWrapper> animations = new HashMap<>();
-    private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
-    private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
+    private AnimationManager animManager = new AnimationManager();
 
     public Weapon(Model model, int x, int y, Player player) {
         this.player = player;
@@ -51,36 +48,34 @@ public class Weapon implements Collidable {
             if (this.player.isFlipped()) {
                 this.model = model;
                 if (!this.model.isFlipped()) this.model.flip();
+                this.updateBoundingBox();
 
                 return;
             }
         }
 
         this.model = model;
+        this.updateBoundingBox();
+    }
+
+    private void checkFlip() {
+        if (this.player != null) {
+            if (this.model.isFlipped() != this.player.isFlipped()) {
+                this.model.flip();
+            }
+        }
     }
 
     public void addAnimation(String name, int durationInMillis, Model... models) {
-        //System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
-        ArrayList<Model> list = new ArrayList<>(Arrays.asList(models));
-        AnimationWrapper wrapper = new AnimationWrapper(durationInMillis, list);
-        this.animations.put(name.toLowerCase(), wrapper);
+        this.animManager.addAnimation(name, durationInMillis, models);
     }
     public void setAnimationPlayState(String name, boolean value) {
-        this.animationPlayStates.put(name.toLowerCase(), value);
-        this.timer = System.currentTimeMillis();
+        this.animManager.setAnimationPlayState(name, value);
     }
     private void playAnimation() {
-        if (!this.animationPlayStates.isEmpty()) {
-            String playingAnimationName = Animation.findAnimation(this.animationPlayStates);
-
-            if (playingAnimationName != null) {
-                AnimationWrapper anim = this.animations.get(playingAnimationName);
-                if (System.currentTimeMillis() - this.timer > anim.msPerFrame) {
-                    this.setModel(Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, this.animationPlayStates));
-                    this.updateBoundingBox();
-                    this.timer += anim.msPerFrame;
-                }
-            }
+        Model frame = this.animManager.playAnimation();
+        if (frame != null) {
+            this.setModel(frame);
         }
     }
 
@@ -107,19 +102,7 @@ public class Weapon implements Collidable {
         this.player = player;
     }
 
-    public void update() {
-        if (this.player != null) {
-            if(!this.player.isFlipped()) {
-                this.x = this.player.getX() + this.offsetX;
-                this.y = this.player.getY() + this.offsetY;
-            } else {
-                this.x = player.getX() - (player.getBoundingBox().width - this.offsetX);
-                this.y = player.getY() + this.offsetY;
-            }
-
-            this.updateBoundingBox();
-        }
-
+    private void checkCollision() {
         if (layer.isObstructed(this, this.x, this.y)) {
             Collidable intersectionObject = null;
 
@@ -144,8 +127,25 @@ public class Weapon implements Collidable {
             }
         }
     }
+
+    public void update() {
+        if (this.player != null) {
+            if(this.player.isFlipped()) {
+                this.x = player.getX() - (player.getBoundingBox().width - this.offsetX);
+                this.y = player.getY() + this.offsetY;
+            } else {
+                this.x = this.player.getX() + this.offsetX;
+                this.y = this.player.getY() + this.offsetY;
+            }
+
+            this.updateBoundingBox();
+        }
+
+        this.checkCollision();
+    }
     public void draw(BoardController controller) {
         this.playAnimation();
+        this.checkFlip();
         if (this.model.isFlipped()) {
             this.model.draw(controller, this.x - this.model.getWidth(), this.y);
         } else {

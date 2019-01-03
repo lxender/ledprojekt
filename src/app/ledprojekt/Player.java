@@ -31,10 +31,7 @@ public class Player implements Entity, Drawable {
 
     private double dt;
 
-    private long timer = 0;
-    private HashMap<String, AnimationWrapper> animations = new HashMap<>();
-    private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
-    private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
+    private AnimationManager animManager = new AnimationManager();
 
     public Player(int x, int y, Model model) {
         this.x = x;
@@ -88,6 +85,12 @@ public class Player implements Entity, Drawable {
     public void flip() {
         this.modelIsFlipped = !this.modelIsFlipped;
         characterModel.flip();
+        if (this.weapon != null) {
+            if (this.weapon.getModel().isFlipped() != this.modelIsFlipped) {
+                this.weapon.getModel().flip();
+            }
+        }
+        this.updateBoundingBox();
     }
     public boolean isFlipped() {
         return this.modelIsFlipped;
@@ -101,26 +104,16 @@ public class Player implements Entity, Drawable {
     }
 
     public void addAnimation(String name, int durationInMillis, Model... models) {
-        //System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
-        ArrayList<Model> list = new ArrayList<>(Arrays.asList(models));
-        AnimationWrapper wrapper = new AnimationWrapper(durationInMillis, list);
-        this.animations.put(name.toLowerCase(), wrapper);
+        this.animManager.addAnimation(name, durationInMillis, models);
     }
     public void setAnimationPlayState(String name, boolean value) {
-        this.animationPlayStates.put(name.toLowerCase(), value);
-        this.timer = System.currentTimeMillis();
+        this.animManager.setAnimationPlayState(name, value);
     }
     private void playAnimation() {
-        if (!this.animationPlayStates.isEmpty()) {
-            String playingAnimationName = Animation.findAnimation(this.animationPlayStates);
-
-            if (playingAnimationName != null) {
-                AnimationWrapper anim = this.animations.get(playingAnimationName);
-                if (System.currentTimeMillis() - this.timer > anim.msPerFrame) {
-                    this.characterModel = Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, animationPlayStates);
-                    this.timer += anim.msPerFrame;
-                }
-            }
+        Model frame = this.animManager.playAnimation();
+        if (frame != null) {
+            this.characterModel = frame;
+            this.updateBoundingBox();
         }
     }
 
