@@ -2,6 +2,7 @@ package app.ledprojekt.traits;
 
 import app.ledprojekt.CollisionLayer;
 import app.ledprojekt.Entity;
+import app.ledprojekt.Player;
 
 import java.awt.event.KeyEvent;
 
@@ -22,12 +23,22 @@ public class Go extends Trait {
 
                     case KeyEvent.VK_LEFT:
                         if(!layer.isObstructed(entity, entity.getX() - 1, entity.getY())) {
+                            if (entity instanceof Player) {
+                                if (!((Player) entity).isFlipped()) {
+                                   ((Player) entity).flip();
+                                }
+                            }
                             entity.setX(entity.getX() - 1);
                         }
                         break;
 
                     case KeyEvent.VK_RIGHT:
                         if(!layer.isObstructed(entity, entity.getX() + 1, entity.getY())) {
+                            if (entity instanceof Player) {
+                                if (((Player) entity).isFlipped()) {
+                                    ((Player) entity).flip();
+                                }
+                            }
                             entity.setX(entity.getX() + 1);
                         }
                         break;

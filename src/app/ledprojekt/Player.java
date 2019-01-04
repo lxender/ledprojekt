@@ -23,7 +23,11 @@ public class Player implements Entity, Drawable {
     private boolean modelIsFlipped = false;
     private Weapon weapon;
 
-    public BoundingBox bounds;
+    private BoundingBox bounds;
+
+    private boolean drawHealthbarFlag = true;
+    private int health = 20;
+    private boolean killable = true;
 
     private List<Trait> traits = new ArrayList<>();
     private KeyEvent keyEvent;
@@ -31,10 +35,7 @@ public class Player implements Entity, Drawable {
 
     private double dt;
 
-    private long timer = 0;
-    private HashMap<String, AnimationWrapper> animations = new HashMap<>();
-    private HashMap<String, Boolean> animationPlayStates = new HashMap<>();
-    private ArrayList<Model> currentlyPlayingAnimation = new ArrayList<>();
+    private AnimationManager animManager = new AnimationManager();
 
     public Player(int x, int y, Model model) {
         this.x = x;
@@ -77,6 +78,48 @@ public class Player implements Entity, Drawable {
         this.bounds = new BoundingBox((int) this.x, (int) this.y, this.baseModelWidth, this.baseModelHeight);
     }
 
+    // Health kann gesetzt werden oder es wird 100 benutzt
+    public void setHealth(int value) {
+        this.health = value;
+    }
+    public void decreaseHealth(int by) {
+        this.health -= by;
+    }
+    public int getHealth() {
+        return this.health;
+    }
+
+    public boolean isKillable() {
+        return this.killable;
+    }
+    public void toggleKillablility() {
+        this.killable = !this.killable;
+    }
+    private boolean isDead() {
+        if (this.killable && this.health <= 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void disableHealthbar() {
+        this.drawHealthbarFlag = false;
+    }
+    private void drawHealthbar(BoardController controller, int x, int y) {
+        int[] oneToTenColor = new int[]{127, 25, 3};
+        int[] tenToTwentyColor = new int[]{127, 96, 3};
+
+        int maxX = 9;
+        int currentRow = 0;
+        for (int i = 0; i < this.health; i++) {
+            if (i % maxX == 0) currentRow++;
+            int[] color = (currentRow % 2 != 0) ? oneToTenColor : tenToTwentyColor;
+            int xCord = x + (i % maxX);
+            controller.setColor(xCord, y, color);
+        }
+    }
+
     public boolean isSolid() {
         return true;
     }
@@ -84,10 +127,29 @@ public class Player implements Entity, Drawable {
     public void addTraits(Trait... traits) {
         this.traits.addAll(Arrays.asList(traits));
     }
+    public void removeTrait(String className) {
+        int index = -1;
+        for (int i = 0; i < this.traits.size(); i++) {
+            if (this.traits.get(i).getClass().getSimpleName().equals(className)) {
+                index = i;
+            }
+        }
+        if (index != -1) {
+            this.traits.remove(index);
+        } else {
+            System.out.println("Trait to remove was not found.");
+        }
+    }
 
     public void flip() {
         this.modelIsFlipped = !this.modelIsFlipped;
         characterModel.flip();
+        if (this.weapon != null) {
+            if (this.weapon.getModel().isFlipped() != this.modelIsFlipped) {
+                this.weapon.getModel().flip();
+            }
+        }
+        this.updateBoundingBox();
     }
     public boolean isFlipped() {
         return this.modelIsFlipped;
@@ -96,31 +158,26 @@ public class Player implements Entity, Drawable {
     public void addWeapon(Weapon weapon) {
         this.weapon = weapon;
     }
+    public void removeWeapon() {
+        if (this.weapon != null) {
+            this.weapon = null;
+        }
+    }
     public Weapon getWeapon() {
         return this.weapon;
     }
 
     public void addAnimation(String name, int durationInMillis, Model... models) {
-        //System.out.println("Name: " + name + ", array: " + Arrays.toString(models));
-        ArrayList<Model> list = new ArrayList<>(Arrays.asList(models));
-        AnimationWrapper wrapper = new AnimationWrapper(durationInMillis, list);
-        this.animations.put(name.toLowerCase(), wrapper);
+        this.animManager.addAnimation(name, durationInMillis, models);
     }
     public void setAnimationPlayState(String name, boolean value) {
-        this.animationPlayStates.put(name.toLowerCase(), value);
-        this.timer = System.currentTimeMillis();
+        this.animManager.setAnimationPlayState(name, value);
     }
     private void playAnimation() {
-        if (!this.animationPlayStates.isEmpty()) {
-            String playingAnimationName = Animation.findAnimation(this.animationPlayStates);
-
-            if (playingAnimationName != null) {
-                AnimationWrapper anim = this.animations.get(playingAnimationName);
-                if (System.currentTimeMillis() - this.timer > anim.msPerFrame) {
-                    this.characterModel = Animation.getFrame(playingAnimationName, this.currentlyPlayingAnimation, anim, animationPlayStates);
-                    this.timer += anim.msPerFrame;
-                }
-            }
+        Model frame = this.animManager.playAnimation();
+        if (frame != null) {
+            this.characterModel = frame;
+            this.updateBoundingBox();
         }
     }
 
@@ -146,6 +203,11 @@ public class Player implements Entity, Drawable {
     }
 
     public void update() {
+        if (this.isDead()) {
+            this.layer.removeObjectInLayer(this);
+            return;
+        }
+
         if (this.weapon != null) {
             this.weapon.updatePlayerRef(this);
             this.weapon.updateCollisionLayerRef(this.layer);
@@ -158,6 +220,13 @@ public class Player implements Entity, Drawable {
     }
 
     public void draw(BoardController controller) {
+        if (this.isDead()) {
+            return;
+        }
+        if (this.drawHealthbarFlag) {
+            this.drawHealthbar(controller, 0, 0);
+        }
+
         this.playAnimation();
 
         if (this.weapon != null) {
