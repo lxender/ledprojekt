@@ -25,7 +25,7 @@ public class Player implements Entity, Drawable {
 
     private BoundingBox bounds;
 
-    private boolean drawHealthbar = true;
+    private boolean drawHealthbarFlag = true;
     private int health = 20;
     private boolean killable = true;
 
@@ -104,18 +104,19 @@ public class Player implements Entity, Drawable {
     }
 
     public void disableHealthbar() {
-        this.drawHealthbar = false;
+        this.drawHealthbarFlag = false;
     }
     private void drawHealthbar(BoardController controller, int x, int y) {
         int[] oneToTenColor = new int[]{127, 25, 3};
         int[] tenToTwentyColor = new int[]{127, 96, 3};
 
-        int maxX = 10;
+        int maxX = 9;
+        int currentRow = 0;
         for (int i = 0; i < this.health; i++) {
-            int[] color = (i < maxX) ? oneToTenColor : tenToTwentyColor;
+            if (i % maxX == 0) currentRow++;
+            int[] color = (currentRow % 2 != 0) ? oneToTenColor : tenToTwentyColor;
             int xCord = x + (i % maxX);
             controller.setColor(xCord, y, color);
-
         }
     }
 
@@ -221,6 +222,9 @@ public class Player implements Entity, Drawable {
     public void draw(BoardController controller) {
         if (this.isDead()) {
             return;
+        }
+        if (this.drawHealthbarFlag) {
+            this.drawHealthbar(controller, 0, 0);
         }
 
         this.playAnimation();
