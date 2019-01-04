@@ -2,6 +2,7 @@ package app.ledprojekt.entities;
 
 import app.ledprojekt.Model;
 import app.ledprojekt.Player;
+import app.ledprojekt.weapons.Laser;
 import app.ledprojekt.weapons.Sword;
 import app.ledprojekt.traits.*;
 
@@ -19,9 +20,11 @@ public class PlayerTwo extends Player {
     public PlayerTwo(int x, int y) {
         super(x, y, model);
 
-        this.addTraits(new Go(), new Jump(), new Gravity(), new AttackWithWeapon("attack"));
+        this.addTraits(new Go(), new Jump(), new Gravity(), new AttackWithWeapon("laser"));
 
-        this.addWeapon(new Sword(7, -1));
+        //this.addWeapon(new Sword(7,2,this));
+
+        this.addWeapon(new Laser(11, 2, this));
 
         this.flip();
     }

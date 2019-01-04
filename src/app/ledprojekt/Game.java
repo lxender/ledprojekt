@@ -1,6 +1,8 @@
 package app.ledprojekt;
 
 import app.ledprojekt.entities.DefaultPlayer;
+import app.ledprojekt.entities.PlayerOne;
+import app.ledprojekt.entities.PlayerTwo;
 import app.ledprojekt.traits.*;
 import app.ledprojekt.typography.Word;
 import ledControl.BoardController;
@@ -32,11 +34,11 @@ public class Game {
         block.setName("block");
         //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
-        Player player = new DefaultPlayer(13, 0);
+        Player player = new PlayerTwo(13, 0);
         player.disableHealthbar();
         Player dummy = new DefaultPlayer(1, 0);
         dummy.removeTrait("Go");
-        dummy.removeWeapon();
+        //dummy.removeWeapon();
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
         CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround, block, dummy, player);
