@@ -22,6 +22,7 @@ public class PlayerTwo extends Player {
 
         //this.addWeapon(new Sword(7,2,this));
 
+        // war vorher 11, 2
         this.addWeapon(new Laser(5, 2, this));
     }
 }
