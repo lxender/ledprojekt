@@ -2,13 +2,13 @@ package app.ledprojekt;
 
 import ledControl.BoardController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class CollisionLayer{
     private BoardController controller;
+
     private List<Collidable> objectsInLayer = new ArrayList<>();
+    private List<Collidable> objectsToRemove = new ArrayList<>();
 
     CollisionLayer(BoardController controller, Collidable... objects) {
         this.controller = controller;
@@ -16,7 +16,7 @@ public class CollisionLayer{
     }
 
     public void removeObjectInLayer(Collidable obj) {
-        this.objectsInLayer.remove(obj);
+        objectsToRemove.add(obj);
     }
 
     public Collidable getObjectAt(int x, int y, int width, int height) {
@@ -73,6 +73,7 @@ public class CollisionLayer{
             obj.updateCollisionLayerRef(this);
             obj.update();
         }
+        this.objectsInLayer.removeAll(this.objectsToRemove);
     }
 
     void draw() {

@@ -7,11 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class Model {
     public static void print2DArray(int[][][] array) {
@@ -33,7 +31,6 @@ public class Model {
     public Model(int[][][] array) {
         this.model = array;
     }
-
     public Model(int[][] array, int width, int height) {
         this.model = new int[width][height][4];
         for (int i = 0; i < width; i++) {
@@ -42,7 +39,6 @@ public class Model {
             }
         }
     }
-
     public Model(String path) {
         File file;
         BufferedImage img;
@@ -75,14 +71,20 @@ public class Model {
         }
     }
 
+    private int getLongestRow(int[][][] array) {
+        int[] lengths = Arrays.stream(array).mapToInt(row -> row.length).toArray();
+        Arrays.sort(lengths);
+        return lengths[lengths.length - 1];
+    }
     public int getWidth() {
-        return this.model[0].length;
+        return getLongestRow(this.model);
     }
     public int getHeight() {
         return this.model.length;
     }
 
     public void flip() {
+        this.model = this.squareArray(this.model, new int[]{0, 0, 0, 0});
         for (int i = 0; i < this.model.length; i++) {
             List<int[]> flipped = Arrays.asList(this.model[i]);
             Collections.reverse(flipped);
@@ -115,11 +117,6 @@ public class Model {
 //        }
 //
 //        return modelCopy;
-//    }
-//    private int getLongestRow(int[][][] array) {
-//        int[] lengths = Arrays.stream(array).mapToInt(row -> row.length).toArray();
-//        Arrays.sort(lengths);
-//        return lengths[lengths.length - 1];
 //    }
 //    private int[][][] extendArray(int[][][] array, int newLengthX, int newLengthY, int[] newValue) {
 //        int[][][] copy = Arrays.copyOf(array, array.length);
@@ -177,23 +174,24 @@ public class Model {
 //
 //        return copy;
 //    }
-//    private int[][][] squareArray(int[][][] array, int[] newValue) {
-//        int longestRowLength = this.getLongestRow(array);
-//
-//        int[][][] temp = new int[array.length][longestRowLength][];
-//
-//        for (int i = 0; i < temp.length; i++) {
-//            for (int j = 0; j < temp[i].length; j++) {
-//                try {
-//                    temp[i][j] = array[i][j];
-//                } catch(ArrayIndexOutOfBoundsException e) {
-//                    temp[i][j] = newValue;
-//                }
-//            }
-//        }
-//
-//        return temp;
-//    }
+
+    private int[][][] squareArray(int[][][] array, int[] newValue) {
+        int longestRowLength = this.getLongestRow(array);
+
+        int[][][] temp = new int[array.length][longestRowLength][];
+
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[i].length; j++) {
+                try {
+                    temp[i][j] = array[i][j];
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    temp[i][j] = newValue;
+                }
+            }
+        }
+
+        return temp;
+    }
 
     public int[][][] get2DArray() {
         return this.model;

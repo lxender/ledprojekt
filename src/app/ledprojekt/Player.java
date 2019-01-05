@@ -5,10 +5,7 @@ import app.ledprojekt.weapons.Weapon;
 import ledControl.BoardController;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Player implements Entity, Drawable {
     private double x;
@@ -44,6 +41,16 @@ public class Player implements Entity, Drawable {
         this.characterModel = model;
         this.baseModelWidth = this.characterModel.getWidth();
         this.baseModelHeight = this.characterModel.getHeight();
+
+        this.updateBoundingBox();
+    }
+    public Player(int x, int y, Model model, int modelWidth, int modelHeight) {
+        this.x = x;
+        this.y = y;
+
+        this.characterModel = model;
+        this.baseModelWidth = modelWidth;
+        this.baseModelHeight = modelHeight;
 
         this.updateBoundingBox();
     }
@@ -95,7 +102,7 @@ public class Player implements Entity, Drawable {
     public void toggleKillablility() {
         this.killable = !this.killable;
     }
-    private boolean isDead() {
+    public boolean isDead() {
         if (this.killable && this.health <= 0) {
             return true;
         }
@@ -145,9 +152,7 @@ public class Player implements Entity, Drawable {
         this.modelIsFlipped = !this.modelIsFlipped;
         characterModel.flip();
         if (this.weapon != null) {
-            if (this.weapon.getModel().isFlipped() != this.modelIsFlipped) {
-                this.weapon.getModel().flip();
-            }
+            this.weapon.checkFlip();
         }
         this.updateBoundingBox();
     }

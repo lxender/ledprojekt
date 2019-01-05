@@ -15,30 +15,14 @@ public class Go extends Trait {
 //            System.out.println(event.getKeyCode());
             if(event.getID() == KeyEvent.KEY_RELEASED) {
                 switch (event.getKeyCode()) {
-                    case KeyEvent.VK_DOWN:
-                        if(!layer.isObstructed(entity, entity.getX(), entity.getY() + 1)) {
-                            entity.setY(entity.getY() + 1);
-                        }
-                        break;
-
                     case KeyEvent.VK_LEFT:
                         if(!layer.isObstructed(entity, entity.getX() - 1, entity.getY())) {
-                            if (entity instanceof Player) {
-                                if (!((Player) entity).isFlipped()) {
-                                   ((Player) entity).flip();
-                                }
-                            }
                             entity.setX(entity.getX() - 1);
                         }
                         break;
 
                     case KeyEvent.VK_RIGHT:
                         if(!layer.isObstructed(entity, entity.getX() + 1, entity.getY())) {
-                            if (entity instanceof Player) {
-                                if (((Player) entity).isFlipped()) {
-                                    ((Player) entity).flip();
-                                }
-                            }
                             entity.setX(entity.getX() + 1);
                         }
                         break;

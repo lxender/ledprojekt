@@ -5,15 +5,16 @@ import app.ledprojekt.Player;
 import app.ledprojekt.weapons.Weapon;
 
 public class SwordLaser extends Weapon {
-    private static Model model = new Model(new int[][][]{
-            {{127,127,0,1},{127,127,0,1},{0,0,0,0}},
-            {{0,0,0,0},{0,0,0,0},{127,127,0,1}},
-            {{0,0,0,0},{0,0,0,0},{127,127,0,1}},
-            {{127,127,0,1},{127,127,0,1},{0,0,0,0}}
-    });
-
     public SwordLaser(int x, int y, Player player) {
-        super(model, x, y, player);
+        super(x, y, player);
+
+        Model model = new Model(new int[][][]{
+                {{127,127,0,1},{127,127,0,1},{0,0,0,0}},
+                {{0,0,0,0},{0,0,0,0},{127,127,0,1}},
+                {{0,0,0,0},{0,0,0,0},{127,127,0,1}},
+                {{127,127,0,1},{127,127,0,1},{0,0,0,0}}
+        });
+        this.setModel(model);
 
         Model frame2 = new Model(new int[][][]{
                 {{127,127,0,1},

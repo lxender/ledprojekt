@@ -21,7 +21,7 @@ public class Weapon implements Collidable {
     private Player player;
 
     private int damage = 5;
-    private long collisionTimer = -1;
+    private long collisionTimer = System.currentTimeMillis();
 
     private AnimationManager animManager = new AnimationManager();
 
@@ -34,6 +34,12 @@ public class Weapon implements Collidable {
         this.updateBoundingBox();
     }
 
+    public Weapon(int x, int y, Player player) {
+        this.player = player;
+        this.offsetX = x;
+        this.offsetY = y;
+    }
+
     public int getOffsetX() {
         return this.offsetX;
     }
@@ -44,7 +50,7 @@ public class Weapon implements Collidable {
     public Model getModel() {
         return this.model;
     }
-    private void setModel(Model model) {
+    public void setModel(Model model) {
         if (this.player != null) {
             if (this.player.isFlipped()) {
                 this.model = model;
@@ -59,7 +65,9 @@ public class Weapon implements Collidable {
         this.updateBoundingBox();
     }
 
-    private void checkFlip() {
+    public void checkFlip() {
+        if (this.model == null) return;
+
         if (this.player != null) {
             if (this.model.isFlipped() != this.player.isFlipped()) {
                 this.model.flip();
@@ -114,7 +122,8 @@ public class Weapon implements Collidable {
             }
 
             if (intersectionObject != null) {
-                if (this.player != null && this.player == intersectionObject) return;
+                if (this.player == null) return;
+                if (this.player.equals(intersectionObject)) return;
 
                 if (this.collisionTimer == -1) {
                     this.collisionTimer = System.currentTimeMillis();
@@ -155,6 +164,11 @@ public class Weapon implements Collidable {
         this.checkCollision();
     }
     public void draw(BoardController controller) {
+        if (this.model == null) {
+            System.out.println("Model has not been defined yet.");
+            return;
+        }
+
         this.playAnimation();
         this.checkFlip();
         if (this.model.isFlipped()) {

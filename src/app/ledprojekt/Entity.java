@@ -13,7 +13,7 @@ public interface Entity extends Collidable {
 
     void setXAsDouble(double x);
     double getXAsDouble();
-    void setYAsDouble(double x);
+    void setYAsDouble(double y);
     double getYAsDouble();
 
     void addTraits(Trait... traits);
