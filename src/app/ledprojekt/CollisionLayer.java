@@ -41,26 +41,32 @@ public class CollisionLayer{
             BoundingBox entityRefBound = entityRef.getBoundingBox();
             BoundingBox bound = obj.getBoundingBox();
 
-//            if (obj instanceof Geometry && ((Geometry) obj).getName() == "block") {
-//                if (x + entityRefBound.width < bound.x + bound.width) {
-//                    System.out.println("left");
-//                }
-//                if (x > bound.x + bound.width - 1) {
-//                    System.out.println("right");
-//                }
-//
-//                if (y + entityRefBound.height < bound.y + bound.height) {
-//                    System.out.println("above");
-//                }
-//                if (y > bound.y + bound.height) {
-//                    System.out.println("below");
-//                }
-//            }
-
             if(x < bound.x + bound.width &&
                     x + entityRefBound.width > bound.x &&
                     y < bound.y + bound.height &&
                     entityRefBound.height + y > bound.y) {
+
+                int dirX = entityRefBound.x - x;
+                int dirY = entityRefBound.y - y;
+
+//                if (obj instanceof Geometry) {
+//                    if (((Geometry) obj).getName() != null) {
+//                        if (((Geometry) obj).getName().equals("ground block")) {
+//                            if (dirX > 0) {
+//                                System.out.println("Von rechts");
+//                            } else if(dirX < 0) {
+//                                System.out.println("Von links");
+//                            }
+//
+//                            if (dirY < 0) {
+//                                System.out.println("Von oben");
+//                            } else if (dirY > 0) {
+//                                System.out.println("Von unten");
+//                            }
+//                        }
+//                    }
+//                }
+
                 return true;
             }
         }
