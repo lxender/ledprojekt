@@ -36,7 +36,8 @@ public class Game {
         block.setName("block");
         //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
-        Player player = new PlayerTwo(1, 0);
+        //PlayerOne, PlayerTwo haben ein Problem mit ihrer Drehung, durch das sie sich auch in Blöcke rein drehen können
+        Player player = new DefaultPlayer(1, 0);
         player.disableHealthbar();
         Player dummy = new PlayerTwo(1, 0);
         dummy.removeTrait("Go");

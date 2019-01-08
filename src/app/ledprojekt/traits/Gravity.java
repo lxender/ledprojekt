@@ -2,6 +2,9 @@ package app.ledprojekt.traits;
 
 import app.ledprojekt.CollisionLayer;
 import app.ledprojekt.Entity;
+import app.ledprojekt.Model;
+
+import java.util.Arrays;
 
 public class Gravity extends Trait {
 
@@ -12,10 +15,16 @@ public class Gravity extends Trait {
         CollisionLayer layer = entity.getCollisionLayerRef();
         double dt = entity.getDelta();
 
-        double newYPosition = entity.getYAsDouble() + this.strength * dt;
+        int[][] map = layer.createRelativeCollisionMatrix(entity);
 
-        if (!layer.isObstructed(entity, entity.getX(), (int) Math.floor(newYPosition))) {
-            entity.setYAsDouble(newYPosition);
+        entity.setYAsDouble(entity.getYAsDouble() + this.strength * dt);
+        if (layer.collides(entity, map)) {
+            entity.setYAsDouble(entity.getYAsDouble() - this.strength * dt);
         }
+
+//        double newYPosition = entity.getYAsDouble() + this.strength * dt;
+//        if (!layer.isObstructed(entity, entity.getX(), (int) Math.floor(newYPosition))) {
+//            entity.setYAsDouble(newYPosition);
+//        }
     }
 }

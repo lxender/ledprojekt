@@ -47,6 +47,9 @@ public class Weapon implements Collidable {
         return this.offsetY;
     }
 
+    public int getX() { return this.x; }
+    public int getY() { return this.y; }
+
     public Model getModel() {
         return this.model;
     }

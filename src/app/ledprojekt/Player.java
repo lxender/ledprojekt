@@ -14,7 +14,7 @@ public class Player implements Entity, Drawable {
     private int velocityX;
     private int velocityY;
 
-    public Model characterModel;
+    private Model characterModel;
     private int baseModelWidth;
     private int baseModelHeight;
     private boolean modelIsFlipped = false;
@@ -83,6 +83,10 @@ public class Player implements Entity, Drawable {
     private void updateBoundingBox() {
         // System.out.println(String.format("Updating bounds, x: %d, y: %d", this.x, this.y));
         this.bounds = new BoundingBox((int) this.x, (int) this.y, this.baseModelWidth, this.baseModelHeight);
+    }
+
+    public Model getModel() {
+        return this.characterModel;
     }
 
     // Health kann gesetzt werden oder es wird 100 benutzt

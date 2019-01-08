@@ -35,6 +35,13 @@ public class Geometry implements Drawable, Collidable {
         return this.name;
     }
 
+    public int getX() {
+        return this.x;
+    }
+    public int getY() {
+        return this.y;
+    }
+
     public void setSolid(boolean setting) {
         this.isSolid = setting;
     }
@@ -47,6 +54,10 @@ public class Geometry implements Drawable, Collidable {
     }
     public BoundingBox getBoundingBox() {
         return this.bounds;
+    }
+
+    public Model getModel() {
+        return this.model;
     }
 
     public void updateCollisionLayerRef(CollisionLayer layer) {
