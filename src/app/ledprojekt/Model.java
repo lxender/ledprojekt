@@ -71,13 +71,28 @@ public class Model {
         }
     }
 
+    private int getLongestNonZeroRow(int[][][] array) {
+        int longest = -1;
+        for (int i = 0; i < this.model.length; i++) {
+            for (int j = 0; j < this.model[i].length; j++) {
+                if (this.model[i][j][3] != 0) {
+                    if (longest == -1) {
+                        longest = j;
+                    } else if(j > longest) {
+                        longest = j;
+                    }
+                }
+            }
+        }
+        return longest;
+    }
     private int getLongestRow(int[][][] array) {
         int[] lengths = Arrays.stream(array).mapToInt(row -> row.length).toArray();
         Arrays.sort(lengths);
         return lengths[lengths.length - 1];
     }
     public int getWidth() {
-        return getLongestRow(this.model);
+        return getLongestNonZeroRow(this.model);
     }
     public int getHeight() {
         return this.model.length;

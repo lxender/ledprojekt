@@ -36,17 +36,16 @@ public class Game {
         block.setName("block");
         //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
-        //PlayerOne, PlayerTwo haben ein Problem mit ihrer Drehung, durch das sie sich auch in Blöcke rein drehen können
-        Player player = new DefaultPlayer(1, 0);
+        Player player = new PlayerTwo(2, 0);
         player.disableHealthbar();
-        Player dummy = new PlayerTwo(1, 0);
-        dummy.removeTrait("Go");
-        dummy.removeTrait("Turn");
-        dummy.removeTrait("Jump");
-        //dummy.removeWeapon();
+//        Player dummy = new DefaultPlayer(1, 0);
+//        dummy.removeTrait("Go");
+//        dummy.removeTrait("Turn");
+//        dummy.removeTrait("Jump");
+//        //dummy.removeWeapon();
 
         Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
-        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround, block, player/*, dummy*/);
+        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround, /*block,*/ player/*, dummy*/);
 
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
@@ -67,10 +66,10 @@ public class Game {
             while(accumulator > step) {
                 KeyEvent event = buffer.pop();
                 player.updateKeyEventRef(event);
-                dummy.updateKeyEventRef(event);
+                //dummy.updateKeyEventRef(event);
 
                 player.updateDelta(step);
-                dummy.updateDelta(step);
+                //dummy.updateDelta(step);
 
                 foregroundLayer.update();
 

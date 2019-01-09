@@ -1,5 +1,6 @@
 package app.ledprojekt.traits;
 
+import app.ledprojekt.CollisionLayer;
 import app.ledprojekt.Entity;
 import app.ledprojekt.Player;
 
@@ -12,10 +13,12 @@ public class Turn extends Trait {
 
         if (event != null) {
             if (event.getID() == KeyEvent.KEY_RELEASED) {
+                CollisionLayer layer = entity.getCollisionLayerRef();
+
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         if (entity instanceof Player) {
-                            if (!((Player) entity).isFlipped()) {
+                            if (!((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
                                 ((Player) entity).flip();
                             }
                         }
@@ -23,7 +26,7 @@ public class Turn extends Trait {
 
                     case KeyEvent.VK_RIGHT:
                         if (entity instanceof Player) {
-                            if (((Player) entity).isFlipped()) {
+                            if (((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
                                 ((Player) entity).flip();
                             }
                         }

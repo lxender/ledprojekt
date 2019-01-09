@@ -25,15 +25,6 @@ public class Weapon implements Collidable {
 
     private AnimationManager animManager = new AnimationManager();
 
-    public Weapon(Model model, int x, int y, Player player) {
-        this.player = player;
-        this.setModel(model);
-        this.offsetX = x;
-        this.offsetY = y;
-
-        this.updateBoundingBox();
-    }
-
     public Weapon(int x, int y, Player player) {
         this.player = player;
         this.offsetX = x;
@@ -154,10 +145,17 @@ public class Weapon implements Collidable {
     public void update() {
         if (this.player != null) {
             if(this.player.isFlipped()) {
-                this.x = player.getX() - (player.getBoundingBox().width - this.offsetX);
-                this.y = player.getY() + this.offsetY;
+//                this.x = this.player.getX() + this.model.getWidth();
+                this.x = this.player.getX() - this.offsetX - this.model.getWidth();
+                this.y = this.player.getY() + this.offsetY;
             } else {
-                this.x = this.player.getX() + this.offsetX;
+                this.x = this.player.getX() + player.getBoundingBox().width + this.offsetX;
+                System.out.println();
+                System.out.println(this.model.getWidth());
+                System.out.println(this.player.getX());
+                System.out.println(this.offsetX);
+                System.out.println(this.x);
+                System.out.println(this.player.getBoundingBox().width);
                 this.y = this.player.getY() + this.offsetY;
             }
 
@@ -173,11 +171,6 @@ public class Weapon implements Collidable {
         }
 
         this.playAnimation();
-        this.checkFlip();
-        if (this.model.isFlipped()) {
-            this.model.draw(controller, this.x - this.model.getWidth(), this.y);
-        } else {
-            this.model.draw(controller, this.x, this.y);
-        }
+        this.model.draw(controller, this.x, this.y);
     }
 }

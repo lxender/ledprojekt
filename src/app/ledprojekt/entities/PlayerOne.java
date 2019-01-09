@@ -17,9 +17,9 @@ public class PlayerOne extends Player {
                 {{0,127,127,1},{0,127,127,1},{0,127,127,1},{0,127,127,1},{0,0,0,0},{0,0,0,0}},
                 {{0,127,127,1},{0,127,127,1},{0,127,127,1},{0,127,127,1},{0,0,0,0},{0,0,0,0}},
                 {{0,127,127,1},{0,0,0,0},{0,0,0,0},{0,127,127,1},{0,0,0,0},{0,0,0,0}}
-        }), 4, 7);
+        })/*, 4, 7*/);
 
         this.addTraits(new Go(), new Turn(), new Jump(), new Gravity(), new AttackWithWeapon("attack"));
-        this.addWeapon(new Sword(5, -1, this ));
+        this.addWeapon(new Sword(0, -1, this ));
     }
 }

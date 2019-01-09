@@ -16,13 +16,10 @@ public class PlayerTwo extends Player {
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{0,0,0,0},{0,0,0,0},{127,0,0,1},{0,0,0,0},{0,0,0,0}}
-        }), 4, 7);
+        })/*, 4, 7*/);
 
         this.addTraits(new Go(), new Turn(), new Jump(), new Gravity(), new AttackWithWeapon("laser"));
 
-        //this.addWeapon(new Sword(7,2,this));
-
-        // war vorher 11, 2
-        this.addWeapon(new Laser(5, 2, this));
+        this.addWeapon(new Laser(0, 2, this));
     }
 }

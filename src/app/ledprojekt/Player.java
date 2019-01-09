@@ -15,8 +15,8 @@ public class Player implements Entity, Drawable {
     private int velocityY;
 
     private Model characterModel;
-    private int baseModelWidth;
-    private int baseModelHeight;
+    private int modelWidth;
+    private int modelHeight;
     private boolean modelIsFlipped = false;
     private Weapon weapon;
 
@@ -39,8 +39,8 @@ public class Player implements Entity, Drawable {
         this.y = y;
 
         this.characterModel = model;
-        this.baseModelWidth = this.characterModel.getWidth();
-        this.baseModelHeight = this.characterModel.getHeight();
+        this.modelWidth = this.characterModel.getWidth();
+        this.modelHeight = this.characterModel.getHeight();
 
         this.updateBoundingBox();
     }
@@ -49,8 +49,8 @@ public class Player implements Entity, Drawable {
         this.y = y;
 
         this.characterModel = model;
-        this.baseModelWidth = modelWidth;
-        this.baseModelHeight = modelHeight;
+        this.modelWidth = modelWidth;
+        this.modelHeight = modelHeight;
 
         this.updateBoundingBox();
     }
@@ -82,7 +82,7 @@ public class Player implements Entity, Drawable {
     }
     private void updateBoundingBox() {
         // System.out.println(String.format("Updating bounds, x: %d, y: %d", this.x, this.y));
-        this.bounds = new BoundingBox((int) this.x, (int) this.y, this.baseModelWidth, this.baseModelHeight);
+        this.bounds = new BoundingBox((int) this.x, (int) this.y, this.modelWidth, this.modelHeight);
     }
 
     public Model getModel() {
@@ -235,6 +235,8 @@ public class Player implements Entity, Drawable {
         if (this.drawHealthbarFlag) {
             this.drawHealthbar(controller, 0, 0);
         }
+
+        controller.setColor((int) this.x, (int) this.y - 1, new int[]{127, 127, 0});
 
         this.playAnimation();
 
