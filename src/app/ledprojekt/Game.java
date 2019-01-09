@@ -36,7 +36,7 @@ public class Game {
         block.setName("block");
         //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
-        Player player = new PlayerTwo(2, 0);
+        Player player = new PlayerOne(2, 0);
         player.disableHealthbar();
 //        Player dummy = new DefaultPlayer(1, 0);
 //        dummy.removeTrait("Go");
