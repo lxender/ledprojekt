@@ -18,6 +18,8 @@ public class Weapon implements Collidable {
     private int offsetX = 0;
     private int offsetY = 0;
 
+    private int initialWidth = -1;
+
     private Player player;
 
     private int damage = 5;
@@ -45,6 +47,9 @@ public class Weapon implements Collidable {
         return this.model;
     }
     public void setModel(Model model) {
+        if (initialWidth == -1) {
+            initialWidth = model.getWidth();
+        }
         if (this.player != null) {
             if (this.player.isFlipped()) {
                 this.model = model;
@@ -144,9 +149,11 @@ public class Weapon implements Collidable {
 
     public void update() {
         if (this.player != null) {
+            this.checkFlip();
             if(this.player.isFlipped()) {
 //                this.x = this.player.getX() + this.model.getWidth();
-                this.x = this.player.getX() - this.offsetX - 2;
+                int ofx = (this.offsetX < 0) ? this.offsetX : -this.offsetX;
+                this.x = this.player.getX() + ofx - this.initialWidth;
                 this.y = this.player.getY() + this.offsetY;
             } else {
                 this.x = this.player.getX() + player.getBoundingBox().width + this.offsetX;
@@ -165,6 +172,11 @@ public class Weapon implements Collidable {
         }
 
         this.playAnimation();
-        this.model.draw(controller, this.x, this.y);
+        this.checkFlip();
+        if (this.model.isFlipped()) {
+            this.model.draw(controller, this.x - this.model.getWidth(), this.y);
+        } else {
+            this.model.draw(controller, this.x, this.y);
+        }
     }
 }
