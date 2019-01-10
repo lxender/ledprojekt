@@ -44,16 +44,6 @@ public class Player implements Entity, Drawable {
 
         this.updateBoundingBox();
     }
-    public Player(int x, int y, Model model, int modelWidth, int modelHeight) {
-        this.x = x;
-        this.y = y;
-
-        this.characterModel = model;
-        this.modelWidth = modelWidth;
-        this.modelHeight = modelHeight;
-
-        this.updateBoundingBox();
-    }
 
     public void setX(int x) {
         this.x = x;
@@ -81,7 +71,6 @@ public class Player implements Entity, Drawable {
         return this.bounds;
     }
     private void updateBoundingBox() {
-        // System.out.println(String.format("Updating bounds, x: %d, y: %d", this.x, this.y));
         this.bounds = new BoundingBox((int) this.x, (int) this.y, this.modelWidth, this.modelHeight);
     }
 
@@ -89,7 +78,6 @@ public class Player implements Entity, Drawable {
         return this.characterModel;
     }
 
-    // Health kann gesetzt werden oder es wird 100 benutzt
     public void setHealth(int value) {
         this.health = value;
     }
@@ -117,6 +105,14 @@ public class Player implements Entity, Drawable {
     public void disableHealthbar() {
         this.drawHealthbarFlag = false;
     }
+    /**
+     * Zeigt die Lebensanzeige des Players. Sie kollidiert nicht.
+     * Sie hat eine Breite von 9 und wechselt pro Reihe die Farbe.
+     * Gerade Reihen (inkl. 0) bekommen {127, 25, 3}, ungerade {127, 96, 3}.
+     * @param controller Board auf dem die Lebensanzeige dargestellt werden soll
+     * @param x
+     * @param y
+     */
     private void drawHealthbar(BoardController controller, int x, int y) {
         int[] oneToTenColor = new int[]{127, 25, 3};
         int[] tenToTwentyColor = new int[]{127, 96, 3};
@@ -138,6 +134,11 @@ public class Player implements Entity, Drawable {
     public void addTraits(Trait... traits) {
         this.traits.addAll(Arrays.asList(traits));
     }
+
+    /**
+     * Entfernt die Klasse der Eigenschaft.
+     * @param className Muss genau der Namen der Klasse sein, z.B. "Go" für die Klasse Go.java, die die Eigenschaft des Gehens verwaltet.
+     */
     public void removeTrait(String className) {
         int index = -1;
         for (int i = 0; i < this.traits.size(); i++) {
@@ -152,6 +153,9 @@ public class Player implements Entity, Drawable {
         }
     }
 
+    /**
+     * Dreht den Player und seine Waffe (falls vorhanden).
+     */
     public void flip() {
         this.modelIsFlipped = !this.modelIsFlipped;
         characterModel.flip();
@@ -176,12 +180,29 @@ public class Player implements Entity, Drawable {
         return this.weapon;
     }
 
+    /**
+     * Fügt der Klasse eine Animation hinzu.
+     * @param name Der Name der Animation. Sollte am besten lowercase übergeben werden.
+     * @param durationInMillis Totale Zeit der Animation in Millisekunden.
+     * @param models Bilder/Keyframes der Animation
+     */
     public void addAnimation(String name, int durationInMillis, Model... models) {
         this.animManager.addAnimation(name, durationInMillis, models);
     }
+
+    /**
+     * Setzt den Abspielstatus einer Animation.
+     * @param name Der Name der Animation. Am besten lowercase übergeben.
+     * @param value true zum Abspielen, false zum Stoppen.
+     */
     public void setAnimationPlayState(String name, boolean value) {
         this.animManager.setAnimationPlayState(name, value);
     }
+
+    /**
+     * Überprüft, ob es eine Animation gibt, dessen Status true ist.
+     * Ist dies der Fall, bekommt sie ein Bild der Animation und setzt das Modell des Players mit dem gleich.
+     */
     private void playAnimation() {
         Model frame = this.animManager.playAnimation();
         if (frame != null) {
@@ -211,6 +232,11 @@ public class Player implements Entity, Drawable {
         return this.dt;
     }
 
+    /*
+     * Wenn der Player tot ist, wird dieser aus dem Layer entfernt und die Methode wird abgebrochen.
+     * Wenn eine Waffe vorhanden ist, werden ihre Update-Methoden aufgerufen.
+     * Alle Update-Methoden der Eigenschaften des Players werden aufgerufen.
+     */
     public void update() {
         if (this.isDead()) {
             this.layer.removeObjectInLayer(this);
@@ -228,6 +254,13 @@ public class Player implements Entity, Drawable {
         }
     }
 
+    /*
+     * Wenn der Player tot ist, wird die Methode abgebrochen.
+     * Wenn die Lebensanzeige nicht deaktiviert ist, wird die Lebensanzeige dargestellt.
+     * Animationen werden abgespielt.
+     * Wenn es eine Waffe gibt, wird ihre draw-Methode aufgerufen.
+     * Die draw-Methode des Modells des Players wird mit x und y als Integers aufgerufen.
+     */
     public void draw(BoardController controller) {
         if (this.isDead()) {
             return;
@@ -235,8 +268,6 @@ public class Player implements Entity, Drawable {
         if (this.drawHealthbarFlag) {
             this.drawHealthbar(controller, 0, 0);
         }
-
-        controller.setColor((int) this.x, (int) this.y - 1, new int[]{127, 127, 0});
 
         this.playAnimation();
 

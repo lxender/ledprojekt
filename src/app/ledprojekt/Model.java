@@ -12,7 +12,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Model {
-    public static void print2DArray(int[][][] array) {
+    /**
+     * Gibt ein 3D-Array in der Konsole korrekt formatiert (d.h. mit Zeilenumbrüchen nach jeder Reihe) aus.
+     * @param array 3D-Array zum ausgeben.
+     */
+    public static void print3DArray(int[][][] array) {
         System.out.println("[");
         for (int i = 0; i < array.length; i++) {
             System.out.print("  [");
@@ -39,6 +43,11 @@ public class Model {
             }
         }
     }
+
+    /**
+     * Konstruktor zur Nutzung eines Bildes als Modell.
+     * @param path Pfad zu einer Bilddatei.
+     */
     public Model(String path) {
         File file;
         BufferedImage img;
@@ -71,11 +80,16 @@ public class Model {
         }
     }
 
+    /*
+     * Sucht nach der längsten Reihe ohne 0 als 4tes Element im Pixel.
+     * Geht alle Reihen des übergebenen Arrays durch und vergleicht sie mit der momentan längsten Reihe.
+     * Wenn die Momentane länger ist als die Vorherige, wird sie zum neuen "Recordhalter".
+     */
     private int getLongestNonZeroRow(int[][][] array) {
         int longest = -1;
-        for (int i = 0; i < this.model.length; i++) {
-            for (int j = 0; j < this.model[i].length; j++) {
-                if (this.model[i][j][3] != 0) {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                if (array[i][j][3] != 0) {
                     if (longest == -1) {
                         longest = j;
                     } else if(j > longest) {
@@ -98,6 +112,10 @@ public class Model {
         return this.model.length;
     }
 
+    /*
+     * Macht das Array quadratisch und flippt es, indem es
+     * jede Reihe durchgeht, sie zur Liste macht und sie mit Collections.reverse dreht.
+     */
     public void flip() {
         this.model = this.squareArray(this.model, new int[]{0, 0, 0, 0});
         for (int i = 0; i < this.model.length; i++) {
@@ -110,86 +128,18 @@ public class Model {
     public boolean isFlipped() {
         return this.isFlipped;
     }
-    //    public void appendAttachment(Model attachment, int x, int y) {
-//        this.model = this.calculateArrayWithAttachment(attachment, x, y);
-//    }
-//    public Model calculateModelWithAttachment(Model attachment, int x, int y) {
-//        return new Model(this.calculateArrayWithAttachment(attachment, x, y));
-//    }
-//    private int[][][] calculateArrayWithAttachment(Model attachment, int x, int y) {
-//        int[][][] array = attachment.get2DArray();
-//        int[][][] modelCopy = Arrays.copyOf(this.model, this.model.length);
-//
-//        array = squareArray(array, new int[]{0, 0, 0, 0});
-//        modelCopy = this.extendArray(modelCopy, x + array[0].length, y + array.length, new int[]{0, 0, 0, 0});
-//        //Model.print2DArray(array);
-//
-//        for (int i = 0; i < array.length; i++) {
-//            for (int j = 0; j < array[i].length; j++) {
-//                // System.out.println(String.format("Model i: %d, model j: %d", modelCopy.length - y - (array.length - 1 - i), x + j));
-//                modelCopy[modelCopy.length - y - (array.length - 1 - i)][x + j] = array[i][j];
-//            }
-//        }
-//
-//        return modelCopy;
-//    }
-//    private int[][][] extendArray(int[][][] array, int newLengthX, int newLengthY, int[] newValue) {
-//        int[][][] copy = Arrays.copyOf(array, array.length);
-//
-//        if (newLengthY > array.length) {
-//            int[][][] largerCopy = Arrays.copyOf(copy, newLengthY);
-//            for (int i = copy.length; i < newLengthY; i++) {
-//                largerCopy[i] = new int[largerCopy[0].length][];
-//
-//                for(int j = 0; j < largerCopy[i].length; j++) {
-//                    largerCopy[i][j] = newValue;
-//                }
-//            }
-//            copy = largerCopy;
-//        }
-//
-//        if (newLengthY < 0) {
-//            int[][][] temp = new int[copy.length + Math.abs(newLengthY)][array[0].length][];
-//
-//            for (int i = 0; i < copy.length + Math.abs(newLengthY); i++) {
-//                for (int j = 0; j < temp[i].length; j++) {
-//                    if(i < Math.abs(newLengthY)) {
-//                        temp[i][j] = newValue;
-//                    } else {
-//                        temp[i][j] = copy[i - Math.abs(newLengthY)][j];
-//                    }
-//                }
-//            }
-//            copy = temp;
-//        }
-//
-//        if (newLengthX > array[0].length) {
-//            for (int i = 0; i < copy.length; i++) {
-//                int[][] largerRowCopy = Arrays.copyOf(copy[i], newLengthX);
-//                for (int j = copy[i].length; j < largerRowCopy.length; j++) {
-//                    largerRowCopy[j] = newValue;
-//                }
-//                copy[i] = largerRowCopy;
-//            }
-//        }
-//
-//        if (newLengthX < 0) {
-//            for(int i = 0; i < copy.length; i++) {
-//                int[][] row = new int[Math.abs(newLengthX) + copy[i].length][];
-//                for (int j = 0; j < row.length; j++) {
-//                    if (j < Math.abs(newLengthX)) {
-//                        row[j] = newValue;
-//                    } else {
-//                        row[j] = copy[i][j - Math.abs(newLengthX)];
-//                    }
-//                }
-//                copy[i] = row;
-//            }
-//        }
-//
-//        return copy;
-//    }
 
+    /*
+     * Macht ein ein "unebenes" Array eben. z.B.
+     * [[[5], [6]],
+     * [[2]]]
+     * zu
+     * [[[5], [6]],
+     * [[2], newValue]]
+     *
+     * Es bekommt die längste Reihe, erstellt ein neues quadratisches Array, falls es existiert, wird der Wert aus
+     * dem alten Array genommen, wenn dies nicht existiert (i oder j out of bounds ist), wird der neue Wert gesetzt.
+     */
     private int[][][] squareArray(int[][][] array, int[] newValue) {
         int longestRowLength = this.getLongestRow(array);
 
@@ -223,13 +173,18 @@ public class Model {
         return temp;
     }
 
+    /*
+     * Wenn das vierte Element des Modells nicht 1 ist, wird die Farbe an der Stelle angefragt.
+     *  -> Ist diese Stelle innerhalb des Boards, wird die Farbe an der Stelle genommen, ansonsten die des Pixels.
+     * Die Farbe wird an das Board übergeben und an der Stelle xPos + x-Position im Array und yPos + y-Position im Array dargestellt.
+     */
     public void draw(BoardController controller, int xPos, int yPos) {
         for (int y = 0; y < this.model.length; y++) {
             for (int x = 0; x < this.model[y].length; x++) {
                 int[] rgba = this.model[y][x];
                 int[] rgb = new int[]{rgba[0], rgba[1], rgba[2]};
 
-                if(rgba[3] != 1) {
+                if(rgba[3] == 0) {
                     int[] color;
                     try {
                         color = controller.getColorAt(x + xPos, y + yPos);
