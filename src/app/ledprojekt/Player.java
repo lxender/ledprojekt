@@ -7,7 +7,7 @@ import ledControl.BoardController;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-public class Player implements Entity, Drawable {
+public class Player implements Entity {
     private double x;
     private double y;
 

@@ -2,7 +2,7 @@ package app.ledprojekt;
 
 import ledControl.BoardController;
 
-public interface Collidable {
+public interface Collidable extends Drawable {
     void updateCollisionLayerRef(CollisionLayer layer);
     CollisionLayer getCollisionLayerRef();
     Model getModel();

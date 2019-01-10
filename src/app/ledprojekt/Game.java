@@ -60,8 +60,6 @@ public class Game {
             accumulator += (now - lastTime) / 1000.0;
             lastTime = now;
 
-            // System.out.println(delta);
-
             // ### ### ### UPDATING ### ### ###
             while(accumulator > step) {
                 KeyEvent event = buffer.pop();
