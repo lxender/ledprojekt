@@ -75,13 +75,11 @@ public class CollisionLayer{
      *  -> wenn y + obj.y und x + obj.x außerhalb des Boards ist
      *      ist etwas an der Stelle
      */
-    public boolean collides(Collidable obj, int[][] map) {
-        int[][][] model = obj.getModel().get2DArray();
-        BoundingBox bounds = obj.getBoundingBox();
-        for (int y = 0; y < model.length; ++y) {
-            for (int x = 0; x < model[y].length; ++x) {
+    public boolean collides(int[][][] model, int x, int y, int[][] map) {
+        for (int i = 0; i < model.length; ++i) {
+            for (int j = 0; j < model[i].length; ++j) {
                 try {
-                    if(model[y][x][3] != 0 && map[y + obj.getY()][x + obj.getX()] != 0) {
+                    if(model[i][j][3] != 0 && map[i + y][j + x] != 0) {
 //                    if(model[y][x][3] == 2 && map[y + obj.y][x + obj.x] == 1) {
 //                        for (Collidable hitCandidate : this.objectsInLayer) {
 //                            if (hitCandidate == obj) continue;

@@ -16,8 +16,10 @@ public interface Entity extends Collidable {
     void setYAsDouble(double y);
     double getYAsDouble();
 
-//    void setVelocityX(int x);
-//    void setVelocityY(int y);
+    void setVelocityX(double x);
+    double getVelocityX();
+    void setVelocityY(double y);
+    double getVelocityY();
 
     void addTraits(Trait... traits);
     void setAnimationPlayState(String name, boolean value);

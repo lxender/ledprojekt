@@ -11,8 +11,8 @@ public class Player implements Entity, Drawable {
     private double x;
     private double y;
 
-    private int velocityX;
-    private int velocityY;
+    private double velocityX;
+    private double velocityY;
 
     private Model characterModel;
     private int modelWidth;
@@ -33,6 +33,8 @@ public class Player implements Entity, Drawable {
     private double dt;
 
     private AnimationManager animManager = new AnimationManager();
+
+    public boolean isJumping = false;
 
     public Player(int x, int y, Model model) {
         this.x = x;
@@ -66,6 +68,15 @@ public class Player implements Entity, Drawable {
         this.updateBoundingBox();
     }
     public double getYAsDouble() { return this.y; }
+
+    public double getVelocityX() {
+        return this.velocityX;
+    }
+    public void setVelocityX(double x) { this.velocityX = x; }
+    public double getVelocityY() {
+        return this.velocityY;
+    }
+    public void setVelocityY(double y) { this.velocityY = y; }
 
     public BoundingBox getBoundingBox() {
         return this.bounds;
@@ -236,6 +247,7 @@ public class Player implements Entity, Drawable {
      * Wenn der Player tot ist, wird dieser aus dem Layer entfernt und die Methode wird abgebrochen.
      * Wenn eine Waffe vorhanden ist, werden ihre Update-Methoden aufgerufen.
      * Alle Update-Methoden der Eigenschaften des Players werden aufgerufen.
+     * Velocity wird angewandt. Auf X wird keine DeltaTime angewandt, weil sich X nur um Ganzzahlen bewegt.
      */
     public void update() {
         if (this.isDead()) {
@@ -252,6 +264,9 @@ public class Player implements Entity, Drawable {
         for (Trait trait : this.traits) {
             trait.update(this);
         }
+
+        this.x += this.velocityX;
+        this.y += this.velocityY * this.dt;
     }
 
     /*

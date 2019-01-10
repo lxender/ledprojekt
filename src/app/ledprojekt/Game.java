@@ -49,7 +49,7 @@ public class Game {
 
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
-        double step = 1/240.0;
+        double step = 1/60.0;
         double accumulator = 0;
 
         int frames = 0;
