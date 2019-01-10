@@ -36,6 +36,9 @@ public class Game {
         block.setName("block");
         //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
+        Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
+        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround/*, block*/);
+
         Player player = new PlayerTwo(4, 0);
         player.disableHealthbar();
 //        Player dummy = new DefaultPlayer(1, 0);
@@ -44,8 +47,8 @@ public class Game {
 //        dummy.removeTrait("Jump");
 //        //dummy.removeWeapon();
 
-        Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
-        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround, /*block,*/ player/*, dummy*/);
+        PlayerManager playerManager = new PlayerManager(player, null);
+        foregroundLayer.addObjectsToLayer(playerManager.getP1());
 
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
@@ -62,13 +65,7 @@ public class Game {
 
             // ### ### ### UPDATING ### ### ###
             while(accumulator > step) {
-                KeyEvent event = buffer.pop();
-                player.updateKeyEventRef(event);
-                //dummy.updateKeyEventRef(event);
-
-                player.updateDelta(step);
-                //dummy.updateDelta(step);
-
+                playerManager.update(buffer.pop(), step);
                 foregroundLayer.update();
 
                 if (PRINT_FPS) {

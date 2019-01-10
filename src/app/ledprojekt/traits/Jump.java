@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 
 public class Jump extends Trait {
 
-    private double strength = -150;
+    private double strength = -50;
 
     private int totalMaxHeight = 3;
     private int currentJumpMaxHeight = 0;
