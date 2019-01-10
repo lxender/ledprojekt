@@ -13,8 +13,6 @@ import java.awt.event.KeyEvent;
 import java.util.Arrays;
 
 public class Game {
-    static boolean PRINT_FPS = false;
-
     private void drawBorder(BoardController controller) {
         for (int i = 0; i < controller.getHeight(); i++) {
             for (int j = 0; j < controller.getWidth(); j++) {
@@ -24,6 +22,8 @@ public class Game {
             }
         }
     }
+
+    static boolean PRINT_FPS = false;
 
     void run() {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
