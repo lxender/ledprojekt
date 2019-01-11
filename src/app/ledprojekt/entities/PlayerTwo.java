@@ -32,7 +32,9 @@ public class PlayerTwo extends Player {
         });
         this.setModel(model);
 
-        Model walkFrame =new Model(new int[][][]{
+        /*
+        //Es gibt ein Problem mit der Drehung
+        Model walkFrame = new Model(new int[][][]{
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{127,127,127,1},{127,127,127,1},{127,127,127,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{127,0,0,1},{127,127,127,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
@@ -41,7 +43,7 @@ public class PlayerTwo extends Player {
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{0,0,0,0},{127,0,0,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}
         });
-        this.addAnimation("walk", 200, model, walkFrame, model);
+        this.addAnimation("walk", 200, walkFrame, model);*/
 
         this.addTraits(new Go(), new Turn(), new Jump(), new Gravity(), new AttackWithWeapon("laser"));
 
