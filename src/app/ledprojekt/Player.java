@@ -50,6 +50,8 @@ public class Player implements Entity {
     public Player(int x, int y) {
         this.x = x;
         this.y = y;
+
+        this.bounds = new BoundingBox(x, y, 0, 0);
     }
 
     public void setX(int x) {
@@ -95,6 +97,9 @@ public class Player implements Entity {
     }
     public void setModel(Model model) {
         this.characterModel = model;
+        this.modelWidth = model.getWidth();
+        this.modelHeight = model.getHeight();
+        this.updateBoundingBox();
     }
 
     public void setHealth(int value) {
@@ -207,6 +212,10 @@ public class Player implements Entity {
      */
     public void addAnimation(String name, int durationInMillis, Model... models) {
         this.animManager.addAnimation(name, durationInMillis, models);
+    }
+
+    public boolean hasAnimation(String name) {
+        return this.animManager.hasAnimation(name);
     }
 
     /**

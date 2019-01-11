@@ -20,16 +20,19 @@ public class Go extends Trait {
 
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
-                        entity.setX(entity.getX() - 1);
-                        if(layer.collides(entity.getModel().get2DArray(), entity.getX(), entity.getY(), map)) {
-                            entity.setX(entity.getX() + 1);
+                        if(!layer.collides(entity.getModel().get2DArray(), entity.getX() - 1, entity.getY(), map)) {
+                            /*if(entity instanceof Player) {
+                                if (((Player) entity).hasAnimation("walk")) {
+                                    entity.setAnimationPlayState("walk", true);
+                                }
+                            }*/
+                            entity.setX(entity.getX() - 1);
                         }
                         break;
 
                     case KeyEvent.VK_RIGHT:
-                        entity.setX(entity.getX() + 1);
-                        if(layer.collides(entity.getModel().get2DArray(), entity.getX(), entity.getY(), map)) {
-                            entity.setX(entity.getX() - 1);
+                        if(!layer.collides(entity.getModel().get2DArray(), entity.getX() + 1, entity.getY(), map)) {
+                            entity.setX(entity.getX() + 1);
                         }
                         break;
 

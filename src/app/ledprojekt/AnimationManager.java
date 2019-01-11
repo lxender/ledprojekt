@@ -15,7 +15,7 @@ public class AnimationManager {
      * Findet eine derzeit abspielende Animation im Manager.
      * @return Den Namen der abspielenden Animation oder null wenn keine gefunden wurde.
      */
-    public String findAnimation() {
+    public String findRunningAnimation() {
         if (this.animationPlayStates.containsValue(true)) {
             for(String k : this.animationPlayStates.keySet()) {
                 if(this.animationPlayStates.get(k.toLowerCase())) {
@@ -24,6 +24,10 @@ public class AnimationManager {
             }
         }
         return null;
+    }
+
+    public boolean hasAnimation(String name) {
+        return this.animations.containsKey(name);
     }
 
     /**
@@ -77,7 +81,7 @@ public class AnimationManager {
      */
     public Model playAnimation() {
         if (!this.animationPlayStates.isEmpty()) {
-            String playingAnimationName = this.findAnimation();
+            String playingAnimationName = this.findRunningAnimation();
 
             if (playingAnimationName != null) {
                 AnimationWrapper anim = this.animations.get(playingAnimationName);

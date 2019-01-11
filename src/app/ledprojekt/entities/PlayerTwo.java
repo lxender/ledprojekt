@@ -8,7 +8,8 @@ import app.ledprojekt.traits.*;
 
 public class PlayerTwo extends Player {
     public PlayerTwo(int x, int y) {
-        super(x, y, new Model(new int[][][]{
+        super(x, y);
+        /*super(x, y, new Model(new int[][][]{
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{127,127,127,1},{127,127,127,1},{127,127,127,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{127,0,0,1},{127,127,127,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
@@ -16,10 +17,10 @@ public class PlayerTwo extends Player {
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{0,0,0,0},{0,0,0,0},{127,0,0,1},{0,0,0,0},{0,0,0,0}}
-        }));
+        }));*/
 
-        /*
-        Hat für Fehler in Weapon gesorgt? o.O
+
+        //Hat für Fehler in Weapon gesorgt? o.O
         Model model = new Model(new int[][][]{
                 {{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{127,0,0,1},{127,127,127,1},{127,127,127,1},{127,127,127,1},{0,0,0,0},{0,0,0,0}},
@@ -41,7 +42,6 @@ public class PlayerTwo extends Player {
                 {{127,0,0,1},{0,0,0,0},{127,0,0,1},{0,0,0,0},{0,0,0,0},{0,0,0,0}}
         });
         this.addAnimation("walk", 200, model, walkFrame, model);
-         */
 
         this.addTraits(new Go(), new Turn(), new Jump(), new Gravity(), new AttackWithWeapon("laser"));
 
