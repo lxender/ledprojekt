@@ -32,8 +32,9 @@ public class Jump extends Trait {
             if(event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == KeyEvent.VK_SPACE) {
 
                 CollisionLayer layer = entity.getCollisionLayerRef();
+                int[][] map = layer.createRelativeCollisionMatrix(entity);
 
-                if(layer.isObstructed(entity, entity.getX(), entity.getY() + 1)) {
+                if(layer.collides(entity.getModel().get2DArray(), entity.getX(), entity.getY() + 1, map)) {
                     // Finde heraus wie hoch maximal gesprungen werden kann
                     for (int i = this.totalMaxHeight; i >= 0; i--) {
                         if(!layer.isObstructed(entity, entity.getX(), entity.getY() - i)) {
