@@ -47,6 +47,11 @@ public class Player implements Entity {
         this.updateBoundingBox();
     }
 
+    public Player(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public void setX(int x) {
         this.x = x;
         this.updateBoundingBox();
@@ -87,6 +92,9 @@ public class Player implements Entity {
 
     public Model getModel() {
         return this.characterModel;
+    }
+    public void setModel(Model model) {
+        this.characterModel = model;
     }
 
     public void setHealth(int value) {
@@ -277,6 +285,10 @@ public class Player implements Entity {
      * Die draw-Methode des Modells des Players wird mit x und y als Integers aufgerufen.
      */
     public void draw(BoardController controller) {
+        if (this.characterModel == null) {
+            System.out.println("No model defined yet.");
+            return;
+        }
         if (this.isDead()) {
             return;
         }
