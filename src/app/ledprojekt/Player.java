@@ -96,6 +96,11 @@ public class Player implements Entity {
         return this.characterModel;
     }
     public void setModel(Model model) {
+        if(this.modelIsFlipped && !model.isFlipped()) {
+            model.flip();
+        } else if(!this.modelIsFlipped && model.isFlipped()) {
+            model.flip();
+        }
         this.characterModel = model;
         this.modelWidth = model.getWidth();
         this.modelHeight = model.getHeight();
@@ -182,7 +187,7 @@ public class Player implements Entity {
      */
     public void flip() {
         this.modelIsFlipped = !this.modelIsFlipped;
-        characterModel.flip();
+        this.characterModel.flip();
         if (this.weapon != null) {
             this.weapon.checkFlip();
         }
@@ -234,8 +239,7 @@ public class Player implements Entity {
     private void playAnimation() {
         Model frame = this.animManager.playAnimation();
         if (frame != null) {
-            this.characterModel = frame;
-            this.updateBoundingBox();
+            this.setModel(frame);
         }
     }
 
@@ -267,6 +271,7 @@ public class Player implements Entity {
      * Velocity wird angewandt. Auf X wird keine DeltaTime angewandt, weil sich X nur um Ganzzahlen bewegt.
      */
     public void update() {
+        if (this.characterModel == null) return;
         if (this.isDead()) {
             this.layer.removeObjectInLayer(this);
             return;

@@ -14,11 +14,12 @@ public class Turn extends Trait {
         if (event != null) {
             if (event.getID() == KeyEvent.KEY_RELEASED) {
                 CollisionLayer layer = entity.getCollisionLayerRef();
+                int[][] map = layer.createRelativeCollisionMatrix(entity);
 
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         if (entity instanceof Player) {
-                            if (!((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
+                            if (!((Player) entity).isFlipped() && !layer.collides(entity.getModel().get2DArray(), entity.getX(), entity.getY(), map)) {
                                 ((Player) entity).flip();
                             }
                         }
@@ -26,7 +27,7 @@ public class Turn extends Trait {
 
                     case KeyEvent.VK_RIGHT:
                         if (entity instanceof Player) {
-                            if (((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
+                            if (((Player) entity).isFlipped() && !layer.collides(entity.getModel().get2DArray(), entity.getX(), entity.getY(), map)) {
                                 ((Player) entity).flip();
                             }
                         }
