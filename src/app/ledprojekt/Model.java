@@ -106,8 +106,9 @@ public class Model {
         return lengths[lengths.length - 1];
     }
     public int getWidth() {
-        return getLongestNonZeroRow(this.model);
+        return this.getLongestNonZeroRow(this.model);
     }
+    public int getWidthWithZeroRows() { return this.getLongestRow(this.model); }
     public int getHeight() {
         return this.model.length;
     }

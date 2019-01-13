@@ -86,7 +86,7 @@ public class Game {
             backgroundLayer.draw();
 
             // Vorderground
-            foregroundLayer.draw();
+            //foregroundLayer.draw();
 
             controller.updateBoard();
 

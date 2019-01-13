@@ -5,6 +5,7 @@ import app.ledprojekt.Model;
 import ledControl.BoardController;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Word implements Drawable {
@@ -17,7 +18,7 @@ public class Word implements Drawable {
     private int sumLetterWidth = 0;
 
     private double counter;
-    private double velocity = 0.5;
+    private double velocity = 0.1;
 
     public Word(String sentence, int x, int y, int[] color) {
         if(color.length != 4) throw new Error("Color array must be of length 4");
@@ -29,13 +30,11 @@ public class Word implements Drawable {
         for (String s : splitSentence) {
             this.sentenceModels.add(new Letter(s, color, true).getModel());
         }
+
+        this.width = this.getWidth();
     }
 
     public void draw(BoardController controller) {
-        if(this.width == -1) {
-            this.width = this.getWidth();
-        }
-
         this.sumLetterWidth = 0;
 
         for (int i = 0; i < this.sentenceModels.size(); i++) {
@@ -51,7 +50,7 @@ public class Word implements Drawable {
                 this.sentenceModels.get(i).draw(controller, this.x + sumLetterWidth + i, this.y);
             }
 
-            sumLetterWidth += this.sentenceModels.get(i).getWidth();
+            this.sumLetterWidth += this.sentenceModels.get(i).getWidthWithZeroRows();
         }
 
         if(this.width - this.x > controller.getWidth()) {
@@ -62,7 +61,7 @@ public class Word implements Drawable {
     private int getWidth() {
         int w = 0;
         for (Model sentenceModel : this.sentenceModels) {
-            w += sentenceModel.getWidth() + 1;
+            w += sentenceModel.getWidthWithZeroRows() + 1;
         }
         return w;
     }
