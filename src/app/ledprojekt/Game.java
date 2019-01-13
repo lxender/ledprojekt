@@ -55,7 +55,7 @@ public class Game {
 //        //dummy.removeWeapon();
 
         this.playerManager = new PlayerManager(player, null);
-        foregroundLayer.addObjectsToLayer(this.playerManager.getP1());
+        this.foregroundLayer.addObjectsToLayer(this.playerManager.getP1());
 
         this.controller = controller;
         this.keyBuffer = controller.getKeyBuffer();
@@ -102,7 +102,7 @@ public class Game {
             while(accumulator > step) {
                 this.update(step);
 
-                if (PRINT_FPS) {
+                if (this.PRINT_FPS) {
                     updates++;
                 }
 
@@ -112,7 +112,7 @@ public class Game {
             // ### ### ### RENDERING ### ### ###
             this.draw();
 
-            if (PRINT_FPS) {
+            if (this.PRINT_FPS) {
                 frames++;
                 if (System.currentTimeMillis() - timer > 1000) {
                     timer += 1000;
