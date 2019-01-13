@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 public class Player implements Entity {
+    private HashMap<String, Integer> keybindings = new HashMap<>();
+
     private double x;
     private double y;
 
@@ -37,6 +39,7 @@ public class Player implements Entity {
     public boolean isJumping = false;
 
     public Player(int x, int y, Model model) {
+        this.setDefaultKeyBindings();
         this.x = x;
         this.y = y;
 
@@ -48,10 +51,24 @@ public class Player implements Entity {
     }
 
     public Player(int x, int y) {
+        this.setDefaultKeyBindings();
         this.x = x;
         this.y = y;
 
         this.bounds = new BoundingBox(x, y, 0, 0);
+    }
+
+    private void setDefaultKeyBindings() {
+        keybindings.put("left", KeyEvent.VK_LEFT);
+        keybindings.put("right", KeyEvent.VK_RIGHT);
+        keybindings.put("jump", KeyEvent.VK_SPACE);
+        keybindings.put("attack", KeyEvent.VK_E);
+    }
+    public void setKeyBindings(HashMap keybindings) {
+        this.keybindings = keybindings;
+    }
+    public HashMap getKeyBindings() {
+        return this.keybindings;
     }
 
     public void setX(int x) {

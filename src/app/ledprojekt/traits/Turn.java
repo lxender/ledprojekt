@@ -15,25 +15,21 @@ public class Turn extends Trait {
             if (event.getID() == KeyEvent.KEY_RELEASED) {
                 CollisionLayer layer = entity.getCollisionLayerRef();
 
-                switch (event.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:
-                        if (entity instanceof Player) {
-                            if (!((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
-                                ((Player) entity).flip();
-                            }
-                        }
-                        break;
+                int leftKey = (int) ((Player) entity).getKeyBindings().get("left");
+                int rightKey = (int) ((Player) entity).getKeyBindings().get("right");
 
-                    case KeyEvent.VK_RIGHT:
-                        if (entity instanceof Player) {
-                            if (((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
-                                ((Player) entity).flip();
-                            }
+                if (event.getKeyCode() == leftKey) {
+                    if (entity instanceof Player) {
+                        if (!((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
+                            ((Player) entity).flip();
                         }
-                        break;
-
-                    default:
-                        break;
+                    }
+                } else if (event.getKeyCode() == rightKey) {
+                    if (entity instanceof Player) {
+                        if (((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
+                            ((Player) entity).flip();
+                        }
+                    }
                 }
             }
         }

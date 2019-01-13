@@ -29,7 +29,9 @@ public class Jump extends Trait {
         }
 
         if (event != null) {
-            if(event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == KeyEvent.VK_SPACE) {
+            int jumpKey = (int) ((Player) entity).getKeyBindings().get("jump");
+
+            if(event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == jumpKey) {
 
                 CollisionLayer layer = entity.getCollisionLayerRef();
                 int[][] map = layer.createRelativeCollisionMatrix(entity);

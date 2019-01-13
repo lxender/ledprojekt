@@ -17,9 +17,11 @@ public class AttackWithWeapon extends Trait {
     @Override
     public void update(Entity entity) {
         KeyEvent event = entity.getKeyEventRef();
-
         if (event != null) {
-            if (event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == KeyEvent.VK_E) {
+
+            int attackKey = (int) ((Player) entity).getKeyBindings().get("attack");
+
+            if (event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == attackKey) {
                 if (entity instanceof Player && ((Player) entity).getWeapon() != null) {
                     ((Player) entity).getWeapon().setAnimationPlayState(this.animationName, true);
                 }

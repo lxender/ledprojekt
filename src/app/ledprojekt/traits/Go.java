@@ -22,31 +22,27 @@ public class Go extends Trait {
             if(event.getID() == KeyEvent.KEY_RELEASED) {
                 int[][] map = layer.createRelativeCollisionMatrix(entity);
 
-                switch (event.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:
-                        if(!layer.collides(entity.getModel().get2DArray(), entity.getX() - 1, entity.getY(), map)) {
-                            entity.setX(entity.getX() - 1);
-                            if(entity instanceof Player) {
-                                if (((Player) entity).hasAnimation(this.animationName)) {
-                                    entity.setAnimationPlayState(this.animationName, true);
-                                }
+                int leftKey = (int) ((Player) entity).getKeyBindings().get("left");
+                int rightKey = (int) ((Player) entity).getKeyBindings().get("right");
+
+                if(event.getKeyCode() == leftKey) {
+                    if(!layer.collides(entity.getModel().get2DArray(), entity.getX() - 1, entity.getY(), map)) {
+                        entity.setX(entity.getX() - 1);
+                        if(entity instanceof Player) {
+                            if (((Player) entity).hasAnimation(this.animationName)) {
+                                entity.setAnimationPlayState(this.animationName, true);
                             }
                         }
-                        break;
-
-                    case KeyEvent.VK_RIGHT:
-                        if(!layer.collides(entity.getModel().get2DArray(), entity.getX() + 1, entity.getY(), map)) {
-                            entity.setX(entity.getX() + 1);
-                            if(entity instanceof Player) {
-                                if (((Player) entity).hasAnimation(this.animationName)) {
-                                    entity.setAnimationPlayState(this.animationName, true);
-                                }
+                    }
+                } else if(event.getKeyCode() == rightKey) {
+                    if(!layer.collides(entity.getModel().get2DArray(), entity.getX() + 1, entity.getY(), map)) {
+                        entity.setX(entity.getX() + 1);
+                        if(entity instanceof Player) {
+                            if (((Player) entity).hasAnimation(this.animationName)) {
+                                entity.setAnimationPlayState(this.animationName, true);
                             }
                         }
-                        break;
-
-                    default:
-                        break;
+                    }
                 }
             }
         }
