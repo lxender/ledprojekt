@@ -23,11 +23,19 @@ public class Game {
         }
     }
 
-    static boolean PRINT_FPS = false;
+    private final boolean PRINT_FPS = false;
 
-    void run() {
-        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
-        KeyBuffer buffer = controller.getKeyBuffer();
+    private boolean isRunning = true;
+
+    private BoardController controller;
+    private KeyBuffer keyBuffer;
+    private PlayerManager playerManager;
+    private Layer backgroundLayer;
+    private CollisionLayer foregroundLayer;
+
+    private void init() {
+        this.controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
+        this.keyBuffer = this.controller.getKeyBuffer();
 
         Geometry ground = new Geometry(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
         Geometry blockGround = new Geometry(6, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
@@ -36,8 +44,8 @@ public class Game {
         block.setName("block");
         //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
-        Layer backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
-        CollisionLayer foregroundLayer = new CollisionLayer(controller, ground, blockGround/*, block*/);
+        this.backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
+        this.foregroundLayer = new CollisionLayer(controller, ground, blockGround/*, block*/);
 
         Player player = new PlayerTwo(4, 0);
         player.disableHealthbar();
@@ -47,8 +55,33 @@ public class Game {
 //        dummy.removeTrait("Jump");
 //        //dummy.removeWeapon();
 
-        PlayerManager playerManager = new PlayerManager(player, null);
-        foregroundLayer.addObjectsToLayer(playerManager.getP1());
+        this.playerManager = new PlayerManager(player, null);
+        foregroundLayer.addObjectsToLayer(this.playerManager.getP1());
+    }
+
+    private void update(double delta) {
+        this.playerManager.update(this.keyBuffer.pop(), delta);
+        this.foregroundLayer.update();
+    }
+
+    private void draw() {
+        this.controller.resetColors();
+
+        //Aus Debug-Gründen: Rahmen um das Feld
+        this.drawBorder(controller);
+
+        // Die Layer unterscheiden sich in der Kollisionsabfrage, also Hintergrund kann nicht mit Vorderung kollidieren
+        // Hintergrund
+        this.backgroundLayer.draw();
+
+        // Vorderground
+        this.foregroundLayer.draw();
+
+        this.controller.updateBoard();
+    }
+
+    void run() {
+        this.init();
 
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
@@ -58,15 +91,14 @@ public class Game {
         int frames = 0;
         int updates = 0;
 
-        while(true) {
+        while(this.isRunning) {
             long now = System.currentTimeMillis();
             accumulator += (now - lastTime) / 1000.0;
             lastTime = now;
 
             // ### ### ### UPDATING ### ### ###
             while(accumulator > step) {
-                playerManager.update(buffer.pop(), step);
-                foregroundLayer.update();
+                this.update(step);
 
                 if (PRINT_FPS) {
                     updates++;
@@ -76,19 +108,7 @@ public class Game {
             }
 
             // ### ### ### RENDERING ### ### ###
-            controller.resetColors();
-
-            //Aus Debug-Gründen: Rahmen um das Feld
-            this.drawBorder(controller);
-
-            // Die Layer unterscheiden sich in der Kollisionsabfrage, also Hintergrund kann nicht mit Vorderung kollidieren
-            // Hintergrund
-            backgroundLayer.draw();
-
-            // Vorderground
-            foregroundLayer.draw();
-
-            controller.updateBoard();
+            this.draw();
 
             if (PRINT_FPS) {
                 frames++;
