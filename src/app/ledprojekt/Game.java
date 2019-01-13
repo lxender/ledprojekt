@@ -34,8 +34,7 @@ public class Game {
     private CollisionLayer foregroundLayer;
 
     private void init() {
-        this.controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
-        this.keyBuffer = this.controller.getKeyBuffer();
+        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
 
         Geometry ground = new Geometry(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
         Geometry blockGround = new Geometry(6, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
@@ -57,6 +56,9 @@ public class Game {
 
         this.playerManager = new PlayerManager(player, null);
         foregroundLayer.addObjectsToLayer(this.playerManager.getP1());
+
+        this.controller = controller;
+        this.keyBuffer = controller.getKeyBuffer();
     }
 
     private void update(double delta) {
