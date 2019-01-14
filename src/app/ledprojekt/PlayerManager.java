@@ -31,6 +31,17 @@ public class PlayerManager {
         if (this.p2 != null) {
             this.p2.setKeyBindings(keybindingsP2);
         }
+
+        if (this.p1 != null && this.p2 != null) {
+            if (this.p1.hasTrait("Turn")) {
+                this.p1.removeTrait("Turn");
+            }
+
+            if (this.p2.hasTrait("Turn")) {
+                this.p2.removeTrait("Turn");
+            }
+            this.p2.flip();
+        }
     }
 
     public Player getP1() {

@@ -180,6 +180,14 @@ public class Player implements Entity {
     public void addTraits(Trait... traits) {
         this.traits.addAll(Arrays.asList(traits));
     }
+    public boolean hasTrait(String className) {
+        for (Trait t : this.traits) {
+            if (t.getClass().getSimpleName().equals(className)) {
+               return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Entfernt die Klasse der Eigenschaft.
