@@ -21,7 +21,7 @@ public class PlayerManager {
         keybindingsP1.put("jump", KeyEvent.VK_W);
         keybindingsP1.put("attack", KeyEvent.VK_E);
         if (this.p1 != null) {
-            //this.p1.setKeyBindings(keybindingsP2);
+            this.p1.setKeyBindings(keybindingsP1);
         }
 
         keybindingsP2.put("left", KeyEvent.VK_LEFT);
@@ -49,6 +49,16 @@ public class PlayerManager {
     }
     public Player getP2() {
         return this.p2;
+    }
+    public List getPlayersAsList() {
+        List<Player> list = new ArrayList<>();
+        if (this.p1 != null) {
+            list.add(this.p1);
+        }
+        if (this.p2 != null) {
+            list.add(this.p2);
+        }
+        return list;
     }
 
     public void update(KeyEvent event, double delta) {

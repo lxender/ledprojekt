@@ -48,14 +48,14 @@ public class Game {
 
         Player player = new PlayerTwo(4, 0);
         player.disableHealthbar();
-//        Player dummy = new DefaultPlayer(1, 0);
+        Player dummy = new DefaultPlayer(14, 0);
 //        dummy.removeTrait("Go");
 //        dummy.removeTrait("Turn");
 //        dummy.removeTrait("Jump");
-//        //dummy.removeWeapon();
+//        dummy.removeWeapon();
 
-        this.playerManager = new PlayerManager(player, null);
-        this.foregroundLayer.addObjectsToLayer(this.playerManager.getP1());
+        this.playerManager = new PlayerManager(player, dummy);
+        this.foregroundLayer.addObjectsToLayer(this.playerManager.getPlayersAsList());
 
         this.controller = controller;
         this.keyBuffer = controller.getKeyBuffer();

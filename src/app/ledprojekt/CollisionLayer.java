@@ -26,6 +26,9 @@ public class CollisionLayer{
     public void addObjectsToLayer(Collidable... objs) {
         this.objectsInLayer.addAll(Arrays.asList(objs));
     }
+    public void addObjectsToLayer(List list) {
+        this.objectsInLayer.addAll(list);
+    }
 
     /**
      * Entfernt Objekte nachdem die Update-Methode jedes Objekt durch gegangen ist.
