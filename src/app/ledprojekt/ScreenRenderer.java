@@ -1,10 +1,10 @@
 package app.ledprojekt;
 
-public class Loop {
+public class ScreenRenderer {
     private boolean PRINT_FPS;
     public boolean isRunning = true;
 
-    public Loop(boolean print_fps) {
+    public ScreenRenderer(boolean print_fps) {
         this.PRINT_FPS = print_fps;
     }
 
