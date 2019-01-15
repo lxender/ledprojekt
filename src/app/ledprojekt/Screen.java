@@ -1,7 +1,9 @@
 package app.ledprojekt;
 
+import ledControl.BoardController;
+
 public interface Screen {
-    void init();
+    void init(BoardController controller);
     void update(double delta);
-    void draw();
+    void draw(BoardController controller);
 }
