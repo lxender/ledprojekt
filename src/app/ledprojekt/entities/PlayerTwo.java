@@ -18,7 +18,9 @@ public class PlayerTwo extends Player {
                 {{0,0,0,0},{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{0,0,0,0},{127,0,0,1},{127,0,0,1},{127,0,0,1},{127,0,0,1},{0,0,0,0},{0,0,0,0}},
                 {{0,0,0,0},{127,0,0,1},{0,0,0,0},{0,0,0,0},{127,0,0,1},{0,0,0,0},{0,0,0,0}}
+
         });
+
         this.setModel(model);
 
         // Auskommentierte Code ist ein Beispiel für eine Laufanimation (sieht aber ziemlich weird aus)
