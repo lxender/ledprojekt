@@ -9,6 +9,12 @@ import ledControl.LedConfiguration;
 
 import java.util.ArrayList;
 
+/*
+ * "Der Auswahlbildschirm nervt, wie komme ich direkt zum Spiel?"
+ * Entferne ggf. die Kommentare von "/*static {...} *\/" adde den/die Player, die du testen willst
+ * Änder "static State state = States.START" zu "static State state = States.GAME"
+ */
+
 public class Main {
     static States state = States.START;
 
