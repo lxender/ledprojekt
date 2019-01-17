@@ -4,7 +4,7 @@ import ledControl.BoardController;
 
 import java.util.*;
 
-public class CollisionLayer{
+public class CollisionLayer implements Layer {
     private BoardController controller;
 
     public int width;
@@ -186,14 +186,14 @@ public class CollisionLayer{
         Model.print3DArray(displayMap);
     }
 
-    void update() {
+    public void update() {
         for (Collidable obj : this.objectsInLayer) {
             obj.updateCollisionLayerRef(this);
             obj.update();
         }
         this.objectsInLayer.removeAll(this.objectsToRemove);
     }
-    void draw() {
+    public void draw() {
         if (this.PRINT_LAYER) {
             this.printLayer();
         }

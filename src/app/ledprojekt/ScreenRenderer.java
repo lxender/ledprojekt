@@ -1,16 +1,28 @@
 package app.ledprojekt;
 
+import ledControl.BoardController;
+
 public class ScreenRenderer {
     private boolean PRINT_FPS;
     public boolean isRunning = true;
+
+    private Screen currentScreen = null;
 
     public ScreenRenderer(boolean print_fps) {
         this.PRINT_FPS = print_fps;
     }
 
-    /*void run(Screen screen) {
-        screen.init();
+    private void screenManager(BoardController controller) {
+        if (this.currentScreen == null || (Main.state == States.START && !(this.currentScreen instanceof StartScreen))) {
+            this.currentScreen = new StartScreen();
+            this.currentScreen.init(controller);
+        } else if (Main.state == States.GAME && !(this.currentScreen instanceof Game)) {
+            this.currentScreen = new Game();
+            this.currentScreen.init(controller);
+        }
+    }
 
+    void run(BoardController controller) {
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
         double step = 1/60.0;
@@ -24,9 +36,11 @@ public class ScreenRenderer {
             accumulator += (now - lastTime) / 1000.0;
             lastTime = now;
 
+            this.screenManager(controller);
+
             // ### ### ### UPDATING ### ### ###
             while(accumulator > step) {
-                screen.update(step);
+                this.currentScreen.update(step);
 
                 if (this.PRINT_FPS) {
                     updates++;
@@ -36,7 +50,7 @@ public class ScreenRenderer {
             }
 
             // ### ### ### RENDERING ### ### ###
-            screen.draw();
+            this.currentScreen.draw(controller);
 
             if (this.PRINT_FPS) {
                 frames++;
@@ -48,5 +62,5 @@ public class ScreenRenderer {
                 }
             }
         }
-    }*/
+    }
 }

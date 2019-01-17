@@ -14,7 +14,12 @@ public class PlayerManager {
 
     public PlayerManager(Player p1, Player p2) {
         this.p1 = p1;
+        this.p1.setX(1);
+
         this.p2 = p2;
+        if (this.p2 != null) {
+            this.p2.setX(12);
+        }
 
         keybindingsP1.put("left", KeyEvent.VK_A);
         keybindingsP1.put("right", KeyEvent.VK_D);
