@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 
 public class Main {
-    static States state = States.START;
+    static States state = States.GAME;
 
     static final Player[] availablePlayers = new Player[]{
             new DefaultPlayer(1, 1),
@@ -26,10 +26,10 @@ public class Main {
     };
 
     static ArrayList<Player> players = new ArrayList<>();
-    /*static {
-        players.add(new DefaultPlayer(0, 0));
+    static {
+        players.add(new Goku(0, 0));
         players.add(null);
-    }*/
+    }
 
     public static void main(String[] args) {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);

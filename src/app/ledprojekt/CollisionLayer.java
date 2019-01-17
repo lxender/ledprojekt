@@ -59,7 +59,7 @@ public class CollisionLayer implements Layer {
      * @param obj Objekt mit Modell zum Einfügen
      * @param map Array, in die das Modell eingefügt werden soll
      */
-    public void mergeIntoMatrix(Collidable obj, int[][] map) {
+    private void mergeIntoMatrix(Collidable obj, int[][] map) {
         int[][][] matrix = obj.getModel().get2DArray();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -87,6 +87,9 @@ public class CollisionLayer implements Layer {
             for (int j = 0; j < model[i].length; ++j) {
                 try {
                     if(model[i][j][3] != 0 && map[i + y][j + x] != 0) {
+                        /*if (model[i][j][3] == 2 && map[i + y][j + x] != 2) {
+
+                        }*/
                         return true;
                     }
                 } catch(ArrayIndexOutOfBoundsException e) {
@@ -114,10 +117,10 @@ public class CollisionLayer implements Layer {
 
     /**
      * Gibt das Objekt zurück, das an der übergebenen Stelle innerhalb der übergebenen Breite und Höhe liegt
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param x Anfangswert auf der X-Achse an dem ein Objekt sein kann
+     * @param y Anfangswert auf der Y-Achse an dem ein Objekt sein kann
+     * @param width Breite des Rechtecks, das überprüft werden soll
+     * @param height Höhe des Rechtecks, das überprüft werden soll
      * @return null wenn nichts innerhalb der Stelle ist oder das Objekt innerhalb der Stelle
      */
     public Collidable getObjectAt(int x, int y, int width, int height) {
@@ -137,8 +140,8 @@ public class CollisionLayer implements Layer {
     /**
      * Methode zum Überprüfen, ob eine Stelle in dem Layer belegt ist.
      * @param entityRef Für das Abrufen der Breite und Höhe und zum Überspringen des Objektes im Speicher des Layers.
-     * @param x
-     * @param y
+     * @param x Anfangswert auf der X-Achse an dem ein Objekt sein kann
+     * @param y Anfangswert auf der Y-Achse an dem ein Objekt sein kann
      * @return true wenn die Stelle belegt ist, false wenn nicht
      */
     public boolean isObstructed(Collidable entityRef, int x, int y) {
