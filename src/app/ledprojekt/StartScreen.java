@@ -14,11 +14,7 @@ import java.util.Arrays;
 public class StartScreen implements Screen {
     private int x = 0;
 
-    private Player[] playersOnDisplay = new Player[]{
-            new DefaultPlayer(1, 1),
-            new PlayerOne(1, 1),
-            new PlayerTwo(2, 1),
-    };
+    private Player[] playersOnDisplay = Main.availablePlayers;
     private int selectedBox = this.playersOnDisplay.length / 2;
 
     private KeyBuffer buffer = null;
