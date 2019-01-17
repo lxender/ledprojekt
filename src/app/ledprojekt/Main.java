@@ -1,6 +1,7 @@
 package app.ledprojekt;
 
 import app.ledprojekt.entities.DefaultPlayer;
+import app.ledprojekt.entities.Goku;
 import app.ledprojekt.entities.PlayerOne;
 import app.ledprojekt.entities.PlayerTwo;
 import ledControl.BoardController;
@@ -8,14 +9,13 @@ import ledControl.LedConfiguration;
 
 import java.util.ArrayList;
 
-//
-
 public class Main {
     static States state = States.START;
 
     static final Player[] availablePlayers = new Player[]{
             new DefaultPlayer(1, 1),
             new PlayerOne(1, 1),
+            new Goku(1, 1),
             new PlayerTwo(2, 1),
     };
 

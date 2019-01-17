@@ -153,7 +153,7 @@ public class Weapon implements Collidable {
             this.checkFlip();
             if(this.player.isFlipped()) {
 //                this.x = this.player.getX() + this.model.getWidth();
-                int ofx = (this.offsetX < 0) ? this.offsetX : -this.offsetX;
+                int ofx = (this.offsetX < 0) ? -this.offsetX : -this.offsetX;
                 this.x = this.player.getX() + ofx - this.initialWidth;
                 this.y = this.player.getY() + this.offsetY;
             } else {

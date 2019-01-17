@@ -25,11 +25,13 @@ public class PlayerManager {
         keybindingsP1.put("right", KeyEvent.VK_D);
         keybindingsP1.put("jump", KeyEvent.VK_W);
         keybindingsP1.put("attack", KeyEvent.VK_E);
+        keybindingsP1.put("secondary-attack", KeyEvent.VK_Q);
 
         keybindingsP2.put("left", KeyEvent.VK_LEFT);
         keybindingsP2.put("right", KeyEvent.VK_RIGHT);
         keybindingsP2.put("jump", KeyEvent.VK_UP);
         keybindingsP2.put("attack", KeyEvent.VK_L);
+        keybindingsP2.put("secondary-attack", KeyEvent.VK_K);
 
         if (this.p1 != null && this.p2 != null) {
             this.p1.setKeyBindings(keybindingsP1);

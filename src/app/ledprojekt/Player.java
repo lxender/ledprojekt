@@ -63,6 +63,7 @@ public class Player implements Entity {
         keybindings.put("right", KeyEvent.VK_RIGHT);
         keybindings.put("jump", KeyEvent.VK_SPACE);
         keybindings.put("attack", KeyEvent.VK_E);
+        keybindings.put("secondary-attack", KeyEvent.VK_Q);
     }
     public void setKeyBindings(HashMap keybindings) {
         this.keybindings = keybindings;

@@ -87,18 +87,6 @@ public class CollisionLayer implements Layer {
             for (int j = 0; j < model[i].length; ++j) {
                 try {
                     if(model[i][j][3] != 0 && map[i + y][j + x] != 0) {
-//                    if(model[y][x][3] == 2 && map[y + obj.y][x + obj.x] == 1) {
-//                        for (Collidable hitCandidate : this.objectsInLayer) {
-//                            if (hitCandidate == obj) continue;
-//
-//                            if(obj.x < hitCandidate.x + hitCandidate.model[0].length &&
-//                                    obj.x + obj.model[0].length > hitCandidate.x &&
-//                                    obj.y < hitCandidate.y + hitCandidate.model.length &&
-//                                    obj.model.length + obj.y > hitCandidate.y) {
-//                                System.out.println("Collision with: " + hitCandidate.type);
-//                            }
-//                        }
-//                    }
                         return true;
                     }
                 } catch(ArrayIndexOutOfBoundsException e) {
