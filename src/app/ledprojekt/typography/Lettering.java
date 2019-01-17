@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Word implements Drawable {
+public class Lettering implements Drawable {
     private List<Model> sentenceModels = new ArrayList<>();
 
     private int x;
@@ -20,7 +20,7 @@ public class Word implements Drawable {
     private double counter;
     private double velocity = 0.1;
 
-    public Word(String sentence, int x, int y, int[] color) {
+    public Lettering(String sentence, int x, int y, int[] color) {
         if(color.length != 4) throw new Error("Color array must be of length 4");
 
         this.x = x;
@@ -64,6 +64,16 @@ public class Word implements Drawable {
             w += sentenceModel.getWidthWithZeroRows() + 1;
         }
         return w;
+    }
+
+    public int getHeight() {
+        int highestHeight = 0;
+        for (Model s : this.sentenceModels) {
+            if (s.getHeight() > highestHeight) {
+                highestHeight = s.getHeight();
+            }
+        }
+        return highestHeight;
     }
 
 }

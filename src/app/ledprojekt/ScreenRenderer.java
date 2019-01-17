@@ -17,8 +17,8 @@ public class ScreenRenderer {
             this.currentScreen = new StartScreen();
             this.currentScreen.init(controller);
         } else if (Main.state == States.GAME && !(this.currentScreen instanceof Game)) {
-            //this.currentScreen = new Game();
-            //this.currentScreen.init(controller);
+            this.currentScreen = new Game();
+            this.currentScreen.init(controller);
         }
     }
 

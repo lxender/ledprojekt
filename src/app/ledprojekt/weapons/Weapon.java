@@ -111,6 +111,7 @@ public class Weapon implements Collidable {
     }
 
     private void checkCollision() {
+        if (layer == null) return;
         if (layer.isObstructed(this, this.x, this.y)) {
             Collidable intersectionObject = null;
 

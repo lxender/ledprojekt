@@ -1,18 +1,12 @@
 package app.ledprojekt;
 
-import app.ledprojekt.entities.DefaultPlayer;
-import app.ledprojekt.entities.PlayerOne;
 import app.ledprojekt.entities.PlayerTwo;
-import app.ledprojekt.traits.*;
-import app.ledprojekt.typography.Word;
+import app.ledprojekt.typography.Lettering;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 import ledControl.gui.KeyBuffer;
 
-import java.awt.event.KeyEvent;
-import java.util.Arrays;
-
-public class Game {
+public class Game implements Screen {
     private void drawBorder(BoardController controller) {
         for (int i = 0; i < controller.getHeight(); i++) {
             for (int j = 0; j < controller.getWidth(); j++) {
@@ -33,8 +27,8 @@ public class Game {
     private Layer backgroundLayer;
     private CollisionLayer foregroundLayer;
 
-    private void init() {
-        BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
+    public void init(BoardController controller) {
+        //BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
 
         Geometry ground = new Geometry(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
         Geometry blockGround = new Geometry(6, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
@@ -43,31 +37,31 @@ public class Game {
         block.setName("block");
         //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
-        this.backgroundLayer = new Layer(controller, new Word("abc", 0, 0, new int[]{0, 127, 0, 1}));
+        this.backgroundLayer = new Layer(controller, new Lettering("abc", 0, 0, new int[]{0, 127, 0, 1}));
         this.foregroundLayer = new CollisionLayer(controller, ground, blockGround/*, block*/);
 
-        Player player = new PlayerTwo(4, 0);
-        player.disableHealthbar();
+        //Player player = new PlayerTwo(4, 0);
+        //player.disableHealthbar();
 //        Player dummy = new DefaultPlayer(14, 0);
 //        dummy.removeTrait("Go");
 //        dummy.removeTrait("Turn");
 //        dummy.removeTrait("Jump");
 //        dummy.removeWeapon();
 
-        this.playerManager = new PlayerManager(player, null);
+        this.playerManager = new PlayerManager(Main.players.get(0), Main.players.get(1));
         this.foregroundLayer.addObjectsToLayer(this.playerManager.getPlayersAsList());
 
         this.controller = controller;
         this.keyBuffer = controller.getKeyBuffer();
     }
 
-    private void update(double delta) {
+    public void update(double delta) {
         this.playerManager.update(this.keyBuffer.pop(), delta);
         this.foregroundLayer.update();
     }
 
-    private void draw() {
-        this.controller.resetColors();
+    public void draw(BoardController controller) {
+        controller.resetColors();
 
         //Aus Debug-Gründen: Rahmen um das Feld
         this.drawBorder(controller);
@@ -83,8 +77,6 @@ public class Game {
     }
 
     void run() {
-        this.init();
-
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
         double step = 1/60.0;
@@ -110,7 +102,7 @@ public class Game {
             }
 
             // ### ### ### RENDERING ### ### ###
-            this.draw();
+            //this.draw();
 
             if (this.PRINT_FPS) {
                 frames++;
