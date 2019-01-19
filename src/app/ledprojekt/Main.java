@@ -13,21 +13,21 @@ import java.util.ArrayList;
  */
 
 public class Main {
-    public static States state = States.GAME;
+    public static States state = Main.States.GAME;
 
     public static final Player[] availablePlayers = new Player[]{
             new DefaultPlayer(1, 1),
             new PlayerOne(1, 1),
             new SwampGuy(1, 1),
             new Goku(1, 1),
-            new PlayerTwo(2, 1),
+            new PlayerTwo(1, 1),
     };
 
     public static ArrayList<Player> players = new ArrayList<>();
     static {
         Player p1 = new Goku(0, 0);
         //p1.removeWeapon();
-        players.add(p1);
+        players.add(new PlayerTwo(0, 0));
 
         Player p2 = new DefaultPlayer(0, 0);
         p2.removeWeapon();
@@ -39,5 +39,10 @@ public class Main {
 
         ScreenRenderer renderer = new ScreenRenderer(false);
         renderer.run(controller);
+    }
+
+    public enum States {
+        START,
+        GAME
     }
 }

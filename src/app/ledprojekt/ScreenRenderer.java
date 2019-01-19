@@ -13,10 +13,10 @@ public class ScreenRenderer {
     }
 
     private void screenManager(BoardController controller) {
-        if (this.currentScreen == null || (Main.state == States.START && !(this.currentScreen instanceof StartScreen))) {
+        if (this.currentScreen == null || (Main.state == Main.States.START && !(this.currentScreen instanceof StartScreen))) {
             this.currentScreen = new StartScreen();
             this.currentScreen.init(controller);
-        } else if (Main.state == States.GAME && !(this.currentScreen instanceof Game)) {
+        } else if (Main.state == Main.States.GAME && !(this.currentScreen instanceof Game)) {
             this.currentScreen = new Game();
             this.currentScreen.init(controller);
         }

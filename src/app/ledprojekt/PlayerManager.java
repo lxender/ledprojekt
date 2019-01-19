@@ -52,12 +52,6 @@ public class PlayerManager {
         }
     }
 
-    public Player getP1() {
-        return this.p1;
-    }
-    public Player getP2() {
-        return this.p2;
-    }
     public List getPlayersAsList() {
         List<Player> list = new ArrayList<>();
         if (this.p1 != null) {

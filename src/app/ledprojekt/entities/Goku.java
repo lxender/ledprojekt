@@ -147,7 +147,7 @@ public class Goku extends Player {
         this.addAnimation("finisher", 2000, finisherone, finishertwo, finisherthree, finisherfour);
 
         this.addTraits(new Go(), new Turn(), new Jump(), new Gravity(), new AttackWithWeapon("laser"), new AttackWithModel("punch"));
-        this.addWeapon(new Laser(-6, 0,this));
+        this.addWeapon(new Laser(-2, 4,this));
 
     }
 }
