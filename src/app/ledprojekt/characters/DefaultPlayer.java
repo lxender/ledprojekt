@@ -1,4 +1,4 @@
-package app.ledprojekt.entities;
+package app.ledprojekt.characters;
 
 import app.ledprojekt.Model;
 import app.ledprojekt.Player;

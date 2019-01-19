@@ -1,5 +1,6 @@
-package app.ledprojekt;
+package app.ledprojekt.layers;
 
+import app.ledprojekt.Layer;
 import ledControl.BoardController;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class DrawingLayer implements Layer {
 
     BoardController controller;
 
-    DrawingLayer(BoardController controller, Drawable... objects) {
+    public DrawingLayer(BoardController controller, Drawable... objects) {
         this.controller = controller;
         this.objectsInLayer.addAll(Arrays.asList(objects));
     }

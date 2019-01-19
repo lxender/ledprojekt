@@ -1,11 +1,9 @@
-package app.ledprojekt.entities;
+package app.ledprojekt.characters;
 
 import app.ledprojekt.Model;
 import app.ledprojekt.Player;
 import app.ledprojekt.weapons.Laser;
-import app.ledprojekt.weapons.Sword;
 import app.ledprojekt.traits.*;
-import app.ledprojekt.weapons.SwordLaser;
 
 public class Goku extends Player {
     public Goku(int x, int y) {

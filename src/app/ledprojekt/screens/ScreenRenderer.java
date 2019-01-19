@@ -1,5 +1,6 @@
-package app.ledprojekt;
+package app.ledprojekt.screens;
 
+import app.ledprojekt.Main;
 import ledControl.BoardController;
 
 public class ScreenRenderer {
@@ -22,7 +23,7 @@ public class ScreenRenderer {
         }
     }
 
-    void run(BoardController controller) {
+    public void run(BoardController controller) {
         long timer = System.currentTimeMillis();
         long lastTime = System.currentTimeMillis();
         double step = 1/60.0;

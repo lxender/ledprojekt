@@ -1,6 +1,7 @@
 package app.ledprojekt;
 
-import app.ledprojekt.entities.*;
+import app.ledprojekt.characters.*;
+import app.ledprojekt.screens.ScreenRenderer;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 

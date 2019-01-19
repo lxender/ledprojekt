@@ -1,4 +1,4 @@
-package app.ledprojekt;
+package app.ledprojekt.screens;
 
 import ledControl.BoardController;
 

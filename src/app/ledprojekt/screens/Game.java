@@ -1,5 +1,11 @@
-package app.ledprojekt;
+package app.ledprojekt.screens;
 
+import app.ledprojekt.Geometry;
+import app.ledprojekt.Layer;
+import app.ledprojekt.Main;
+import app.ledprojekt.PlayerManager;
+import app.ledprojekt.layers.CollisionLayer;
+import app.ledprojekt.layers.DrawingLayer;
 import app.ledprojekt.typography.Lettering;
 import ledControl.BoardController;
 import ledControl.gui.KeyBuffer;
@@ -21,21 +27,15 @@ public class Game implements Screen {
     private KeyBuffer keyBuffer;
     private PlayerManager playerManager;
     private ArrayList<Layer> layers = new ArrayList<>();
-    private DrawingLayer backgroundLayer;
-    private CollisionLayer foregroundLayer;
 
     public void init(BoardController controller) {
-        //BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
-
         Geometry ground = new Geometry(0, controller.getHeight() - 1, controller.getWidth(), 1, new int[]{0, 80, 0, 1});
         Geometry blockGround = new Geometry(6, controller.getHeight() - 3, 4, 2, new int[]{80, 90, 0, 1});
-        Geometry block = new Geometry(7, controller.getHeight() - 14, 4, 2, new int[]{80, 90, 0, 1});
-        //Geometry wall = new Geometry(1, controller.getHeight() - 1 - 6, 1, 6, new int[]{80, 90, 0, 1});
 
         this.playerManager = new PlayerManager(controller, Main.players.get(0), Main.players.get(1));
 
         layers.add(new DrawingLayer(controller, new Lettering("abc", 0, 0, new int[]{0, 127, 0, 1})));
-        layers.add(new CollisionLayer(controller, ground, blockGround/*, block*/));
+        layers.add(new CollisionLayer(controller, ground, blockGround));
         ((CollisionLayer) layers.get(1)).addObjectsToLayer(this.playerManager.getPlayersAsList());
 
         this.controller = controller;
@@ -64,44 +64,4 @@ public class Game implements Screen {
 
         this.controller.updateBoard();
     }
-
-//    void run() {
-//        long timer = System.currentTimeMillis();
-//        long lastTime = System.currentTimeMillis();
-//        double step = 1/60.0;
-//        double accumulator = 0;
-//
-//        int frames = 0;
-//        int updates = 0;
-//
-//        while(this.isRunning) {
-//            long now = System.currentTimeMillis();
-//            accumulator += (now - lastTime) / 1000.0;
-//            lastTime = now;
-//
-//            // ### ### ### UPDATING ### ### ###
-//            while(accumulator > step) {
-//                this.update(step);
-//
-//                if (this.PRINT_FPS) {
-//                    updates++;
-//                }
-//
-//                accumulator -= step;
-//            }
-//
-//            // ### ### ### RENDERING ### ### ###
-//            //this.draw();
-//
-//            if (this.PRINT_FPS) {
-//                frames++;
-//                if (System.currentTimeMillis() - timer > 1000) {
-//                    timer += 1000;
-//                    System.out.println("Updates: " + updates + ", " + frames + "fps");
-//                    updates = 0;
-//                    frames = 0;
-//                }
-//            }
-//        }
-//    }
 }

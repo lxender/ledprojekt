@@ -1,14 +1,13 @@
 package app.ledprojekt.traits;
 
-import app.ledprojekt.CollisionLayer;
-import app.ledprojekt.Entity;
+import app.ledprojekt.layers.CollisionLayer;
 import app.ledprojekt.Player;
 
 import java.awt.event.KeyEvent;
 
 public class Turn extends Trait {
     @Override
-    public void update(Entity entity) {
+    public void update(Player entity) {
         KeyEvent event = entity.getKeyEventRef();
 
         if (event != null) {
@@ -19,16 +18,12 @@ public class Turn extends Trait {
                 int rightKey = (int) ((Player) entity).getKeyBindings().get("right");
 
                 if (event.getKeyCode() == leftKey) {
-                    if (entity instanceof Player) {
-                        if (!((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
-                            ((Player) entity).flip();
-                        }
+                    if (!entity.isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
+                        entity.flip();
                     }
                 } else if (event.getKeyCode() == rightKey) {
-                    if (entity instanceof Player) {
-                        if (((Player) entity).isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
-                            ((Player) entity).flip();
-                        }
+                    if (entity.isFlipped() && !layer.isObstructed(entity, entity.getX(), entity.getY())) {
+                        entity.flip();
                     }
                 }
             }

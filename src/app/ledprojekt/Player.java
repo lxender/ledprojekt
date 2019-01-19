@@ -1,5 +1,7 @@
 package app.ledprojekt;
 
+import app.ledprojekt.layers.Collidable;
+import app.ledprojekt.layers.CollisionLayer;
 import app.ledprojekt.traits.Trait;
 import app.ledprojekt.weapons.Weapon;
 import ledControl.BoardController;
@@ -7,7 +9,7 @@ import ledControl.BoardController;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-public class Player implements Entity {
+public class Player implements Collidable {
     private HashMap<String, Integer> keybindings = new HashMap<>();
 
     private double x;

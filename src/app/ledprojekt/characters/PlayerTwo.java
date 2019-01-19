@@ -1,9 +1,8 @@
-package app.ledprojekt.entities;
+package app.ledprojekt.characters;
 
 import app.ledprojekt.Model;
 import app.ledprojekt.Player;
 import app.ledprojekt.weapons.Laser;
-import app.ledprojekt.weapons.Sword;
 import app.ledprojekt.traits.*;
 
 public class PlayerTwo extends Player {

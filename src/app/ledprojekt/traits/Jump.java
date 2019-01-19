@@ -1,7 +1,6 @@
 package app.ledprojekt.traits;
 
-import app.ledprojekt.CollisionLayer;
-import app.ledprojekt.Entity;
+import app.ledprojekt.layers.CollisionLayer;
 import app.ledprojekt.Player;
 
 import java.awt.event.KeyEvent;
@@ -15,21 +14,18 @@ public class Jump extends Trait {
     private int startY = -1;
 
     @Override
-    public void update(Entity entity) {
-        // Warum sollte irgendwas anderes als ein Player springen können?
-        if(!(entity instanceof Player)) return;
-
+    public void update(Player entity) {
         KeyEvent event = entity.getKeyEventRef();
 
         // Wenn der Player springt und die Maximalhöhe erreicht ist (also wenn startY - momentanesY = der Maximalhöhe ist)
         // -> ist der Sprung fertig, also wird alles zurückgesetzt
-        if (((Player) entity).isJumping && Math.abs(this.startY - entity.getY()) >= this.currentJumpMaxHeight) {
-            ((Player) entity).isJumping = false;
+        if (entity.isJumping && Math.abs(this.startY - entity.getY()) >= this.currentJumpMaxHeight) {
+            entity.isJumping = false;
             this.startY = -1;
         }
 
         if (event != null) {
-            int jumpKey = (int) ((Player) entity).getKeyBindings().get("jump");
+            int jumpKey = (int) entity.getKeyBindings().get("jump");
 
             if(event.getID() == KeyEvent.KEY_RELEASED && event.getKeyCode() == jumpKey) {
 
@@ -48,7 +44,7 @@ public class Jump extends Trait {
                     if(this.currentJumpMaxHeight == 0) return;
 
                     // Schalte Gravity aus, damit gesprungen werden kann
-                    ((Player) entity).isJumping = true;
+                    entity.isJumping = true;
 
                     // Setz startY, wenn es noch nicht gesetzt wurde
                     if (this.startY == -1) {

@@ -1,6 +1,6 @@
 package app.ledprojekt.traits;
 
-import app.ledprojekt.Entity;
+import app.ledprojekt.Player;
 
 public abstract class Trait {
     public Object getClassFromArray(String className, Object[] array) {
@@ -12,5 +12,5 @@ public abstract class Trait {
         return null;
     }
 
-    public abstract void update(Entity entity);
+    public abstract void update(Player entity);
 }

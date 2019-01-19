@@ -1,5 +1,8 @@
 package app.ledprojekt;
 
+import app.ledprojekt.layers.Collidable;
+import app.ledprojekt.layers.CollisionLayer;
+import app.ledprojekt.layers.Drawable;
 import ledControl.BoardController;
 
 public class Geometry implements Drawable, Collidable {
@@ -13,7 +16,7 @@ public class Geometry implements Drawable, Collidable {
 
     private String name;
 
-    Geometry(int x, int y, int width, int height, int[] color) {
+    public Geometry(int x, int y, int width, int height, int[] color) {
         int[][][] planeModelArray = new int[height][width][4];
         for (int i = 0; i < planeModelArray.length; i++) {
             for (int j = 0; j < planeModelArray[i].length; j++) {

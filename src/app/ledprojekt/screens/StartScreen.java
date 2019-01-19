@@ -1,8 +1,8 @@
-package app.ledprojekt;
+package app.ledprojekt.screens;
 
-import app.ledprojekt.entities.DefaultPlayer;
-import app.ledprojekt.entities.PlayerOne;
-import app.ledprojekt.entities.PlayerTwo;
+import app.ledprojekt.Main;
+import app.ledprojekt.Player;
+import app.ledprojekt.layers.Drawable;
 import app.ledprojekt.typography.Lettering;
 import ledControl.BoardController;
 import ledControl.gui.KeyBuffer;

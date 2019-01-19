@@ -1,5 +1,9 @@
-package app.ledprojekt;
+package app.ledprojekt.layers;
 
+import app.ledprojekt.BoundingBox;
+import app.ledprojekt.Layer;
+import app.ledprojekt.Model;
+import app.ledprojekt.Player;
 import ledControl.BoardController;
 
 import java.util.*;
@@ -15,7 +19,7 @@ public class CollisionLayer implements Layer {
 
     boolean PRINT_LAYER = false;
 
-    CollisionLayer(BoardController controller, Collidable... objects) {
+    public CollisionLayer(BoardController controller, Collidable... objects) {
         this.controller = controller;
         this.width = controller.getWidth();
         this.height = controller.getHeight();

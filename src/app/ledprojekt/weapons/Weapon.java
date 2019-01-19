@@ -1,12 +1,11 @@
 package app.ledprojekt.weapons;
 
 import app.ledprojekt.*;
-import app.ledprojekt.entities.Goku;
+import app.ledprojekt.layers.Collidable;
+import app.ledprojekt.layers.CollisionLayer;
 import ledControl.BoardController;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class Weapon implements Collidable {
 

@@ -1,5 +1,7 @@
-package app.ledprojekt;
+package app.ledprojekt.layers;
 
+import app.ledprojekt.BoundingBox;
+import app.ledprojekt.Model;
 import ledControl.BoardController;
 
 public interface Collidable extends Drawable {
