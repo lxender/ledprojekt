@@ -29,6 +29,16 @@ public class Model {
         System.out.println("]");
     }
 
+    public static int[][][] convert2Dto3D(int[][] array) {
+        int[][][] displayMap = new int[array.length][array[0].length][];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                displayMap[i][j] = new int[]{array[i][j]};
+            }
+        }
+        return displayMap;
+    }
+
     private int[][][] model;
     private boolean isFlipped = false;
 
@@ -78,6 +88,17 @@ public class Model {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean hasValueAsOpacity(int n) {
+        for (int i = 0; i < this.model.length; i++) {
+            for (int j = 0; j < this.model[i].length; j++) {
+                if (this.model[i][j][3] == n) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /*

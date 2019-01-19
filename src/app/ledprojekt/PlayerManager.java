@@ -1,5 +1,7 @@
 package app.ledprojekt;
 
+import ledControl.BoardController;
+
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +14,7 @@ public class PlayerManager {
     public static final HashMap<String, Integer> keybindingsP1 = new HashMap<>();
     public static final HashMap<String, Integer> keybindingsP2 = new HashMap<>();
 
-    public PlayerManager(Player p1, Player p2) {
+    public PlayerManager(BoardController controller, Player p1, Player p2) {
         this.p1 = p1;
         this.p1.setX(1);
 
@@ -44,6 +46,7 @@ public class PlayerManager {
                 this.p2.removeTrait("Turn");
             }
             this.p2.flip();
+            this.p2.healthbar.setX(controller.getWidth() - this.p2.healthbar.getMaxLength());
         }
     }
 

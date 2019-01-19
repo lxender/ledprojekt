@@ -1,6 +1,7 @@
 package app.ledprojekt.weapons;
 
 import app.ledprojekt.*;
+import app.ledprojekt.entities.Goku;
 import ledControl.BoardController;
 
 import java.util.ArrayList;
@@ -111,30 +112,29 @@ public class Weapon implements Collidable {
     }
 
     private void checkCollision() {
-        if (layer == null) return;
-        if (layer.isObstructed(this, this.x, this.y)) {
-            Collidable intersectionObject = null;
+        if (this.layer == null) return;
+        int[][] map = this.layer.createRelativeCollisionMatrix(this);
+        if (this.layer.collides(this.player.getModel().get2DArray(), this.x, this.y, map)) {
+            Collidable[] intersectionObjects = null;
 
             if (this.player.isFlipped()) {
-                intersectionObject = layer.getObjectAt(this.x - this.model.getWidth(), this.y, this.model.getWidth(), this.model.getHeight());
+                intersectionObjects = this.layer.getObjectsAt(this.player,this.x - this.model.getWidth(), this.y, this.model.getWidth(), this.model.getHeight());
             } else {
-                intersectionObject = layer.getObjectAt(this.x, this.y, this.model.getWidth(), this.model.getHeight());
+                intersectionObjects = this.layer.getObjectsAt(this.player, this.x, this.y, this.model.getWidth(), this.model.getHeight());
             }
 
-            if (intersectionObject != null) {
+            if (intersectionObjects.length != 0) {
                 if (this.player == null) return;
-                if (this.player.equals(intersectionObject)) return;
-
-                if (this.collisionTimer == -1) {
-                    this.collisionTimer = System.currentTimeMillis();
-                }
 
                 int damageCooldown = 1000;
                 if (System.currentTimeMillis() - this.collisionTimer > damageCooldown) {
-                    System.out.println("Collided with: " + intersectionObject);
-                    this.doDamageOn(intersectionObject);
+                    System.out.println("Collided with: " + Arrays.toString(intersectionObjects));
 
-                    this.collisionTimer = -1;
+                    for (Collidable obj : intersectionObjects) {
+                        this.doDamageOn(obj);
+                    }
+
+                    this.collisionTimer = System.currentTimeMillis();
                 }
             }
         }
@@ -160,7 +160,6 @@ public class Weapon implements Collidable {
                 this.x = this.player.getX() + player.getBoundingBox().width + this.offsetX;
                 this.y = this.player.getY() + this.offsetY;
             }
-
             this.updateBoundingBox();
         }
 

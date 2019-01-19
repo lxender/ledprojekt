@@ -1,14 +1,16 @@
 package app.ledprojekt.traits;
 
+import app.ledprojekt.Collidable;
+import app.ledprojekt.CollisionLayer;
 import app.ledprojekt.Entity;
 import app.ledprojekt.Player;
 
 import java.awt.event.KeyEvent;
 
-public class AttackWithSecondary extends Trait {
+public class AttackWithModel extends Trait {
     private String animationName;
 
-    public AttackWithSecondary(String animationName) {
+    public AttackWithModel(String animationName) {
         this.animationName = animationName;
     }
 

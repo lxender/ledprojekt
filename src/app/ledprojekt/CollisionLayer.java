@@ -87,9 +87,6 @@ public class CollisionLayer implements Layer {
             for (int j = 0; j < model[i].length; ++j) {
                 try {
                     if(model[i][j][3] != 0 && map[i + y][j + x] != 0) {
-                        /*if (model[i][j][3] == 2 && map[i + y][j + x] != 2) {
-
-                        }*/
                         return true;
                     }
                 } catch(ArrayIndexOutOfBoundsException e) {
@@ -100,16 +97,40 @@ public class CollisionLayer implements Layer {
         return false;
     }
 
+    public boolean modelCollides(int[][][] model, int x, int y, int[][] map) {
+        for (int i = 0; i < model.length; ++i) {
+            for (int j = 0; j < model[i].length; ++j) {
+                try {
+                    if(model[i][j][3] != 0 && map[i + y][j + x] != 0) {
+                        if (model[i][j][3] == 2 && map[i + y][j + x] != 2) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * Erstellt ein 2D-Array mit allen Collidables in dem Layer ohne den Caller
-     * @param caller Selbst-Referenz zum Aufrufenden Objekt
+     * @param objectToExclude Selbst-Referenz zum Aufrufenden Objekt
      * @return 2D-Array
      */
-    public int[][] createRelativeCollisionMatrix(Collidable caller) {
+    public int[][] createRelativeCollisionMatrix(Collidable objectToExclude) {
         int[][] matrix = this.createMatrix(this.width, this.height);
         for (Collidable obj : this.objectsInLayer) {
-            if (obj != caller) {
-                this.mergeIntoMatrix(obj, matrix);
+            if (objectToExclude != null) {
+                if (obj != objectToExclude) {
+                    this.mergeIntoMatrix(obj, matrix);
+                    if (obj instanceof Player && ((Player) obj).getWeapon() != null) {
+                        this.mergeIntoMatrix(((Player) obj).getWeapon(), matrix);
+                    }
+                }
             }
         }
         return matrix;
@@ -123,7 +144,8 @@ public class CollisionLayer implements Layer {
      * @param height Höhe des Rechtecks, das überprüft werden soll
      * @return null wenn nichts innerhalb der Stelle ist oder das Objekt innerhalb der Stelle
      */
-    public Collidable getObjectAt(int x, int y, int width, int height) {
+    public Collidable[] getObjectsAt(Collidable objectToExclude, int x, int y, int width, int height) {
+        ArrayList<Collidable> hitObjects = new ArrayList<>();
         for (Collidable obj : this.objectsInLayer) {
             BoundingBox bound = obj.getBoundingBox();
 
@@ -131,10 +153,13 @@ public class CollisionLayer implements Layer {
                     x + width > bound.x &&
                     y < bound.y + bound.height &&
                     height + y > bound.y) {
-                return obj;
+                if (obj != objectToExclude) {
+                    hitObjects.add(obj);
+                }
             }
         }
-        return null;
+
+        return hitObjects.toArray(new Collidable[]{});
     }
 
     /**
@@ -166,15 +191,18 @@ public class CollisionLayer implements Layer {
     /**
      * Gibt ein 3D-Array mit jedem Objekt im Layer aus.
      */
-    private void printLayer() {
+    public void printLayer() {
         int[][] map = this.createMatrix(this.width, this.height);
-        int[][][] displayMap = new int[map.length][map[0].length][4];
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                displayMap[i][j] = new int[]{map[i][j]};
+        for (Collidable c : this.objectsInLayer) {
+            this.mergeIntoMatrix(c, map);
+            if (c instanceof Player) {
+                if (((Player) c).getWeapon() != null) {
+                    this.mergeIntoMatrix(((Player) c).getWeapon(), map);
+                }
             }
         }
-        Model.print3DArray(displayMap);
+
+        Model.print3DArray(Model.convert2Dto3D(map));
     }
 
     public void update() {

@@ -1,9 +1,6 @@
 package app.ledprojekt;
 
-import app.ledprojekt.entities.DefaultPlayer;
-import app.ledprojekt.entities.Goku;
-import app.ledprojekt.entities.PlayerOne;
-import app.ledprojekt.entities.PlayerTwo;
+import app.ledprojekt.entities.*;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
@@ -16,19 +13,25 @@ import java.util.ArrayList;
  */
 
 public class Main {
-    static States state = States.GAME;
+    public static States state = States.GAME;
 
-    static final Player[] availablePlayers = new Player[]{
+    public static final Player[] availablePlayers = new Player[]{
             new DefaultPlayer(1, 1),
             new PlayerOne(1, 1),
+            new SwampGuy(1, 1),
             new Goku(1, 1),
             new PlayerTwo(2, 1),
     };
 
-    static ArrayList<Player> players = new ArrayList<>();
+    public static ArrayList<Player> players = new ArrayList<>();
     static {
-        players.add(new Goku(0, 0));
-        players.add(null);
+        Player p1 = new DefaultPlayer(0, 0);
+        p1.removeWeapon();
+        players.add(p1);
+
+        Player p2 = new DefaultPlayer(0, 0);
+        p2.removeWeapon();
+        players.add(p2);
     }
 
     public static void main(String[] args) {

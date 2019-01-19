@@ -24,9 +24,12 @@ public class Player implements Entity {
 
     private BoundingBox bounds;
 
+    public Healthbar healthbar = new Healthbar(this, 0, 0);
     private boolean drawHealthbarFlag = true;
     private int health = 20;
     private boolean killable = true;
+
+    private long collisionTimer = System.currentTimeMillis();
 
     private List<Trait> traits = new ArrayList<>();
     private KeyEvent keyEvent;
@@ -152,27 +155,6 @@ public class Player implements Entity {
     public void disableHealthbar() {
         this.drawHealthbarFlag = false;
     }
-    /**
-     * Zeigt die Lebensanzeige des Players. Sie kollidiert nicht.
-     * Sie hat eine Breite von 9 und wechselt pro Reihe die Farbe.
-     * Gerade Reihen (inkl. 0) bekommen {127, 25, 3}, ungerade {127, 96, 3}.
-     * @param controller Board auf dem die Lebensanzeige dargestellt werden soll
-     * @param x
-     * @param y
-     */
-    private void drawHealthbar(BoardController controller, int x, int y) {
-        int[] oneToTenColor = new int[]{127, 25, 3};
-        int[] tenToTwentyColor = new int[]{127, 96, 3};
-
-        int maxX = 9;
-        int currentRow = 0;
-        for (int i = 0; i < this.health; i++) {
-            if (i % maxX == 0) currentRow++;
-            int[] color = (currentRow % 2 != 0) ? oneToTenColor : tenToTwentyColor;
-            int xCord = x + (i % maxX);
-            controller.setColor(xCord, y, color);
-        }
-    }
 
     public boolean isSolid() {
         return true;
@@ -227,9 +209,7 @@ public class Player implements Entity {
         this.weapon = weapon;
     }
     public void removeWeapon() {
-        if (this.weapon != null) {
-            this.weapon = null;
-        }
+        this.weapon = null;
     }
     public Weapon getWeapon() {
         return this.weapon;
@@ -244,11 +224,9 @@ public class Player implements Entity {
     public void addAnimation(String name, int durationInMillis, Model... models) {
         this.animManager.addAnimation(name, durationInMillis, models);
     }
-
     public boolean hasAnimation(String name) {
         return this.animManager.hasAnimation(name);
     }
-
     /**
      * Setzt den Abspielstatus einer Animation.
      * @param name Der Name der Animation. Am besten lowercase übergeben.
@@ -290,10 +268,28 @@ public class Player implements Entity {
         return this.dt;
     }
 
+    private void handleModelAttackCollision() {
+        int[][] map = this.layer.createRelativeCollisionMatrix(this);
+
+        if (this.layer.modelCollides(this.characterModel.get2DArray(), (int) this.x, (int) this.y, map)) {
+            Collidable[] objects = layer.getObjectsAt(this, (int) this.x, (int) this.y, this.characterModel.getWidthWithZeroRows(), this.characterModel.getHeight());
+
+            if (System.currentTimeMillis() - this.collisionTimer > 1000) {
+                for (Collidable obj : objects) {
+                    if (obj instanceof Player) {
+                        ((Player) obj).decreaseHealth(1);
+                    }
+                }
+                this.collisionTimer = System.currentTimeMillis();
+            }
+        }
+    }
+
     /*
      * Wenn der Player tot ist, wird dieser aus dem Layer entfernt und die Methode wird abgebrochen.
      * Wenn eine Waffe vorhanden ist, werden ihre Update-Methoden aufgerufen.
      * Alle Update-Methoden der Eigenschaften des Players werden aufgerufen.
+     * Wenn Model eine 2 im Array hat, wird die Kollsion zwischen ihm und der Welt abgefragt.
      * Velocity wird angewandt. Auf X wird keine DeltaTime angewandt, weil sich X nur um Ganzzahlen bewegt.
      */
     public void update() {
@@ -311,6 +307,10 @@ public class Player implements Entity {
 
         for (Trait trait : this.traits) {
             trait.update(this);
+        }
+
+        if (this.characterModel.hasValueAsOpacity(2)) {
+            this.handleModelAttackCollision();
         }
 
         this.x += this.velocityX;
@@ -333,7 +333,8 @@ public class Player implements Entity {
             return;
         }
         if (this.drawHealthbarFlag) {
-            this.drawHealthbar(controller, 0, 0);
+            this.healthbar.draw(controller);
+//            this.drawHealthbar(controller, 0, 0);
         }
 
         this.playAnimation();
@@ -343,5 +344,45 @@ public class Player implements Entity {
         }
 
         this.characterModel.draw(controller, (int) this.x, (int) this.y);
+    }
+
+
+
+
+    public class Healthbar {
+        private int x;
+        private int y;
+        private Player player;
+
+        private int maxLength = 9;
+
+        public Healthbar(Player player, int x, int y) {
+            this.x = x;
+            this.y = y;
+            this.player = player;
+        }
+
+        public void setX(int x) { this.x = x; };
+        public void setY(int y) { this.y = y; };
+        public int getMaxLength() { return this.maxLength; }
+
+        /**
+         * Malt die Lebensanzeige des Players. Sie kollidiert nicht.
+         * Sie hat eine Breite von 9 und wechselt pro Reihe die Farbe.
+         * Gerade Reihen (inkl. 0) bekommen {127, 25, 3}, ungerade {127, 96, 3}.
+         * @param controller Board auf dem die Lebensanzeige dargestellt werden soll
+         */
+        public void draw(BoardController controller) {
+            int[] firstColor = new int[]{127, 25, 3};
+            int[] secondColor = new int[]{127, 96, 3};
+
+            int currentRow = 0;
+            for (int i = 0; i < this.player.health; i++) {
+                if (i % this.maxLength == 0) currentRow++;
+                int[] color = (currentRow % 2 != 0) ? firstColor : secondColor;
+                int xCord = this.x + (i % this.maxLength);
+                controller.setColor(xCord, this.y, color);
+            }
+        }
     }
 }
