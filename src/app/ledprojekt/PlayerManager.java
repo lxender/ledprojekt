@@ -12,7 +12,21 @@ public class PlayerManager {
     private Player p2;
 
     public static final HashMap<String, Integer> keybindingsP1 = new HashMap<>();
+    static {
+        keybindingsP1.put("left", KeyEvent.VK_A);
+        keybindingsP1.put("right", KeyEvent.VK_D);
+        keybindingsP1.put("jump", KeyEvent.VK_W);
+        keybindingsP1.put("attack", KeyEvent.VK_E);
+        keybindingsP1.put("secondary-attack", KeyEvent.VK_Q);
+    }
     public static final HashMap<String, Integer> keybindingsP2 = new HashMap<>();
+    static {
+        keybindingsP2.put("left", KeyEvent.VK_LEFT);
+        keybindingsP2.put("right", KeyEvent.VK_RIGHT);
+        keybindingsP2.put("jump", KeyEvent.VK_UP);
+        keybindingsP2.put("attack", KeyEvent.VK_L);
+        keybindingsP2.put("secondary-attack", KeyEvent.VK_K);
+    }
 
     public PlayerManager(BoardController controller, Player p1, Player p2) {
         this.p1 = p1;
@@ -22,18 +36,6 @@ public class PlayerManager {
         if (this.p2 != null) {
             this.p2.setX(12);
         }
-
-        keybindingsP1.put("left", KeyEvent.VK_A);
-        keybindingsP1.put("right", KeyEvent.VK_D);
-        keybindingsP1.put("jump", KeyEvent.VK_W);
-        keybindingsP1.put("attack", KeyEvent.VK_E);
-        keybindingsP1.put("secondary-attack", KeyEvent.VK_Q);
-
-        keybindingsP2.put("left", KeyEvent.VK_LEFT);
-        keybindingsP2.put("right", KeyEvent.VK_RIGHT);
-        keybindingsP2.put("jump", KeyEvent.VK_UP);
-        keybindingsP2.put("attack", KeyEvent.VK_L);
-        keybindingsP2.put("secondary-attack", KeyEvent.VK_K);
 
         if (this.p1 != null && this.p2 != null) {
             this.p1.setKeyBindings(keybindingsP1);
