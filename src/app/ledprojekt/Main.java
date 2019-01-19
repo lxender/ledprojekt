@@ -25,8 +25,8 @@ public class Main {
 
     public static ArrayList<Player> players = new ArrayList<>();
     static {
-        Player p1 = new DefaultPlayer(0, 0);
-        p1.removeWeapon();
+        Player p1 = new Goku(0, 0);
+        //p1.removeWeapon();
         players.add(p1);
 
         Player p2 = new DefaultPlayer(0, 0);

@@ -339,11 +339,13 @@ public class Player implements Entity {
 
         this.playAnimation();
 
+        this.characterModel.draw(controller, (int) this.x, (int) this.y);
+
         if (this.weapon != null) {
             this.weapon.draw(controller);
         }
 
-        this.characterModel.draw(controller, (int) this.x, (int) this.y);
+
     }
 
 
