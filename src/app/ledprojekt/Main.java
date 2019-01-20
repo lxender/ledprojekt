@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Main {
     public static final boolean withServer = false;
 
-    public static States state = States.GAME;
+    public static States state = States.GAME_WITH_SERVER;
     public static CustomKeyBuffer<CustomKeyEvent> buffer = new CustomKeyBuffer<>();
 
     public static final Player[] availablePlayers = new Player[]{
