@@ -1,6 +1,5 @@
 package app.ledprojekt.server;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -21,11 +20,11 @@ import com.sun.net.httpserver.HttpServer;
 import java.net.InetAddress;
 
 public class Server implements Runnable {
-    static final int PORT = 8000;
+    private static final int PORT = 8000;
 //    static final File PUBLIC_DIR = new File(Server.class.getPackageName().replace(".", "/") + "/public");
-    static final File PUBLIC_DIR = new File("src/app/ledprojekt/server/public/");
+    private static final File PUBLIC_DIR = new File("src/app/ledprojekt/server/public/");
 
-    static List<String> lockedPlayers = new ArrayList<>();
+    private static List<String> lockedPlayers = new ArrayList<>();
 
     public void run() {
         try {
@@ -142,14 +141,14 @@ public class Server implements Runnable {
         }
     }
 
-    static void sendMethodNotAllowed(HttpExchange t) throws IOException {
+    private static void sendMethodNotAllowed(HttpExchange t) throws IOException {
         String response = "Method not allowed\n";
         t.sendResponseHeaders(405, response.length());
         OutputStream os = t.getResponseBody();
         os.write(response.getBytes());
         os.close();
     }
-    static void sendFileNotFound(HttpExchange t) throws IOException {
+    private static void sendFileNotFound(HttpExchange t) throws IOException {
         String response = "File not found\n";
         t.sendResponseHeaders(404, response.length());
         OutputStream os = t.getResponseBody();
