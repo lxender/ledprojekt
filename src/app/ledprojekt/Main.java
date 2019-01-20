@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class Main {
     public static final boolean withServer = false;
-    public static States state = States.GAME;
+    public static States state = States.START;
 
     public static CustomKeyBuffer<CustomKeyEvent> buffer = new CustomKeyBuffer<>();
 
@@ -30,10 +30,11 @@ public class Main {
     };
 
     public static ArrayList<Player> players = new ArrayList<>();
-    static {
+    /*static {
+        // Wenn man nur einen Player sehen möchte, muss der Andere null sein.
         players.add(new Goku(0, 0));
-        players.add(new Goku(0, 0));
-    }
+        players.add(null);
+    }*/
 
     public static void main(String[] args) {
         BoardController controller = BoardController.getBoardController(LedConfiguration.LED_20x20_EMULATOR, true, 60);
