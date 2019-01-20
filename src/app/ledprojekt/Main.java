@@ -7,7 +7,6 @@ import app.ledprojekt.screens.ScreenRenderer;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /*
@@ -18,8 +17,8 @@ import java.util.ArrayList;
 
 public class Main {
     public static final boolean withServer = false;
+    public static States state = States.GAME;
 
-    public static States state = States.GAME_WITH_SERVER;
     public static CustomKeyBuffer<CustomKeyEvent> buffer = new CustomKeyBuffer<>();
 
     public static final Player[] availablePlayers = new Player[]{
@@ -32,7 +31,7 @@ public class Main {
 
     public static ArrayList<Player> players = new ArrayList<>();
     static {
-        players.add(new PlayerTwo(0, 0));
+        players.add(new Goku(0, 0));
         players.add(new Goku(0, 0));
     }
 

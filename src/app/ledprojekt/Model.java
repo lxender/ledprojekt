@@ -18,9 +18,8 @@ public class Model {
      */
     public static void print3DArray(int[][][] array) {
         System.out.println("[");
-        for (int i = 0; i < array.length; i++) {
+        for (int[][] row : array) {
             System.out.print("  [");
-            int[][] row = array[i];
             for (int j = 0; j < row.length; j++) {
                 System.out.print(Arrays.toString(row[j]) + ((j == row.length - 1) ? "" : ", "));
             }
@@ -90,7 +89,13 @@ public class Model {
         }
     }
 
-    public boolean hasValueAsOpacity(int n) {
+    /**
+     * Die Methode gibt wahr zurück, wenn das angegebene n als Transparenz-Wert in dem Model-Array gefunden wird, also z.B. für:
+     * n = 1 und Array = {0, 0, 0, 1}
+     * @param n Wert, der an der 4. Stelle des Arrays gesucht werden soll
+     * @return true wenn n gefunden wurde, false wenn nicht
+     */
+    boolean hasValueAsOpacity(int n) {
         for (int i = 0; i < this.model.length; i++) {
             for (int j = 0; j < this.model[i].length; j++) {
                 if (this.model[i][j][3] == n) {

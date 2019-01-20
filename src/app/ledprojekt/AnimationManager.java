@@ -75,6 +75,10 @@ public class AnimationManager {
         this.timer = System.currentTimeMillis();
     }
 
+    public boolean getAnimationPlayState(String name) {
+        return this.animationPlayStates.get(name.toLowerCase());
+    }
+
     /**
      * Überprüft, ob eine Animation abgespielt werden soll und gibt das Bild der Animation (mit korrekten Timing) zurück.
      * @return Bild der abspielenden Animation oder null wenn keine Animation abgespielt wird

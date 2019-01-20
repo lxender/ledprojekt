@@ -31,7 +31,9 @@ public class PlayerManager {
 
     public PlayerManager(BoardController controller, Player p1, Player p2) {
         this.p1 = p1;
-        this.p1.setX(1);
+        if (this.p1 != null) {
+            this.p1.setX(1);
+        }
 
         this.p2 = p2;
         if (this.p2 != null) {

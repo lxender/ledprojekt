@@ -12,6 +12,13 @@ public class Go extends Trait {
     String animationName;
     public Go(String animationName) { this.animationName = animationName; }
 
+    /*
+     * Verschiebung nach Links als Beispiel der Funktionsweise:
+     * Wenn die Taste für "left" gedrückt wird
+     *  -> wird überprüft ob links nicht belegt ist, wenn wahr:
+     *      -> wird der Spieler dorthin verschoben
+     *      -> falls eine Animation mit dem übergebenen Namen existiert, wird sie abgespielt
+     */
     public void update(Player entity) {
         CustomKeyEvent event = entity.getKeyEventRef();
         CollisionLayer layer = entity.getCollisionLayerRef();

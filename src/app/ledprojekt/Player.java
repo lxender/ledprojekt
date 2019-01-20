@@ -27,7 +27,7 @@ public class Player implements Collidable {
 
     private BoundingBox bounds;
 
-    public Healthbar healthbar = new Healthbar(this, 0, 0);
+    Healthbar healthbar = new Healthbar(this, 0, 0);
     private boolean drawHealthbarFlag = true;
     private int health = 20;
     private boolean killable = true;
@@ -41,6 +41,7 @@ public class Player implements Collidable {
     private double dt;
 
     private AnimationManager animManager = new AnimationManager();
+    private boolean playsDeathAnim = false;
 
     public boolean isJumping = false;
 
@@ -71,7 +72,7 @@ public class Player implements Collidable {
         keybindings.put("attack", KeyEvent.VK_E);
         keybindings.put("secondary-attack", KeyEvent.VK_Q);
     }
-    public void setKeyBindings(HashMap keybindings) {
+    void setKeyBindings(HashMap<String, Integer> keybindings) {
         this.keybindings = keybindings;
     }
     public HashMap getKeyBindings() {
@@ -148,11 +149,7 @@ public class Player implements Collidable {
         this.killable = !this.killable;
     }
     public boolean isDead() {
-        if (this.killable && this.health <= 0) {
-            return true;
-        }
-
-        return false;
+        return this.killable && this.health <= 0;
     }
 
     public void disableHealthbar() {
@@ -239,6 +236,10 @@ public class Player implements Collidable {
         this.animManager.setAnimationPlayState(name, value);
     }
 
+    public boolean getAnimationPlayState(String name) {
+        return this.animManager.getAnimationPlayState(name);
+    }
+
     /**
      * Überprüft, ob es eine Animation gibt, dessen Status true ist.
      * Ist dies der Fall, bekommt sie ein Bild der Animation und setzt das Modell des Players mit dem gleich.
@@ -250,7 +251,7 @@ public class Player implements Collidable {
         }
     }
 
-    public void updateKeyEventRef(CustomKeyEvent event) {
+    void updateKeyEventRef(CustomKeyEvent event) {
         this.keyEvent = event;
     }
     public CustomKeyEvent getKeyEventRef() {
@@ -264,7 +265,7 @@ public class Player implements Collidable {
         return this.layer;
     }
 
-    public void updateDelta(double dt) {
+    void updateDelta(double dt) {
         this.dt = dt;
     }
     public double getDelta() {
@@ -288,8 +289,31 @@ public class Player implements Collidable {
         }
     }
 
+    private void die() {
+        /*
+         * Wenn der Player die Animation "die" definiert hat und sie nicht abspielt
+         *  -> spiel die Animation ab, versteck die Waffe und setze den Flag, dass die Methode abspielt
+         */
+        if (this.hasAnimation("die") && !this.playsDeathAnim) {
+            this.setAnimationPlayState("die", true);
+            if (this.weapon != null) {
+                this.weapon.hide();
+            }
+            this.playsDeathAnim = true;
+        }
+
+        /*
+         * Wenn der Player die Animation "die" nicht hat oder sie hat, sie nicht abgespielt wird und der Flag, dass sie abgespielt wird wahr ist
+         *  -> beende das Spiel
+         */
+        if (!this.hasAnimation("die") || (this.hasAnimation("die") && !this.getAnimationPlayState("die") && this.playsDeathAnim)) {
+            this.layer.removeObjectInLayer(this);
+            Main.state = Main.States.END;
+        }
+    }
+
     /*
-     * Wenn der Player tot ist, wird dieser aus dem Layer entfernt und die Methode wird abgebrochen.
+     * Wenn der Player tot ist, wird this.die aufgerufen und die Methode wird abgebrochen.
      * Wenn eine Waffe vorhanden ist, werden ihre Update-Methoden aufgerufen.
      * Alle Update-Methoden der Eigenschaften des Players werden aufgerufen.
      * Wenn Model eine 2 im Array hat, wird die Kollsion zwischen ihm und der Welt abgefragt.
@@ -297,9 +321,9 @@ public class Player implements Collidable {
      */
     public void update() {
         if (this.characterModel == null) return;
+
         if (this.isDead()) {
-            this.layer.removeObjectInLayer(this);
-            Main.state = Main.States.END;
+            this.die();
             return;
         }
 
@@ -322,7 +346,6 @@ public class Player implements Collidable {
     }
 
     /*
-     * Wenn der Player tot ist, wird die Methode abgebrochen.
      * Wenn die Lebensanzeige nicht deaktiviert ist, wird die Lebensanzeige dargestellt.
      * Animationen werden abgespielt.
      * Wenn es eine Waffe gibt, wird ihre draw-Methode aufgerufen.
@@ -333,12 +356,9 @@ public class Player implements Collidable {
             System.out.println("No model defined yet.");
             return;
         }
-        if (this.isDead()) {
-            return;
-        }
+
         if (this.drawHealthbarFlag) {
             this.healthbar.draw(controller);
-//            this.drawHealthbar(controller, 0, 0);
         }
 
         this.playAnimation();
@@ -348,8 +368,6 @@ public class Player implements Collidable {
         if (this.weapon != null) {
             this.weapon.draw(controller);
         }
-
-
     }
 
 
@@ -362,15 +380,15 @@ public class Player implements Collidable {
 
         private int maxLength = 9;
 
-        public Healthbar(Player player, int x, int y) {
+        Healthbar(Player player, int x, int y) {
             this.x = x;
             this.y = y;
             this.player = player;
         }
 
-        public void setX(int x) { this.x = x; };
-        public void setY(int y) { this.y = y; };
-        public int getMaxLength() { return this.maxLength; }
+        public void setX(int x) { this.x = x; }
+        public void setY(int y) { this.y = y; }
+        int getMaxLength() { return this.maxLength; }
 
         /**
          * Malt die Lebensanzeige des Players. Sie kollidiert nicht.

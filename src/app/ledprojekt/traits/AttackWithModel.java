@@ -18,8 +18,15 @@ public class AttackWithModel extends Trait {
         if (event != null && event.getID() == KeyEvent.KEY_RELEASED) {
             int secondaryAttackKey = (int) entity.getKeyBindings().get("secondary-attack");
             if (event.getKeyCode() == secondaryAttackKey && entity.hasAnimation(this.animationName)) {
-                entity.setAnimationPlayState(animationName, true);
+                if (entity.getWeapon() != null) {
+                    entity.getWeapon().hide();
+                }
+                entity.setAnimationPlayState(this.animationName, true);
             }
+        }
+
+        if (entity.getWeapon() != null && entity.getWeapon().isHidden() && !entity.getAnimationPlayState(this.animationName)) {
+            entity.getWeapon().unhide();
         }
     }
 }

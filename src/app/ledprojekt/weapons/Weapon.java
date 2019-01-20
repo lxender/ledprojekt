@@ -15,29 +15,32 @@ public class Weapon implements Collidable {
 
     private int x = 0;
     private int y = 0;
-    private int offsetX = 0;
-    private int offsetY = 0;
+    private int offsetX;
+    private int offsetY;
 
     private int initialWidth = -1;
 
     private Player player;
 
+    private boolean hidden = false;
+
     private int damage = 5;
+    private int damageCooldown = 1000;
     private long collisionTimer = System.currentTimeMillis();
 
     private AnimationManager animManager = new AnimationManager();
 
-    public Weapon(int x, int y, Player player) {
+    Weapon(int x, int y, Player player) {
         this.player = player;
         this.offsetX = x;
         this.offsetY = y;
     }
 
-    public int getOffsetX() {
-        return this.offsetX;
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
-    public int getOffsetY() {
-        return this.offsetY;
+    public void setDamageCooldown(int cooldownMs) {
+        this.damageCooldown = cooldownMs;
     }
 
     public int getX() { return this.x; }
@@ -72,6 +75,16 @@ public class Weapon implements Collidable {
                 this.model.flip();
             }
         }
+    }
+
+    public boolean isHidden() {
+        return this.hidden;
+    }
+    public void hide() {
+        this.hidden = true;
+    }
+    public void unhide() {
+        this.hidden = false;
     }
 
     public void addAnimation(String name, int durationInMillis, Model... models) {
@@ -114,7 +127,7 @@ public class Weapon implements Collidable {
         if (this.layer == null) return;
         int[][] map = this.layer.createRelativeCollisionMatrix(this);
         if (this.layer.collides(this.player.getModel().get2DArray(), this.x, this.y, map)) {
-            Collidable[] intersectionObjects = null;
+            Collidable[] intersectionObjects;
 
             if (this.player.isFlipped()) {
                 intersectionObjects = this.layer.getObjectsAt(this.player,this.x - this.model.getWidth(), this.y, this.model.getWidth(), this.model.getHeight());
@@ -125,8 +138,7 @@ public class Weapon implements Collidable {
             if (intersectionObjects.length != 0) {
                 if (this.player == null) return;
 
-                int damageCooldown = 1000;
-                if (System.currentTimeMillis() - this.collisionTimer > damageCooldown) {
+                if (System.currentTimeMillis() - this.collisionTimer > this.damageCooldown) {
                     System.out.println("Collided with: " + Arrays.toString(intersectionObjects));
 
                     for (Collidable obj : intersectionObjects) {
@@ -138,7 +150,7 @@ public class Weapon implements Collidable {
             }
         }
     }
-    public void doDamageOn(Collidable obj) {
+    private void doDamageOn(Collidable obj) {
         if (obj instanceof Player) {
             if(((Player) obj).isKillable()) {
                 ((Player) obj).decreaseHealth(this.damage);
@@ -148,10 +160,11 @@ public class Weapon implements Collidable {
     }
 
     public void update() {
+        if (this.hidden) return;
+
         if (this.player != null) {
             this.checkFlip();
             if(this.player.isFlipped()) {
-//                this.x = this.player.getX() + this.model.getWidth();
                 int ofx = (this.offsetX < 0) ? -this.offsetX : -this.offsetX;
                 this.x = this.player.getX() + ofx - this.initialWidth;
                 this.y = this.player.getY() + this.offsetY;
@@ -165,6 +178,7 @@ public class Weapon implements Collidable {
         this.checkCollision();
     }
     public void draw(BoardController controller) {
+        if (this.hidden) return;
         if (this.model == null) {
             System.out.println("Model has not been defined yet.");
             return;
