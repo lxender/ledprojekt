@@ -4,6 +4,10 @@ import app.ledprojekt.Main;
 import app.ledprojekt.server.Server;
 import ledControl.BoardController;
 
+/*
+ * ScreenRenderer rendert und updatet die Bildschirme, also StartScreen, Game, EndScreen
+ * Die Klasse managed zudem die Stadien, die die App haben kann, also Start, Game, End
+ */
 public class ScreenRenderer {
     private boolean PRINT_FPS;
     public boolean isRunning = true;
@@ -14,6 +18,14 @@ public class ScreenRenderer {
         this.PRINT_FPS = print_fps;
     }
 
+    /*
+     * (Die Negation von currentScreen instanceof X sorgt dafür, dass die folgende Anweisung nur ein Mal aufgerufen wird)
+     * Funktionsweise am Beispiel von StartScreen bzw. state = States.START:
+     * Wenn currentScreen null ist oder der State der App START ist
+     *  -> StartScreen wird aufgerufen und initiliasiert
+     *
+     *  Bei GAME_WITH_SERVER wird zudem ein Server gestartet
+     */
     private void screenManager(BoardController controller) {
         if (this.currentScreen == null || (Main.state == Main.States.START && !(this.currentScreen instanceof StartScreen))) {
             this.currentScreen = new StartScreen();

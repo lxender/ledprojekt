@@ -16,11 +16,18 @@ import java.util.ArrayList;
  */
 
 public class Main {
+    // Soll das Spiel mit einem Server gestartet werden, über den die Kontrolle der Spieler läuft?
     public static final boolean withServer = false;
+    /* Anfangs-State der App
+     * Wird während der Laufzeit für die Bildschirm-Wechsel benutzt.
+     * z.B will StartScreen zu Game übergehen, setzt die Klasse den Wert dieser Variable zu "States.GAME" (ScreenRenderer managed die States)
+     */
     public static States state = States.START;
 
+    // Eigener KeyBuffer für Input über den Server
     public static CustomKeyBuffer<CustomKeyEvent> buffer = new CustomKeyBuffer<>();
 
+    // Alle Spieler, die in dem Auswahlbildschirm angezeigt werden sollen
     public static final Player[] availablePlayers = new Player[]{
             new DefaultPlayer(1, 1),
             new PlayerOne(1, 1),
@@ -31,7 +38,7 @@ public class Main {
 
     public static ArrayList<Player> players = new ArrayList<>();
     /*static {
-        // Wenn man nur einen Player sehen möchte, muss der Andere null sein.
+        // Wenn man nur einen Player sehen möchte, muss der Andere null sein. Die Position ist egal, da sie durch PlayerManager verwaltet wird
         players.add(new Goku(0, 0));
         players.add(null);
     }*/
@@ -43,6 +50,7 @@ public class Main {
         renderer.run(controller);
     }
 
+    // Stadien, die die App haben kann
     public enum States {
         START,
         GAME,
