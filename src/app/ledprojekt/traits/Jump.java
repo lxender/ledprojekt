@@ -1,5 +1,7 @@
 package app.ledprojekt.traits;
 
+import app.ledprojekt.Main;
+import app.ledprojekt.input.CustomKeyEvent;
 import app.ledprojekt.layers.CollisionLayer;
 import app.ledprojekt.Player;
 
@@ -15,7 +17,7 @@ public class Jump extends Trait {
 
     @Override
     public void update(Player entity) {
-        KeyEvent event = entity.getKeyEventRef();
+        CustomKeyEvent event = entity.getKeyEventRef();
 
         // Wenn der Player springt und die Maximalhöhe erreicht ist (also wenn startY - momentanesY = der Maximalhöhe ist)
         // -> ist der Sprung fertig, also wird alles zurückgesetzt

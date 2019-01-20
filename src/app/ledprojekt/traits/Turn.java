@@ -1,5 +1,6 @@
 package app.ledprojekt.traits;
 
+import app.ledprojekt.input.CustomKeyEvent;
 import app.ledprojekt.layers.CollisionLayer;
 import app.ledprojekt.Player;
 
@@ -8,7 +9,7 @@ import java.awt.event.KeyEvent;
 public class Turn extends Trait {
     @Override
     public void update(Player entity) {
-        KeyEvent event = entity.getKeyEventRef();
+        CustomKeyEvent event = entity.getKeyEventRef();
 
         if (event != null) {
             if (event.getID() == KeyEvent.KEY_RELEASED) {

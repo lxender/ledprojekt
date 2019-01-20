@@ -1,5 +1,6 @@
 package app.ledprojekt;
 
+import app.ledprojekt.input.CustomKeyEvent;
 import ledControl.BoardController;
 
 import java.awt.event.KeyEvent;
@@ -63,7 +64,7 @@ public class PlayerManager {
         return list;
     }
 
-    public void update(KeyEvent event, double delta) {
+    public void update(CustomKeyEvent event, double delta) {
         if (this.p1 != null) {
             this.p1.updateKeyEventRef(event);
             this.p1.updateDelta(delta);

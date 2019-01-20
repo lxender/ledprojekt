@@ -1,6 +1,7 @@
 package app.ledprojekt.traits;
 
 import app.ledprojekt.Player;
+import app.ledprojekt.input.CustomKeyEvent;
 
 import java.awt.event.KeyEvent;
 
@@ -13,7 +14,7 @@ public class AttackWithWeapon extends Trait {
 
     @Override
     public void update(Player entity) {
-        KeyEvent event = entity.getKeyEventRef();
+        CustomKeyEvent event = entity.getKeyEventRef();
         if (event != null) {
 
             int attackKey = (int) entity.getKeyBindings().get("attack");

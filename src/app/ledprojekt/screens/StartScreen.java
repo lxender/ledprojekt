@@ -97,7 +97,11 @@ public class StartScreen implements Screen {
                         this.state = ScreenStates.START_MESSAGE;
                     } else if (this.currentMessage == 2) {
                         System.out.println(Arrays.toString(Main.players.toArray()));
-                        Main.state = Main.States.GAME;
+                        if (Main.withServer) {
+                            Main.state = Main.States.GAME_WITH_SERVER;
+                        } else {
+                            Main.state = Main.States.GAME;
+                        }
                     }
 
                 } else if (event.getKeyCode() == KeyEvent.VK_LEFT) {

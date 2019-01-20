@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Java HTTPServer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: 100vw;
+                height: 100vh;
+
+                font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                color: #222;
+            }
+
+            span {
+                display: flex;
+                justify-content: space-evenly;
+            }
+
+            span .option {
+                display: inline-block;
+                cursor: pointer;
+
+                padding: 5px;
+                border-radius: 5px;
+                border: 1px solid #222;
+            }
+        </style>
+    </head>
+    <body>
+        <template id="controller-template">
+            <style>
+                :host {
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        
+                    background-color: #d2d2c9;
+                    border-radius: 150px;
+                }
+        
+                :host>* {
+                    float: left;
+                }
+        
+                :host>*:first-child {
+                    margin-right: 80px;
+                }
+        
+                .pad-wrapper {
+                    width: 250px;
+                    height: 250px;
+        
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+        
+                    border-radius: 100%;
+                }
+        
+                .d-pad {
+                    width: 160px;
+                    height: 160px;
+        
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+        
+                    background-color: #c8c9bf;
+                    border-radius: 100%;
+                    box-sizing: border-box;
+                    padding: 0px;
+                }
+        
+                .d-pad span {
+                    width: 90%;
+                    height: 40px;
+                    transform: scale(1);
+                }
+        
+                .d-pad-button-wrap {
+                    position: absolute;
+                    width: 115px;
+                    height: 40px;
+                    background-color: #222;
+                    margin-left: 15px;
+        
+                    display: flex;
+                    justify-content: space-between;
+        
+                    border-radius: 4px;
+                }
+        
+                .up-down {
+                    transform-origin: center;
+                    transform: rotate(90deg);
+                }
+        
+                .d-pad-button {
+                    height: 40px;
+                    width: 40px;
+        
+                    font-size: 35px;
+                    text-align: center;
+        
+                    user-select: none;
+                    color: #3d3d3d;
+                }
+        
+                .left,
+                .up {
+                    line-height: 37px;
+                    font-size: 37px;
+                }
+        
+                .right,
+                .down {
+                    line-height: 43px;
+                    font-size: 29px;
+                }
+        
+        
+        
+                .button-pad {
+                    width: 250px;
+                    height: 250px;
+        
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+        
+                    border-radius: 100%;
+                    background-color: #8f9593;
+        
+                    transform: rotate(-35deg);
+                }
+        
+                .button-wrap {
+                    width: 120px;
+        
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+        
+                    background-color: #ccccc3;
+                    border-radius: 40px;
+                    padding: 10px;
+                }
+        
+                .button {
+                    width: 40px;
+                    height: 40px;
+        
+                    text-align: center;
+                    font-size: 25px;
+                    font-weight: bold;
+        
+                    background-color: yellow;
+                    border-radius: 100%;
+        
+                    box-sizing: border-box;
+                    padding: 5px;
+        
+                    user-select: none;
+        
+                    transform: rotate(35deg);
+                }
+        
+                .b {
+                    background-color: #ffeb3b;
+                }
+        
+                .a {
+                    background-color: #f44336;
+                }
+        
+                .x {
+                    background-color: #135ecc;
+                }
+        
+                .y {
+                    background-color: #009688;
+                }
+        
+                .settings-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+        
+                    align-self: flex-end;
+        
+                    margin-left: -40px;
+                    margin-bottom: 15px;
+                    padding-left: 20px;
+                    padding-right: 20px;
+                }
+        
+        
+        
+                .settings-button-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                }
+        
+                .settings-button-wrapper:not(:first-child) {
+                    margin-left: 20px;
+                }
+        
+                .settings-text {
+                    margin-top: 15px;
+        
+                    font-size: 10px;
+                    font-weight: bold;
+                    text-align: center;
+        
+                    color: #eee;
+        
+                    user-select: none;
+                }
+        
+                .settings-button {
+                    height: 40px;
+                    width: 10px;
+        
+                    transform: rotate(45deg);
+        
+                    border-radius: 5px;
+                    background-color: #222;
+                }
+
+                .button, .d-pad-button {
+                    transition: opacity 100ms ease;
+                }
+
+                .button[disabled], .d-pad-button[disabled] {
+                    opacity: 0.3;
+                }
+            </style>
+            <div class="pad-wrapper">
+                <div class="d-pad">
+                    <span>
+                        <div class="left-right d-pad-button-wrap">
+                            <div class="d-pad-button left">◄</div>
+                            <div class="d-pad-button right">►</div>
+                        </div>
+                        <div class="up-down d-pad-button-wrap">
+                            <div class="d-pad-button up">◄</div>
+                            <div class="d-pad-button down">►</div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="settings-wrapper">
+                <div class="settings-button-wrapper">
+                    <div class="settings-button select"></div>
+                    <div class="settings-text">SELECT</div>
+                </div>
+                <div class="settings-button-wrapper">
+                    <div class="settings-button start"></div>
+                    <div class="settings-text">START</div>
+                </div>
+            </div>
+            <div class="button-pad">
+                <div class="button-wrap y-x">
+                    <div class="button y">Y</div>
+                    <div class="button x">X</div>
+                </div>
+                <div class="button-wrap b-a">
+                    <div class="button b">B</div>
+                    <div class="button a">A</div>
+                </div>
+            </div>
+        </template>
+
+        <div id="landing-message">
+            <h1>Wen willst du kontrollieren?</h1>
+            <span>
+                <div class="option" data-player="p1">Spieler 1</div>
+                <div class="option" data-player="p2">Spieler 2</div>
+            </span>
+        </div>
+
+        <script src="main.js"></script>
+    </body>
+</html>

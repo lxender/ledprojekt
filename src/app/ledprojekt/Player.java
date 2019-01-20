@@ -1,5 +1,6 @@
 package app.ledprojekt;
 
+import app.ledprojekt.input.CustomKeyEvent;
 import app.ledprojekt.layers.Collidable;
 import app.ledprojekt.layers.CollisionLayer;
 import app.ledprojekt.traits.Trait;
@@ -34,7 +35,7 @@ public class Player implements Collidable {
     private long collisionTimer = System.currentTimeMillis();
 
     private List<Trait> traits = new ArrayList<>();
-    private KeyEvent keyEvent;
+    private CustomKeyEvent keyEvent;
     private CollisionLayer layer;
 
     private double dt;
@@ -249,10 +250,10 @@ public class Player implements Collidable {
         }
     }
 
-    public void updateKeyEventRef(KeyEvent event) {
+    public void updateKeyEventRef(CustomKeyEvent event) {
         this.keyEvent = event;
     }
-    public KeyEvent getKeyEventRef() {
+    public CustomKeyEvent getKeyEventRef() {
         return this.keyEvent;
     }
 
@@ -298,6 +299,7 @@ public class Player implements Collidable {
         if (this.characterModel == null) return;
         if (this.isDead()) {
             this.layer.removeObjectInLayer(this);
+            Main.state = Main.States.END;
             return;
         }
 

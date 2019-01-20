@@ -1,6 +1,7 @@
 package app.ledprojekt.screens;
 
 import app.ledprojekt.Main;
+import app.ledprojekt.server.Server;
 import ledControl.BoardController;
 
 public class ScreenRenderer {
@@ -19,6 +20,15 @@ public class ScreenRenderer {
             this.currentScreen.init(controller);
         } else if (Main.state == Main.States.GAME && !(this.currentScreen instanceof Game)) {
             this.currentScreen = new Game();
+            this.currentScreen.init(controller);
+        } else if (Main.state == Main.States.GAME_WITH_SERVER && !(this.currentScreen instanceof Game)) {
+            Thread serverThread = new Thread(new Server());
+            this.currentScreen = new Game();
+
+            serverThread.start();
+            this.currentScreen.init(controller);
+        } else if (Main.state == Main.States.END && !(this.currentScreen instanceof EndScreen)) {
+            this.currentScreen = new EndScreen();
             this.currentScreen.init(controller);
         }
     }

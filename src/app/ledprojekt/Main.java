@@ -1,10 +1,13 @@
 package app.ledprojekt;
 
 import app.ledprojekt.characters.*;
+import app.ledprojekt.input.CustomKeyBuffer;
+import app.ledprojekt.input.CustomKeyEvent;
 import app.ledprojekt.screens.ScreenRenderer;
 import ledControl.BoardController;
 import ledControl.LedConfiguration;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /*
@@ -14,7 +17,10 @@ import java.util.ArrayList;
  */
 
 public class Main {
-    public static States state = Main.States.GAME;
+    public static final boolean withServer = false;
+
+    public static States state = States.GAME;
+    public static CustomKeyBuffer<CustomKeyEvent> buffer = new CustomKeyBuffer<>();
 
     public static final Player[] availablePlayers = new Player[]{
             new DefaultPlayer(1, 1),
@@ -26,13 +32,8 @@ public class Main {
 
     public static ArrayList<Player> players = new ArrayList<>();
     static {
-        Player p1 = new Goku(0, 0);
-        //p1.removeWeapon();
         players.add(new PlayerTwo(0, 0));
-
-        Player p2 = new DefaultPlayer(0, 0);
-        p2.removeWeapon();
-        players.add(p2);
+        players.add(new Goku(0, 0));
     }
 
     public static void main(String[] args) {
@@ -44,6 +45,8 @@ public class Main {
 
     public enum States {
         START,
-        GAME
+        GAME,
+        GAME_WITH_SERVER,
+        END
     }
 }

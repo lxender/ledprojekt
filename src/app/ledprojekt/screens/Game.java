@@ -4,12 +4,15 @@ import app.ledprojekt.Geometry;
 import app.ledprojekt.Layer;
 import app.ledprojekt.Main;
 import app.ledprojekt.PlayerManager;
+import app.ledprojekt.input.CustomKeyBuffer;
+import app.ledprojekt.input.CustomKeyEvent;
 import app.ledprojekt.layers.CollisionLayer;
 import app.ledprojekt.layers.DrawingLayer;
 import app.ledprojekt.typography.Lettering;
 import ledControl.BoardController;
 import ledControl.gui.KeyBuffer;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Game implements Screen {
@@ -43,7 +46,14 @@ public class Game implements Screen {
     }
 
     public void update(double delta) {
-        this.playerManager.update(this.keyBuffer.pop(), delta);
+        CustomKeyEvent eventToPassDown;
+        if (Main.state == Main.States.GAME_WITH_SERVER) {
+            eventToPassDown = Main.buffer.pop();
+        } else {
+            KeyEvent event = keyBuffer.pop();
+            eventToPassDown = (event == null) ? null : new CustomKeyEvent(event.getKeyCode(), event.getID());
+        }
+        this.playerManager.update(eventToPassDown, delta);
         for (Layer l : this.layers) {
             if (l instanceof CollisionLayer) {
                 ((CollisionLayer) l).update();
