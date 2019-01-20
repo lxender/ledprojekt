@@ -77,19 +77,19 @@ public class Server implements Runnable {
             if (query != null) {
                 String parsedCommand = query.replace("command=", "").replace("player=", "").replace("+", " ");
                 String[] splitCommand = parsedCommand.split("&");
-                System.out.println(Arrays.toString(splitCommand));
+                //System.out.println(Arrays.toString(splitCommand));
 
                 if (splitCommand[0].equals("p1")) {
                     for (String key : PlayerManager.keybindingsP1.keySet()) {
                         if (key.equals(splitCommand[1])) {
-                            System.out.println(String.format("Key: %s, KeyEvent.VK-Nummer: %d", key, PlayerManager.keybindingsP1.get(key)));
+                            //System.out.println(String.format("Key: %s, KeyEvent.VK-Nummer: %d", key, PlayerManager.keybindingsP1.get(key)));
                             Main.buffer.put(new CustomKeyEvent(PlayerManager.keybindingsP1.get(key), KeyEvent.KEY_RELEASED));
                         }
                     }
                 } else if (splitCommand[0].equals("p2")) {
                     for (String key : PlayerManager.keybindingsP2.keySet()) {
                         if (key.equals(splitCommand[1])) {
-                            System.out.println(String.format("Key: %s, KeyEvent.VK-Nummer: %d", key, PlayerManager.keybindingsP2.get(key)));
+                            //System.out.println(String.format("Key: %s, KeyEvent.VK-Nummer: %d", key, PlayerManager.keybindingsP2.get(key)));
                             Main.buffer.put(new CustomKeyEvent(PlayerManager.keybindingsP2.get(key), KeyEvent.KEY_RELEASED));
                         }
                     }
@@ -128,10 +128,10 @@ public class Server implements Runnable {
 
                 parsedCommand = parsedCommand.replace("player=", "").replace("+", " ");
                 String[] splitCommand = parsedCommand.split("&");
-                System.out.println(Arrays.toString(splitCommand));
+                //System.out.println(Arrays.toString(splitCommand));
                 if (splitCommand[0].equals("lock")) {
                     lockedPlayers.add(splitCommand[1]);
-                    System.out.println(Arrays.toString(lockedPlayers.toArray()));
+                    //System.out.println(Arrays.toString(lockedPlayers.toArray()));
                 }
 
                 t.sendResponseHeaders(200, response.length());
