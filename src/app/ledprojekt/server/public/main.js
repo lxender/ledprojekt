@@ -48,8 +48,10 @@ async function main() {
 
                 if (element.classList[0] === "button") {
                     if (command === "b") {
-                        command = "attack";
+                        command = "jump";
                     } else if (command === "a") {
+                        command = "attack";
+                    } else if (command === "y") {
                         command = "secondary-attack";
                     }
                 }
@@ -72,7 +74,6 @@ async function main() {
             });
 
             [this.shadow.querySelector(".x"),
-            this.shadow.querySelector(".y"),
             this.shadow.querySelector(".down")]
                 .forEach(el => el.setAttribute("disabled", ""));
         }
